@@ -1,1 +1,75 @@
+
+# Object files
+*.o
+*.obj
+*.a
+*.so
+*.so.*
+*.out
+
+# Executables and generated binaries
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+*.dis
+*.dump
+*.sym
+*.core
+core
+core.*
+
+# Build directories
+/build/
+/bin/
+/dist/
+/out/
+/tmp/
+
+# Dependency and temporary files
+*.d
+*.tmp
+*.temp
+*.bak
+*.old
+*.orig
+*.rej
+*~
+.*.swp
+.*.swo
+
+# Debugging and profiling
+*.log
+*.trace
+*.prof
+gmon.out
+
+# Editor and IDE settings
+.vscode/
+.idea/
+*.code-workspace
+
+# Python utilities
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Local configuration
+.env
+.env.*
+!.env.example
+
+# Generated test artifacts
+/tests/output/
+/tests/results/
+
+# Cross-compilation toolchains
+/toolchain/
+/sysroot/
 *.o

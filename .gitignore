@@ -9,7 +9,7 @@
 
 # Executables and generated binaries
 *.elf
-*.bin
+# *.bin
 *.hex
 *.map
 *.lst

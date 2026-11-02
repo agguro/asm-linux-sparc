@@ -1,0 +1,3 @@
+A Linux version of the fstyp command found in most commercial
+Unices.  fstyp can be used to heuristically detect which
+filesystem type a block device contains.

@@ -1,0 +1,39 @@
+	[% pagetitle = "PLAYLIST" | string %]
+	[% PROCESS pageheader.html %]
+
+	[% linktitle = BLOCK %]
+		[% "CURRENT_PLAYLIST" | string %]: [% IF current_playlist %][% current_playlist_name %] [% IF current_playlist_modified %]([% "MODIFIED" | string %])[% END %][% END %] [% IF playlistname %]<b>[% playlistname %]</b>[% END %] ([% IF playlist_header; playlist_header; ELSE; IF myClientState; myClientState.playlist.size; %] [% "SONGS" | string %][% END %][% END %])
+	[% END %]
+	[% WRAPPER submenu %]
+		[% IF playlist_pagebar %]
+			<tr><td>
+				[% "PAGES" | string %][% "COLON" | string %][% playlist_pagebar %]
+	    	</td></tr>
+	    [% END %]
+	[%- END -%]
+
+	[% IF not playlist_items %]
+		<p>[% "EMPTY" | string %]</p>
+	[% ELSE %]
+		<table cellspacing="0" border="0" cellpadding="0" width="100%">
+			[% playlist_items %]
+		</table>
+	[% END %]
+
+	[% BLOCK editlink %]
+		<a href="[% webroot %][% file %]?player=[% player | uri %][% arguments %]"><font color="#FFFFFF">[% title | string %]</font></a>
+	[% END %]
+
+	<table bgcolor="[% menuC %]" width=100%>
+		<tr><td align="center">
+			<font color="#ffffff">
+			[% IF cansave %]
+				[% PROCESS editlink file='edit_playlist.html' title='SAVE' arguments='&saveCurrentPlaylist=1' %] |
+			[% END %]
+			[% PROCESS editlink file='status.m3u' title='DOWNLOAD' arguments='' %] |
+			[% PROCESS editlink file='status.html' title='CLEAR' arguments='&p0=playlist&p1=clear' %]
+			</font>
+    	</td></tr>
+	</table>
+
+	[% PROCESS pagefooter.html %]

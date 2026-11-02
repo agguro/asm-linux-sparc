@@ -1,0 +1,29 @@
+Author: wayned
+Modified: proto.h
+Added: 
+Removed: 
+
+
+Regenerated.
+
+
+Index: proto.h
+===================================================================
+RCS file: /cvsroot/rsync/proto.h,v
+retrieving revision 1.261
+retrieving revision 1.262
+diff -u -r1.261 -r1.262
+--- proto.h	14 Apr 2005 16:08:08 -0000	1.261
++++ proto.h	23 Apr 2005 17:48:29 -0000	1.262
+@@ -87,7 +87,9 @@
+ void check_for_finished_hlinks(int itemizing, enum logcode code);
+ void generate_files(int f_out, struct file_list *flist, char *local_name);
+ void init_hard_links(void);
+-int hard_link_check(struct file_struct *file, int ndx, int skip);
++int hard_link_check(struct file_struct *file, int ndx, char *fname,
++		    int statret, STRUCT_STAT *st, int itemizing,
++		    enum logcode code, int skip);
+ int hard_link_one(struct file_struct *file, int ndx, char *fname,
+ 		  int statret, STRUCT_STAT *st, char *toname, int terse,
+ 		  int itemizing, enum logcode code);
+

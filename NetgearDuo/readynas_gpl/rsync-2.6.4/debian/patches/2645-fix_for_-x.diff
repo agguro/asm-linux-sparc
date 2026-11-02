@@ -1,0 +1,13 @@
+diff -ru rsync-2.6.4.orig/generator.c rsync-2.6.4/generator.c
+--- rsync-2.6.4.orig/generator.c	2005-03-30 08:33:41.000000000 -0800
++++ rsync-2.6.4/generator.c	2005-04-24 14:41:32.000000000 -0700
+@@ -251,6 +251,9 @@
+ 	if (one_file_system && file->flags & FLAG_TOP_DIR)
+ 		filesystem_dev = st.st_dev;
+ 
++	if (one_file_system && filesystem_dev != st.st_dev)
++		return;
++
+ 	dirlist = get_dirlist(fbuf, dlen, 0);
+ 
+ 	/* If an item in dirlist is not found in flist, delete it

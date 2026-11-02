@@ -1,0 +1,22 @@
+From: Wayne Davison <wayned@samba.org>
+
+Now that rsync 2.6.4 has gotten a little wider use, the bug reporting
+has picked up a bit.  Here's a few items you might want to incorporate
+into the Sarge release while waiting for the 2.6.5 bug-fix release to
+happen (I'm wanting to do a bit more debugging before releasing it):
+
+Each of these bugzilla reports have an attached patch:
+
+https://bugzilla.samba.org/show_bug.cgi?id=2615
+https://bugzilla.samba.org/show_bug.cgi?id=2645
+
+This simple fix is attached to an email from me:
+
+http://lists.samba.org/archive/rsync/2005-April/012282.html
+
+Also, the fix for new hard-links in not-yet-created directories was in
+checked-in from these 3 files:
+
+http://build.samba.org/build.pl?function=diff;tree=rsync;date=1114278514;author=wayned
+http://build.samba.org/build.pl?function=diff;tree=rsync;date=1114278511;author=wayned
+http://build.samba.org/build.pl?function=diff;tree=rsync;date=1114278509;author=wayned

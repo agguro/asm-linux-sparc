@@ -1,0 +1,6 @@
+#
+# RT2500 Drivers
+#
+if [ "$CONFIG_PCI" = "y" ]; then
+  tristate '  Ralink 802.11/PCI Support' CONFIG_NET_RT2500
+fi

@@ -1,0 +1,9 @@
+[% pagetitle = "HELP" | string %] [% pageicon = 'MUSIC' %] [% help = '1' %] [% PROCESS pageheader.html %]		<ul>
+			  [% IF additionalLinks.help %]
+					  [% FOREACH link = additionalLinks.help %]
+							  <li><a href="[% link.value %]player=[% player | uri %]">[% link.key | string %]</a></li>
+					  [% END %]
+			  [% END %]
+		</ul>
+	</body>
+</html>

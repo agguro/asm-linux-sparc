@@ -1,0 +1,410 @@
+agguro@tux:~/Projects/asm-linux-sparc/NetgearDuo/reversing/mtd0$ ssh -oKexAlgorithms=+diffie-hellman-group14-sha1     -oHostKeyAlgorithms=+ssh-rsa     agguro@192.168.0.198
+agguro@192.168.0.198's password: 
+Linux netgear 2.6.17.14ReadyNAS #1 Wed Jun 20 20:08:20 PDT 2012 padre unknown
+agguro@netgear:~$ clear
+
+
+
+
+
+
+
+
+
+
+agguro@netgear:~$ cat /proc/cpuinfo
+cpu		: Infrant Technologics, Inc. - neon version: 0
+fpu		: Softfpu
+ncpus probed	: 1
+ncpus active	: 1
+BogoMips	: 186.36
+MMU		: version: 0
+LP		: HW.FW version: 0.1
+FPGA		: fpga000000-0 Configuration: 0
+AHB arbitraion	: 7
+CPU id		: 0
+Switch		: 0
+ASIC		: IT3107
+agguro@netgear:~$ cat /proc/iomem
+5c010000-5c0100ff : 0000:00:17.2
+  5c010000-5c0100ff : ehci_hcd
+agguro@netgear:~$ dmesg | grep -iE 'cpu|sparc|soc|flash|nand|boot|rom'
+audit: initializing netlink socket (disabled)
+xor engine =>  SPARC.
+Boot type/reason: normal/0/24M4167500500
+NAND device: Manufacture ID: 0xec, Chip ID: 0x76 (Samsung NAND 64MiB 3,3V 8-bit)
+Samsung NAND flash rev C 
+Creating 2 MTD partitions on "NAND 64MiB 3,3V 8-bit":
+0x00000000-0x00100000 : "P0 flash partition 1"
+0x00100000-0x04000000 : "P0 flash partition 2"
+NEON flash: probing 8-bit flash bus
+CFI: Found no NEON flash device at location zero
+NEON flash: unknown flash device, mfr id 0x1, dev id 0x0
+NEON flash: Found no Atmel device at location zero
+startstop  XRAID command = start, flash_cache=0
+Change X_RAID running mode from 0 to 1
+enable_irq(11) unbalanced from f804059c
+usb usb1: configuration #1 chosen from 1 choice
+PCI: VIA IRQ fixup for 0000:00:17.0, from 0 to 11
+usb usb2: configuration #1 chosen from 1 choice
+PCI: VIA IRQ fixup for 0000:00:17.1, from 0 to 11
+usb usb3: configuration #1 chosen from 1 choice
+agguro@netgear:~$ clear
+
+
+
+
+
+
+
+
+
+agguro@netgear:~$ dmesg | head -100
+Linux version 2.6.17.14ReadyNAS (root@calzone) (gcc version 3.3.5 (Infrant 3.3.5-1)) #1 Wed Jun 20 20:08:20 PDT 2012
+You system is PZERO.
+ASIC=IT3107
+On node 0 totalpages: 16384
+  Normal zone: 15360 pages, LIFO batch:3
+  DMA zone: 1024 pages, LIFO batch:0
+zlist 0 802f115c
+zone 802f0f14, name Normal
+zlist 1 802f1170
+zone 802f0ccc, name DMA
+zlist 2 802f1184
+zone 802f0f14, name Normal
+Built 1 zonelists
+Kernel command line: root=/dev/ram0 init=/linuxrc rw raid=noautodetect profile=2
+kernel profiling enabled (shift: 2)
+PID hash table entries: 2048 (order: 11, 8192 bytes)
+Dentry cache hash table entries: 32768 (order: 3, 131072 bytes)
+Inode-cache hash table entries: 16384 (order: 2, 65536 bytes)
+Memory: 226176k/262144k available (2592k kernel code, 35888k reserved, 656k data, 96k init, 0k highmem)
+init_mm.pgd 8f0ff000
+Calibrating delay loop... 186.36 BogoMIPS (lpj=931840)
+Mount-cache hash table entries: 2048
+checking if image is initramfs...it isn't (no cpio magic); looks like an initrd
+Freeing initrd memory: 16384k freed
+NET: Registered protocol family 16
+usbcore: registered new driver usbfs
+usbcore: registered new driver hub
+NET: Registered protocol family 2
+IP route cache hash table entries: 2048 (order: -1, 8192 bytes)
+TCP established hash table entries: 8192 (order: 1, 32768 bytes)
+TCP bind hash table entries: 4096 (order: 0, 16384 bytes)
+TCP: Hash tables configured (established 8192 bind 4096)
+TCP reno registered
+audit: initializing netlink socket (disabled)
+audit(1070280003.140:1): initialized
+VFS: Disk quotas dquot_6.5.1
+Dquot-cache hash table entries: 4096 (order 0, 16384 bytes)
+Installing knfsd (copyright (C) 1996 okir@monad.swb.de).
+Initializing Cryptographic API
+io scheduler noop registered
+io scheduler anticipatory registered
+io scheduler deadline registered
+io scheduler cfq registered (default)
+RAMDISK driver initialized: 16 RAM disks of 16384K size 1024 blocksize
+loop: loaded (max 8 devices)
+nbd: registered device at major 43
+tun: Universal TUN/TAP device driver, 1.6
+tun: (C) 1999-2004 Max Krasnyansky <maxk@qualcomm.com>
+md: raid0 personality registered for level 0
+md: raid1 personality registered for level 1
+md: raid5 personality registered for level 5
+md: raid4 personality registered for level 4
+xor engine =>  SPARC.
+device-mapper: 4.6.0-ioctl (2006-02-17) initialised: dm-devel@redhat.com
+Serial: Padre driver $Revision: 1.1.1.1 $ 2 ports
+ttyS0 at I/O 0x0 (irq = 7) is a padre uart
+ttyS1 at I/O 0x0 (irq = 8) is a padre uart
+oprofile: using timer interrupt.
+TCP bic registered
+NET: Registered protocol family 1
+NET: Registered protocol family 17
+NET: Registered protocol family 5
+802.1Q VLAN Support v1.8 Ben Greear <greearb@candelatech.com>
+All bugs added by David S. Miller <davem@redhat.com>
+md: Skipping autodetection of RAID arrays. (raid=noautodetect)
+RAMDISK: Compressed image found at block 0
+VFS: Mounted root (ext2 filesystem).
+Freeing unused kernel memory: 96k freed
+padre_i2c: module license 'Infrant Technologies, Inc.' taints kernel.
+padre_i2c: no version for "udiv" found: kernel tainted.
+TWSI Initialize
+Padre NSPIO setup: 80353394... No argv, go to default.
+raid5: xor select to PADRE_RXA.
+Uniform Multi-Platform E-IDE driver Revision: 7.00alpha2
+ide: Assuming 33MHz system bus speed for PIO modes; override with idebus=xx
+padre chip scan,token=1
+Scan the padre NSP IO hardware.
+Need memory for RTEngine 63680
+PIO mode on chan 7
+DMA mode on chan 0
+DMA mode on chan 1
+Padre IDE controller, sata start:1
+WD drive does not support TLER, 0, 3530
+hdc: WDC WD20EARX-00PASB0 (s/n:WD-WCAZAA614444), ATA DISK drive (ATAEXT)
+WD drive does not support TLER, 1, 3530
+hde: WDC WD20EARX-00PASB0 (s/n:WD-WCAZAA620890), ATA DISK drive (ATAEXT)
+ide1 at 0x200-0x207,0x208 on irq 32
+ide2 at 0x280-0x287,0x288 on irq 33
+Update NSPIO settings 80353394.
+hdc: max request size: 512KiB
+hdc: use capacity 3907029168 sectors (2000398 MB)
+Drive support hpa, still should not change max addr.
+hdc: 3907008688 sectors (2000388 MB), CHS=65535/255/63
+hdc: cache flushes supported
+ hdc:chn=0, statu/LP_S=0x(d0/d050)29, 16
+ hdc1 hdc2 hdc3 < hdc5 >
+hde: max request size: 512KiB
+hde: use capacity 3907029168 sectors (2000398 MB)
+Drive support hpa, still should not change max addr.
+hde: 3907008688 sectors (2000388 MB), CHS=65535/255/63
+agguro@netgear:~$ clear
+
+agguro@netgear:~$ cat /proc/mtd
+dev:    size   erasesize  name
+mtd0: 00100000 00004000 "P0 flash partition 1"
+mtd1: 03f00000 00004000 "P0 flash partition 2"
+agguro@netgear:~$ cat /proc/cmdline
+root=/dev/ram0 init=/linuxrc rw raid=noautodetect profile=2
+agguro@netgear:~$ ls -l /dev/mtd*
+crw-r--r--    1 root     root      90,   0 Dec 10  2002 /dev/mtd0
+crw-r--r--    1 root     root      90,   2 Oct 25 05:44 /dev/mtd1
+brw-r--r--    1 root     root      31,   0 Oct 25 05:44 /dev/mtdblock0
+brw-r--r--    1 root     root      31,   1 Oct 25 05:44 /dev/mtdblock1
+agguro@netgear:~$ cat /proc/partitions
+major minor  #blocks  name
+
+  22     0 1953504344 hdc
+  22     1    2048000 hdc1
+  22     2     256000 hdc2
+  22     3          1 hdc3
+  22     5 1951192148 hdc5
+  33     0 1953504344 hde
+  31     0       1024 mtdblock0
+  31     1      64512 mtdblock1
+ 254     0 1951170560 dm-0
+agguro@netgear:~$ dmesg | grep -iE 'iboot|bootloader|loader|firmware|console|ttyS'
+ttyS0 at I/O 0x0 (irq = 7) is a padre uart
+ttyS1 at I/O 0x0 (irq = 8) is a padre uart
+agguro@netgear:~$ cat /proc/kallsyms | grep -iE 'boot|reset|rom|flash|nand' | head -50
+80014c20 t mna_fromuser
+800150a4 T ret_from_fork
+80037a88 t rm_from_queue_full
+80037b54 t rm_from_queue
+8003a744 T register_reboot_notifier
+8003a760 T unregister_reboot_notifier
+8003acb4 T sys_reboot
+8003bef0 t groups_from_user
+800460c8 t groups16_from_user
+80049c34 t reset_iter
+8004daa0 T relay_reset
+8004e894 t link_bootmem
+8004e914 T __remove_from_page_cache
+8004e94c T remove_from_page_cache
+80050ce8 T __filemap_copy_from_user_iovec
+80053ec4 t get_page_from_freelist
+8005ce40 t zeromap_pte_range
+8005d034 T zeromap_page_range
+8005dd4c t reset_vma_truncate_counts
+80066454 T __delete_from_swap_cache
+80066628 T delete_from_swap_cache
+8006671c T move_from_swap_cache
+80079ca4 t bd_release_from_kobject
+80079d18 T bd_release_from_disk
+8007d924 t pipe_iov_copy_from_user
+8008fa2c t exact_copy_from_user
+80094eec T simple_read_from_buffer
+8009a7d4 T splice_from_pipe
+8009ab60 t do_splice_from
+800a3a30 T posix_acl_from_mode
+800a3e60 T posix_acl_from_xattr
+800a44e0 t posix_acl_from_nfsacl
+800cf728 t ext3_acl_from_disk
+800d672c t journal_reset
+800e2a04 t ext2_acl_from_disk
+80123e7c t nfs4_laundromat
+801240d4 t laundromat_main
+80124a88 t reset_union_bmap_access
+80124ae0 t reset_union_bmap_deny
+80126534 t nfsd4_load_reboot_recovery_data
+80126870 T nfs4_reset_recoverydir
+801268dc T nfs4_reset_lease
+801278d8 t mask_from_posix
+8012795c t mode_from_nfs4
+8012975c t nfs4_reset_user
+8012fe88 T nlmsvc_decode_reboot
+80130f34 T nlm4svc_decode_reboot
+80133558 t smb_filetype_from_mode
+8013a1f4 t _recvfrom
+8013a244 t server_from_socket
+
+agguro@netgear:~$ grep -iE '(^|_)(nand|flash|mtd|rom|boot|reset)(_|$)' /proc/kallsyms | tail -100
+801ced04 t cfi_intelext_reset
+801cf278 t atmel_flash_unlock
+801cf298 t atmel_flash_lock
+801cf478 t atmel_flash_probe
+801cf6c4 t atmel_flash_read
+801cfd90 t atmel_flash_write
+801cfdf8 t atmel29_flash_write
+801d0198 t atmel_flash_erase
+801d0594 t atmel_flash_sync
+801d0698 t atmel_flash_suspend
+801d06b8 t atmel_flash_resume
+801d06d0 t atmel_flash_destroy
+801d10d8 t bbt_nand_write_page
+801d1cac t bbt_nand_write
+801d1f70 t bbt_nand_write_ecc
+801d47dc T usb_lock_device_for_reset
+801d5b98 t hub_pre_reset
+801d5c14 t hub_post_reset
+801d6c98 t hub_port_wait_reset
+801d6d3c t hub_port_reset
+801d8778 T usb_reset_device
+801dc684 T usb_reset_configuration
+801e52c8 T uhci_reset_hc
+801e5344 T uhci_check_and_reset_hc
+80209040 T cpu_buffer_reset
+8020a8e4 T oprofile_reset_stats
+8020ef60 T sk_reset_timer
+802152cc t netdev_boot_setup_add
+80215364 T netdev_boot_setup_check
+80215408 T netdev_boot_base
+802192d4 t ethtool_nway_reset
+80226164 t pfifo_fast_reset
+80226348 T qdisc_reset
+8023a2e0 T inet_csk_reset_keepalive_timer
+80242f50 t tcp_reset
+80249bb0 T tcp_send_active_reset
+8024ce1c t tcp_v4_send_reset
+8027080c t xprt_reset_majortimeo
+80340c28 t do_reset
+8034ae80 t init_mtd
+8034b00c T atmel_flash_init
+8034bbd4 T netdev_boot_setup
+f807325c t check_and_reset_hc	[uhci_hcd]
+801e5344 U uhci_check_and_reset_hc	[uhci_hcd]
+801e52c8 U uhci_reset_hc	[uhci_hcd]
+8035322c U padre_boot_param	[uhci_hcd]
+f80d41f4 t check_reset_complete	[ehci_hcd]
+8035322c U padre_boot_param	[ehci_hcd]
+00000000 a padre_nand_flash.c	[padre_nand_flash]
+f807ce88 d __param_str_vpd392_override	[padre_nand_flash]
+f807c0a8 r __param_vpd392_override	[padre_nand_flash]
+f8054250 ? __mod_vpd392_overridetype26	[padre_nand_flash]
+f8054270 ? __mod_vpd392_override27	[padre_nand_flash]
+f807d040 b padre_p0_mtd	[padre_nand_flash]
+f807ce98 d partition_info	[padre_nand_flash]
+f807c04c t padre_nand_flash_cleanup	[padre_nand_flash]
+f80542b8 ? __mod_license164	[padre_nand_flash]
+f80542c8 ? __mod_author165	[padre_nand_flash]
+f80542f0 ? __mod_description166	[padre_nand_flash]
+f807c088 r __func__.0	[padre_nand_flash]
+00000000 a padre_nand_flash.mod.c	[padre_nand_flash]
+f8054338 ? __mod_vermagic5	[padre_nand_flash]
+f807c188 r ____versions	[padre_nand_flash]
+f8054368 ? __module_depends	[padre_nand_flash]
+f8054378 ? __mod_srcversion49	[padre_nand_flash]
+f807c098 r __func__.0	[padre_nand_flash]
+801c6018 U del_mtd_partitions	[padre_nand_flash]
+f8084000 t padre_nand_flash_init	[padre_nand_flash]
+f807cee0 d __this_module	[padre_nand_flash]
+f807c04c t cleanup_module	[padre_nand_flash]
+8006e1c0 U kfree	[padre_nand_flash]
+801c4f60 U del_mtd_device	[padre_nand_flash]
+80191270 U udiv	[padre_nand_flash]
+80335924 U __bzero	[padre_nand_flash]
+803329c4 U g_sys_type	[padre_nand_flash]
+80190ecc U div	[padre_nand_flash]
+f8084000 t init_module	[padre_nand_flash]
+801d3974 U nand_scan	[padre_nand_flash]
+8006df44 U kmem_cache_alloc	[padre_nand_flash]
+80420d30 U bbt	[padre_nand_flash]
+80420d20 U vpd392_override	[padre_nand_flash]
+8002c69c U printk	[padre_nand_flash]
+801d2fa4 U nand_init_bbt	[padre_nand_flash]
+801915ec U urem	[padre_nand_flash]
+8003f0cc U param_set_int	[padre_nand_flash]
+801c609c U add_mtd_partitions	[padre_nand_flash]
+802f1764 U malloc_sizes	[padre_nand_flash]
+f807c000 t padre_hwcontrol	[padre_nand_flash]
+80190d74 U __muldi3	[padre_nand_flash]
+801915d4 U umul	[padre_nand_flash]
+8003f110 U param_get_int	[padre_nand_flash]
+8006e0ac U __kmalloc	[padre_nand_flash]
+f804011c t p0_boot_init	[padre_i2c_hwmon]
+8035322c U padre_boot_param	[padre_i2c_hwmon]
+8035322c U padre_boot_param	[padre_p0_led_button]
+f8004220 t mii_do_reset_phy	[padre_gmac]
+8035322c U padre_boot_param	[padre_gmac]
+f811b198 t padre_reset_IO_path	[padre_io]
+8035322c U padre_boot_param	[padre_io]
+8035322c U padre_boot_param	[padre_i2c]
+
+agguro@netgear:~$ dmesg | grep -i -B 8 -A 12 'NEON flash'
+total bad block 0
+Total bad block number 0
+retlen = 0x0200
+VPD checksum = 0x5706
+ECC is ON
+Creating 2 MTD partitions on "NAND 64MiB 3,3V 8-bit":
+0x00000000-0x00100000 : "P0 flash partition 1"
+0x00100000-0x04000000 : "P0 flash partition 2"
+NEON flash: probing 8-bit flash bus
+CFI: Found no NEON flash device at location zero
+NEON flash: unknown flash device, mfr id 0x1, dev id 0x0
+NEON flash: Found no Atmel device at location zero
+This board is not supported.
+You can use parm_extport=X module parm.
+I2C device 1f doesn't exist
+I2C device 1b doesn't exist
+LCD device not found
+X_RAID_START
+startstop  XRAID command = start, flash_cache=0
+X_RAID clean shutdown indicator: 0x0.
+0 2 2 0 0 0 0 0
+0 1 0 0
+1 0 0 0
+0 0 0 0
+agguro@netgear:~$ dmesg | grep -iE 'atmel|cfi|nor|rom|mtd|flash'
+  Normal zone: 15360 pages, LIFO batch:3
+zone 802f0f14, name Normal
+zone 802f0f14, name Normal
+Boot type/reason: normal/0/24M4167500500
+Samsung NAND flash rev C 
+Creating 2 MTD partitions on "NAND 64MiB 3,3V 8-bit":
+0x00000000-0x00100000 : "P0 flash partition 1"
+0x00100000-0x04000000 : "P0 flash partition 2"
+NEON flash: probing 8-bit flash bus
+CFI: Found no NEON flash device at location zero
+NEON flash: unknown flash device, mfr id 0x1, dev id 0x0
+NEON flash: Found no Atmel device at location zero
+startstop  XRAID command = start, flash_cache=0
+Change X_RAID running mode from 0 to 1
+enable_irq(11) unbalanced from f804059c
+usb usb1: configuration #1 chosen from 1 choice
+PCI: VIA IRQ fixup for 0000:00:17.0, from 0 to 11
+usb usb2: configuration #1 chosen from 1 choice
+PCI: VIA IRQ fixup for 0000:00:17.1, from 0 to 11
+usb usb3: configuration #1 chosen from 1 choice
+
+agguro@netgear:~$ grep -iE 'padre_boot_param|boot_param|g_sys_type|padre_cachefix' /proc/kallsyms
+8035322c U padre_boot_param	[uhci_hcd]
+8035322c U padre_boot_param	[ehci_hcd]
+803329c4 U g_sys_type	[padre_nand_flash]
+803329c4 U g_sys_type	[padre_i2c_hwmon]
+8035322c U padre_boot_param	[padre_i2c_hwmon]
+803329c4 U g_sys_type	[padre_p0_led_button]
+8035322c U padre_boot_param	[padre_p0_led_button]
+803329c4 U g_sys_type	[padre_des]
+803329c4 U g_sys_type	[padre_gmac]
+803329a8 U padre_cachefix	[padre_gmac]
+8035322c U padre_boot_param	[padre_gmac]
+803329a8 U padre_cachefix	[padre_io]
+8035322c U padre_boot_param	[padre_io]
+803329c4 U g_sys_type	[padre_i2c]
+803329a8 U padre_cachefix	[padre_i2c]
+8035322c U padre_boot_param	[padre_i2c]
+
+

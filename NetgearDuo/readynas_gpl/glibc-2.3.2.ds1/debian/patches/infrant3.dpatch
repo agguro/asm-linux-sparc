@@ -1,0 +1,107 @@
+#! /bin/sh -e
+
+# All lines beginning with `# DP:' are a description of the patch.
+# DP: Fix a few more hardware multiply/divide bugs
+
+if [ $# -ne 2 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+case "$1" in
+    -patch) patch -d "$2" -f --no-backup-if-mismatch -p1 < $0;;
+    -unpatch) patch -d "$2" -f --no-backup-if-mismatch -R -p1 < $0;;
+    *)
+	echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+	exit 1
+esac
+exit 0
+
+
+diff -uNr glibc-2.2.5-orig/glibc-2.2.5/sysdeps/sparc/sparc32/rem.S glibc-2.2.5/glibc-2.2.5/sysdeps/sparc/sparc32/rem.S
+--- glibc-2.2.5.orig/sysdeps/sparc/sparc32/rem.S	Fri May 21 14:05:09 2004
++++ glibc-2.2.5/sysdeps/sparc/sparc32/rem.S	Fri May 21 12:54:00 2004
+@@ -5,6 +5,11 @@
+ #include <sysdep.h>
+ 
+ ENTRY(.rem)
++#if 1
++ 	cmp %o0, 0
++        bl,a .fix_rem1
++	 sub %g0, %o0, %o0
++#endif
+ 
+ 	sra	%o0, 31, %o2
+ 	wr	%o2, 0, %y
+@@ -17,5 +22,29 @@
+ 1:	smul	%o2, %o1, %o2
+ 	retl
+ 	 sub	%o0, %o2, %o0
++
++#if 1
++.fix_rem1:
++    	cmp %o1, 0
++        bl .fix_rem2
++	 wr %g0, 0x0, %y
++	nop
++	nop
++	nop
++	udiv    %o0, %o1, %o2
++	umul    %o2, %o1, %o2
++        retl
++	 sub    %o2, %o0, %o0
++.fix_rem2:
++        sub %g0, %o1, %o1
++	nop
++	nop
++	udiv    %o0, %o1, %o2
++	umul    %o2, %o1, %o2
++	sub     %o2, %o0, %o0
++	retl
++	 sub    %g0, %o1, %o1
++#endif
++								       
+ 
+ END(.rem)
+diff -uNr glibc-2.2.5-orig/glibc-2.2.5/sysdeps/sparc/sparc32/sdiv.S glibc-2.2.5/glibc-2.2.5/sysdeps/sparc/sparc32/sdiv.S
+--- glibc-2.2.5.orig/sysdeps/sparc/sparc32/sdiv.S	Fri May 21 14:05:09 2004
++++ glibc-2.2.5/sysdeps/sparc/sparc32/sdiv.S	Fri May 21 12:51:42 2004
+@@ -5,6 +5,11 @@
+ #include <sysdep.h>
+ 
+ ENTRY(.div)
++#if 1
++    	cmp %o0, 0
++        bl,a .fix_div1
++	sub %g0, %o0, %o0
++#endif
+ 
+ 	sra	%o0, 31, %o2
+ 	wr	%o2, 0, %y
+@@ -16,5 +21,27 @@
+ 	 xnor	%o0, %g0, %o0
+ 1:	retl
+ 	 nop
++
++#if 1
++.fix_div1:
++    	cmp %o1, %g0
++        bl .fix_div2
++	 wr %g0, 0x0, %y
++	nop
++	nop
++	nop
++	udiv %o0, %o1, %o0
++	retl
++	 sub %g0, %o0, %o0
++
++.fix_div2:
++        sub %g0, %o1, %o1
++	nop
++	nop
++	udiv %o0, %o1, %o0
++	retl
++	sub %g0, %o1, %o1
++#endif
++							       
+ 
+ END(.div)

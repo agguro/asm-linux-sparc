@@ -1,0 +1,12 @@
+diff -urN proftpd-1.2.8+cvs20030620/contrib/mod_sql_mysql.c proftpd-1.2.8+cvs20030620-debian/contrib/mod_sql_mysql.c
+--- proftpd-1.2.8+cvs20030620/contrib/mod_sql_mysql.c	2003-06-03 14:28:18.000000000 +0200
++++ proftpd-1.2.8+cvs20030620-debian/contrib/mod_sql_mysql.c	2003-06-21 16:16:04.000000000 +0200
+@@ -134,7 +134,7 @@
+ 
+ #define _MYSQL_PORT "3306"
+ 
+-#include <mysql.h>
++#include <mysql/mysql.h>
+ #include "conf.h"
+ #include "../contrib/mod_sql.h"
+ 

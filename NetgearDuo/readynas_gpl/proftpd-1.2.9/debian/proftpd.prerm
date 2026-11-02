@@ -1,0 +1,11 @@
+#! /bin/sh
+
+if [ -x "/usr/sbin/invoke-rc.d" ]; then
+    invoke-rc.d proftpd stop
+else 
+	if [ -x "/etc/init.d/proftpd" ]; then
+		/etc/init.d/proftpd stop
+	fi
+fi
+
+#DEBHELPER#

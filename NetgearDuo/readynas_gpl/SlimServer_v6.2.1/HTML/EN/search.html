@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <title>[% "SEARCH" | string %]</title>
+    <link rel="stylesheet" href="slimserver.css">
+	<script type="text/javascript" src="/html/prototype.js"></script>
+  </head>
+  <body bgcolor="#FFFFFF" onload="document.searchForm.query.focus();">
+    <p>
+    <h3>[% 'SEARCH' | string %]</h3><p>
+							
+	<p><a href="home.html?player=[% player | uri %]">[% "HOME" | string %]</a> / <a href="search.html?player=[% player | uri %]">[% "SEARCH" | string %]</a></p>
+
+	<p>
+		[% IF searchlist_header %]
+			[% searchlist_header %]
+		[% END %]
+		&nbsp;
+	</p>
+
+	[% IF liveSearch %]
+
+	<form id="searchForm" name="searchForm" method="GET" action="search.html">
+		<input type="text" id="query" name="query" size="40" autocomplete="off" />
+
+	[% ELSE %]
+
+	<form id="searchForm" name="searchForm" method="GET" action="search.html">
+		<input type="text" id="query" name="query" size="40" value="[% query %]"/>
+
+	[% END %]
+
+		<input name="submit" type=submit class="stdclick" value="[% "SEARCH" | string %]"><p>
+		<input type="hidden" value="1" name="manualSearch">
+		<input type="hidden" value="[% player %]" name="player">
+	</form>
+
+	<div id="search-results"></div>
+
+		[% IF searchError %]
+			[% searchError %]
+		[% END %]
+
+	[% IF searchlist_pagebar %]
+		<p>[% "PAGES" | string %][% "COLON" | string %][% searchlist_pagebar %]</p>
+	[% END %] 
+	<table cellspacing="0" cellpadding="4">
+		[% IF numresults != '-1' && numresults != '0' %]
+			<tr>
+				<td width="100%" class="even">[% "ALL_SONGS" | string %]</td>
+				<td align="right" width="13" class="even">
+				    <nobr><a href="[% webroot %]status.html?player=[% player | uri %]&command=playlist&subcommand=playtracks&listref=searchResults"  target="status">[% FILTER nbsp %][% "PLAY" | string %][% END %]</a></nobr>
+				</td>
+				
+				<td align="right" width="13" class="even">
+				    <nobr><a href="[% webroot %]status.html?player=[% player | uri %]&command=playlist&subcommand=addtracks&listref=searchResults"  target="status">[% FILTER nbsp %][% "ADD_TO_PLAYLIST" | string %][% END %]</a></nobr>
+				</td>
+			</tr>
+		[% END %]
+		[% browse_list %] 
+	</table>
+	[% IF searchlist_pagebar %]
+		<p>[% "PAGES" | string %][% "COLON" | string %][% searchlist_pagebar %]</p>
+	[% END %] 
+
+[% IF liveSearch; INCLUDE "search-observer.html"; END %]
+
+  </body>
+</html>

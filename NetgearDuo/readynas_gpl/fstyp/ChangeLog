@@ -1,0 +1,4 @@
+2001-11-19  Martin K. Petersen  <mkp@mkp.net>
+
+	* src/fstyp.c: Initial checkin of the standalone fstyp program.
+

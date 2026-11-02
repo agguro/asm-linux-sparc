@@ -1,0 +1,76 @@
+.\" Copyright (c) 2001 Martin K. Petersen <mkp@mkp.net>
+.\"
+.\" This is free documentation; you can redistribute it and/or
+.\" modify it under the terms of the GNU General Public License 
+.\" version 2 as published by the Free Software Foundation.
+.\"
+.\" The GNU General Public License's references to "object code"
+.\" and "executables" are to be interpreted as the output of any
+.\" document formatting or typesetting system, including
+.\" intermediate and printed output.
+.\"
+.\" This manual is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public
+.\" License along with this manual; if not, write to the Free
+.\" Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139,
+.\" USA.
+.\"
+.TH FSTYP 8 "21 March 2000" "Linux 2.2" "Linux Programmer's Manual"
+.SH NAME
+fstyp \- identify file systems
+.SH SYNOPSIS
+.BI "fstyp " "device"
+.LP
+.BI "fstyp [\-hV]"
+.SH DESCRIPTION
+The
+.B fstyp
+command tries to guess the filesystem type of a device and outputs its
+findings.
+
+If a filesystem can be successfully identified, its name is printed
+and 0 returned.
+
+If no known superblocks can be found,
+.B fstyp
+prints an empty string and returns a non-zero value.
+
+.B fstyp
+is often used in backup scripts to pick
+.B dump
+and
+.B restore
+commands appropriate for the filesystem type.
+
+Since
+.B fstyp
+relies on heuristics to identify the filesystem, there is no guarantee
+for correct results.  
+
+The detection algorithm used in
+.B fstyp 
+is the same as in the
+.BR mount(8)
+command.
+
+.SH OPTIONS
+.TP
+.B \-V
+Print version and exit.
+.TP
+.B \-h
+Print help message and exit.
+
+.SH FILES
+.I /proc/filesystems
+List of supported filesystem types.
+
+.SH "SEE ALSO"
+.BR umount (2),
+.BR mount (8),
+.BR dump (8),
+.BR restore (8)

@@ -1,0 +1,12 @@
+--- hlink.c	9 Mar 2005 18:54:06 -0000	1.50
++++ hlink.c	15 Apr 2005 07:56:47 -0000
+@@ -110,9 +110,6 @@ void init_hard_links(void)
+ #ifdef SUPPORT_HARD_LINKS
+ 	int i;
+ 
+-	if (the_file_list->count < 2)
+-		return;
+-
+ 	if (hlink_list)
+ 		free(hlink_list);
+ 

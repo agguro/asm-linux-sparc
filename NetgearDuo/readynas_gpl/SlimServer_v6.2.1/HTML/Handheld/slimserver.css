@@ -1,0 +1,33 @@
+body, table, input, p, li, a, td, h4, select {
+	font-size: 10px;
+	font-family: sans-serif;
+	color: #444;
+}
+
+h4 {
+	font-weight: bold;
+}
+
+pre, code, h3 {
+	font-size: 11px;
+}
+
+a {
+	text-decoration:none;
+}
+
+table, td, tr, form, h4 {
+	padding: 0px;
+	margin: 0px;
+	vertical-align: top;
+}
+
+ul {
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
+small {
+	font-family: sans-serif;
+	font-size: 100%;
+}

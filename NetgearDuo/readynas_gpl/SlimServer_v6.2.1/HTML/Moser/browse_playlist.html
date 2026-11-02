@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>[% "SAVED_PLAYLISTS" | string %]</title>
+    <link rel="stylesheet" href="slimserver.css" />
+  </head>
+  <body>
+    <h3>[% "SAVED_PLAYLISTS" | string %]</h3>
+    <div class="linktree"><ul><li><a href="home.html?player=[% player | uri %]">[% "HOME" | string %]</a></li>[% pwd_list %]</ul></div>
+   [%- IF warn %]
+    <div id="warning">
+      <b>[% "NOTE" | string %]</b> [% "SCAN_WARNING" | string %]
+    </div>
+   [%- END %]
+   [%- IF RENAME_WARNING %]
+    <div class="warning">
+      <b>[% "NOTE" | string %]</b> [% "RENAME_WARNING" | string %]
+    </div>
+   [%- END %]
+   [%- IF DELETE_WARNING %]
+    <div class="warning">
+      <b>[% "NOTE" | string %]</b> [% "DELETE_WARNING" | string %]
+    </div>
+   [%- END %]
+
+   [% IF playlist.title && playlist.title == untitledString %]
+      [% SET savebuttonname = "SAVE" %]
+   [% ELSE %]
+      [% SET savebuttonname = "RENAME" %]
+   [% END %]
+   
+   [% UNLESS noEdit %]
+   [%- IF playlist.title %]
+   <form method="get" action="edit_playlist.html">
+      [% "NAME" | string %]
+      <input name="newname" value="[% IF newname; newname; ELSE; playlist.title; END -%]" size=40>
+      <input type="hidden" name="renamePlaylist" value="1">
+      <input type="hidden" name="editPlaylist" value="0">
+      <input type="hidden" name="deletePlaylist" value="0">
+      <input type="hidden" name="id" value="[% playlist.id %]">
+      <input type=submit class="stdclick" value="[% savebuttonname | string %]" onclick='this.form.renamePlaylist.value=1'>
+      <input type="submit" class="stdclick" value="[% "EDIT" | string %]" onclick='this.form.editPlaylist.value=1'>
+      [% IF playlist.title && playlist.title != untitledString %]
+         <input type="submit" class="stdclick" value="[% "DELETE" | string %]" onclick='this.form.deletePlaylist.value=1'>
+      [% END %]
+      [% IF RENAME_WARNING %]
+         <input align="absmiddle" type="checkbox" name="overwrite">[% "CONFIRM_OVERWRITE" | string %]
+      [% END %]
+      [% IF DELETE_WARNING %]
+         <input align="absmiddle" type="checkbox" name="overwrite">[% "CONFIRM_DELETE" | string %]
+      [% END %]
+      <input type=hidden value="[% player %]" name="player">
+      <input type=hidden name="dir" value="[% dir %]">
+    </form>
+   [%- END %]
+   [%- IF playlistname %]
+    <hr />
+   [%- END %]
+   [% END %]
+
+   [%- IF browselist_header %]
+    <div id="browselist_header">[% browselist_header %]<div>
+   [%- END %]
+   [%- IF browselist_pagebar %]
+    <div id="topbrowselistpagebar" class="pagebar">
+      <span class="label">[% "PAGES" | string %][% "COLON" | string %]</span>
+      <div class="controls">
+        <ul>
+[% browselist_pagebar -%]
+        </ul>
+      </div>
+    </div>
+   [%- END %]
+    <div id="browselist">
+      <ul>
+      [%- IF playlistname %]
+        <li class="even">
+          <div class="controls">
+            <ul class="songctl">
+              <li><a href="status.html?p0=playlist&amp;p1=play&amp;p2=[% dir | uri %]&amp;player=[% player | uri %]" target="status" title="[% "PLAY" | string %]"><span>&gt;</span></a></li>
+              <li><a href="status.html?p0=playlist&amp;p1=insert&amp;p2=[% dir | uri %]&amp;player=[% player | uri %]" target="status" title="[% "PLAY" | string %] [% "NEXT" | string %]"><span>&gt;|</span></a></li>
+              <li><a href="status.html?p0=playlist&amp;p1=add&amp;p2=[% dir | uri %]&amp;player=[% player | uri %]"  target="status" title="[% "ADD_TO_PLAYLIST" | string %]"><span>+</span></a></li>
+            </ul>
+          </div>
+          <div class="browseline">[% "THIS_ENTIRE_PLAYLIST" | string %]</div>
+        </li>
+      [%- END %]
+[% browse_list -%]
+      </ul>
+    </div>
+   [%- IF browselist_pagebar %]
+    <div id="bottombrowselistpagebar" class="pagebar">
+      <span class="label">[% "PAGES" | string %][% "COLON" | string %]</span>
+      <div class="controls">
+        <ul>
+[% browselist_pagebar -%]
+        </ul>
+      </div>
+    </div>
+   [%- END %]
+  </body>
+</html>

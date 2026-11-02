@@ -1,0 +1,22 @@
+diff -urN proftpd-1.2.8/Makefile.in proftpd-1.2.8-debian/Makefile.in
+--- proftpd-1.2.8/Makefile.in	2003-01-30 02:25:40.000000000 +0100
++++ proftpd-1.2.8-debian/Makefile.in	2003-03-17 15:17:46.000000000 +0100
+@@ -94,7 +94,8 @@
+ 	       	           $(DESTDIR)$(sysconfdir)/proftpd.conf ; \
+ 	fi
+ 
+-install-man: $(DESTDIR)$(mandir) $(DESTDIR)$(mandir)/man1 $(DESTDIR)$(mandir)/man5 $(DESTDIR)$(mandir)/man8
++install-man-proftpd: $(DESTDIR)$(mandir) $(DESTDIR)$(mandir)/man8
++install-man-utils: $(DESTDIR)$(mandir) $(DESTDIR)$(mandir)/man1 $(DESTDIR)$(mandir)/man5 $(DESTDIR)$(mandir)/man8
+ 	$(INSTALL_MAN) $(top_srcdir)/src/proftpd.8    $(DESTDIR)$(mandir)/man8
+ 	$(INSTALL_MAN) $(top_srcdir)/utils/ftpshut.8  $(DESTDIR)$(mandir)/man8
+ 	$(INSTALL_MAN) $(top_srcdir)/utils/ftpcount.1 $(DESTDIR)$(mandir)/man1
+@@ -102,6 +103,8 @@
+ 	$(INSTALL_MAN) $(top_srcdir)/utils/ftpwho.1   $(DESTDIR)$(mandir)/man1
+ 	$(INSTALL_MAN) $(top_srcdir)/src/xferlog.5    $(DESTDIR)$(mandir)/man5
+ 
++install-man: install-man-proftpd install-man-utils
++
+ install-all: install-proftpd install-utils install-conf install-man
+ 
+ install: install-all

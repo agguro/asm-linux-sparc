@@ -1,0 +1,68 @@
+#! /bin/sh -e
+
+# All lines beginning with `# DP:' are a description of the patch.
+# DP: Work around some hardware multiply/divide bugs
+
+if [ $# -ne 2 ]; then
+    echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+    exit 1
+fi
+case "$1" in
+    -patch) patch -d "$2" -f --no-backup-if-mismatch -p1 < $0;;
+    -unpatch) patch -d "$2" -f --no-backup-if-mismatch -R -p1 < $0;;
+    *)
+	echo >&2 "`basename $0`: script expects -patch|-unpatch as argument"
+	exit 1
+esac
+exit 0
+
+
+diff -uNr glibc-2.3.2.orig/sysdeps/sparc/sparc32/dl-machine.h glibc-2.3.2/sysdeps/sparc/sparc32/dl-machine.h
+--- glibc-2.3.2.orig/sysdeps/sparc/sparc32/dl-machine.h	Mon Jan 27 12:47:54 2003
++++ glibc-2.3.2/sysdeps/sparc/sparc32/dl-machine.h	Fri Feb  4 10:47:14 2005
+@@ -166,6 +166,9 @@
+       plt[1] = OPCODE_CALL | ((rfunc - (Elf32_Addr) &plt[1]) >> 2);
+       plt[2] = OPCODE_NOP;	/* Fill call delay slot.  */
+       plt[3] = (Elf32_Addr) l;
++	__asm __volatile ("flush %0" : : "r"(plt));
++	__asm __volatile ("flush %0+8" : : "r"(plt));
++
+       if (__builtin_expect (l->l_info[VALIDX(DT_GNU_PRELINKED)] != NULL, 0)
+ 	  || __builtin_expect (l->l_info [VALIDX (DT_GNU_LIBLISTSZ)] != NULL, 0))
+ 	{
+diff -uNr glibc-2.3.2.orig/sysdeps/sparc/sparc32/sparcv8/dotmul.S glibc-2.3.2/sysdeps/sparc/sparc32/sparcv8/dotmul.S
+--- glibc-2.3.2.orig/sysdeps/sparc/sparc32/sparcv8/dotmul.S	Sun Aug 24 03:50:32 1997
++++ glibc-2.3.2/sysdeps/sparc/sparc32/sparcv8/dotmul.S	Fri Feb  4 10:48:38 2005
+@@ -6,6 +6,8 @@
+ 
+ ENTRY(.mul)
+ 
++	nop
++	nop
+ 	smul	%o0, %o1, %o0
+ 	retl
+ 	 rd	%y, %o1
+diff -uNr glibc-2.3.2.orig/sysdeps/sparc/sparc32/sparcv8/submul_1.S glibc-2.3.2/sysdeps/sparc/sparc32/sparcv8/submul_1.S
+--- glibc-2.3.2.orig/sysdeps/sparc/sparc32/sparcv8/submul_1.S	Sat Jul  7 12:21:29 2001
++++ glibc-2.3.2/sysdeps/sparc/sparc32/sparcv8/submul_1.S	Fri Feb  4 10:49:53 2005
+@@ -40,6 +40,8 @@
+ LOC(loop):
+ 	ld	[%o1+%o2],%o4
+ 	ld	[%g1+%o2],%g2
++	nop
++	nop
+ 	umul	%o4,%o3,%o5
+ 	rd	%y,%g3
+ 	addcc	%o5,%o0,%o5
+diff -uNr glibc-2.3.2.orig/sysdeps/sparc/sparc32/sparcv8/umul.S glibc-2.3.2/sysdeps/sparc/sparc32/sparcv8/umul.S
+--- glibc-2.3.2.orig/sysdeps/sparc/sparc32/sparcv8/umul.S	Sun Aug 24 03:50:32 1997
++++ glibc-2.3.2/sysdeps/sparc/sparc32/sparcv8/umul.S	Fri Feb  4 10:50:34 2005
+@@ -6,6 +6,8 @@
+ 
+ ENTRY(.umul)
+ 
++	nop
++	nop
+ 	umul	%o0, %o1, %o0
+ 	retl
+ 	 rd	%y, %o1

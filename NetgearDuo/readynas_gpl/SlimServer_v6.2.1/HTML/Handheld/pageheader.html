@@ -1,0 +1,54 @@
+<html>
+<head>
+	[% PROCESS standardheader.html %]
+	[% IF refresh && refreshurl %]<meta http-equiv="refresh" content="[% refresh %]; [% refreshurl %]&player=[% player | uri %]&timestamp=[% USE Date; Date.format(Date.now, '%Y%m%d%M%S'); %]">[% END %]
+</head>
+[%- PROCESS styles.html -%]
+
+[%- BLOCK submenu -%]
+	[% linktitle = linktitle.replace('^\s*/', '') %]
+	<table border="0" cellspacing="0" cellpadding="0" width="100%" bgcolor="[% subtitleC %]">
+		<tr>
+			<td width="100%">/ [%- IF url -%]<a href="[%- webroot -%][% url %]?[%- arguments -%]&player=[% player | uri %]">[%- END -%][%- linktitle -%][%- IF url -%]</a>[%- END -%]</td>
+			[%- content -%]
+		</tr>
+	</table>
+[%- END -%]
+
+[%- BLOCK subtitle -%]
+	<table bgcolor="[% subtitleC %]" width=100%><tr><td><h4>[% title | string %]</h4></td></tr></table>
+[%- END -%]
+
+<body bgcolor="#FFFFFF" text="#666666" link="#333333" vlink="#333333" alink="#333333" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0"">
+	<font face="arial,helvetica,sans-serif"><small>
+	
+	<table width="100%" bgcolor="#333333">
+		<tr>
+			<td><img src="[% webroot %]html/images/[% playermodel %]_logo.small.gif" border="0" width="98" height="17"></td>
+			<td align="right">
+				[% IF player_chooser_list %]
+					<form method="get" action="[% webroot %]status.html">
+						<select name="player" onchange="switchPlayer(this);">
+							[% player_chooser_list %]
+						</select>
+						<input type="submit" value="&gt;" style="width: 18px;">
+					</form>
+				[% END %]
+			</td>
+		</tr>
+	</table>
+
+	[% BLOCK menulink %]
+		<td><a href="[% webroot %][% file %].html?player=[% player | uri %]"><font color="#FFFFFF">[% file | upper | string %]</font></a></td>
+	[% END %]
+
+	<table bgcolor="[% menuC %]" border="0" cellpadding="0" cellspacing="0" width="100%">
+		<tr colspan="4"><td><img src="[% webroot %]html/images/spacer.gif" border="0" width="4" height="2"></td></tr>
+		<tr align="center">
+			[% PROCESS menulink file='home' %]
+			[% PROCESS menulink file='status' %]
+			[% PROCESS menulink file='playlist' %]
+			[% PROCESS menulink file='search' %]
+		</tr>
+		<tr colspan="4"><td><img src="[% webroot %]html/images/spacer.gif" border="0" width="4" height="2"></td></tr>
+	</table>

@@ -1,0 +1,33 @@
+Index: proftpd-1.2.9/configure.ac
+===================================================================
+RCS file: /cvs/proftpd-1.2.9/build-tree/proftpd-1.2.9/configure.ac,v
+retrieving revision 1.1.1.1
+diff -u -r1.1.1.1 configure.ac
+--- proftpd-1.2.9/configure.ac	2004/05/10 20:31:04	1.1.1.1
++++ proftpd-1.2.9/configure.ac	2004/05/10 23:27:30
+@@ -986,7 +986,7 @@
+   AC_CACHE_CHECK(
+     [which sendfile() implementation to use],
+     pr_cv_func_sendfile,
+-    pr_cv_func_sendfile="None"
++    pr_cv_func_sendfile="Linux"
+ 
+     dnl Linux.
+     if test "$pr_cv_func_sendfile" = "None"; then
+Index: proftpd-1.2.9/src/data.c
+===================================================================
+RCS file: /cvs/proftpd-1.2.9/build-tree/proftpd-1.2.9/src/data.c,v
+retrieving revision 1.1.1.1
+diff -u -r1.1.1.1 data.c
+--- proftpd-1.2.9/src/data.c	2004/05/10 20:31:04	1.1.1.1
++++ proftpd-1.2.9/src/data.c	2004/05/10 23:27:30
+@@ -915,7 +915,8 @@
+      *
+      * ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count)
+      */
+-    len = sendfile(PR_NETIO_FD(session.d->outstrm), retr_fd, offset, count);
++    lseek(retr_fd,*offset,SEEK_SET);
++    len = sendfile(PR_NETIO_FD(session.d->outstrm), retr_fd, NULL, count);
+ 
+     if (len != -1 && len < count) {
+       /* under linux semantics, this occurs when a signal has interrupted

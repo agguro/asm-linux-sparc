@@ -1,0 +1,321 @@
+BODY {
+	font-size : 9px;
+	background : Black;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color : White;
+	BORDER: 0px;
+	margin: 0px;
+}
+
+H3 {
+	font-size : 14px;
+	font-weight : bold;	
+	text-align : left;
+	margin:2 0 2 0;
+	padding: 2 0 2 0;
+}
+
+H4
+{
+	font-size : 12px;
+	font-weight : bold;
+	padding: 0 8 0 8;
+}
+
+H5 {
+	font-size : 12px;
+	font-weight : bold;	
+	text-align : left;
+	margin:2 0 2 0;
+	padding: 2 0 2 0;
+}
+
+TD, P, A {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size : 9px;
+	margin:0px;
+	padding: 0px;
+	margin-bottom:1pt;
+	line-height: 150%;
+}
+
+TABLE,TBODY {
+	border-spacing: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+DIV {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size : 9px;
+	margin:0in; 
+	margin-bottom:1pt;
+	line-height: 150%;
+	_height: 0%;
+}
+
+DIV.coverart {
+	overflow: hidden;
+	float:left;
+	margin:0px;
+	height: auto;
+}
+
+DIV.covertext {
+	overflow: hidden;
+}
+
+A {
+	text-decoration: none;
+}
+
+.small {
+	font-size : 6pt;
+}
+
+HR {
+    border : 0;
+    border-bottom:2px solid #bbb;
+}
+
+TH {
+    background : #CFCFCF;
+    font-size : 10pt;
+    text-align : center;
+    font-weight : bold;	
+}
+
+A:link, A:visited {
+    color : Yellow;
+}
+
+A:hover, A:selected {
+    color : #EE3823;
+}
+
+DIV.nowplaying A
+{
+	font-size:11px;
+	padding: 0 0 0 0  ! important;
+	margin: 0 0 0 0 ! important;
+	line-height: 100% ! important;
+}
+
+.linkbtn {
+   font-size : 8pt;
+   font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-weight: bold;
+   color: #EE3823;
+   background-color : Black;
+   border-width : thin;
+   border-style : outset;
+   padding : 0em 0.3em 0em 0.5em;
+}
+
+A.linkbtn:visited {
+   color: Yellow;
+   text-decoration : none; 
+}
+
+A.linkbtn:link {
+   color: Yellow;
+   text-decoration : none; 
+}
+
+A.linkbtn:active {
+   color: #EE3823;
+   text-decoration : none; 
+}
+
+A.linkbtn:hover {
+   color: #EE3823;
+   text-decoration : none; 
+}
+
+.stdclick {
+   font : 9px Arial; 
+   color: Yellow;
+   background-color : rgb(25,25,25);
+   margin-bottom: 2px;
+   margin-top: 2px;
+}
+
+DIV.menu2 .stdclick {
+   font : 9px Arial; 
+   color: Yellow;
+   margin: 2 3 2 3;
+}
+
+DIV.menu2 .stdedit {
+   margin: 2 3 2 3;
+}
+
+.stdedit {
+   font-family: Verdana, Arial, Helvetica, sans-serif; 
+   background-color : rgb(255,255,255); 
+   padding : 1px;
+   margin-bottom: 2px;
+   margin-top: 2px;
+   font-size:9px;
+   background:#ddd;
+   color:#444;
+   border-width : 1px; 
+   border-style : inset; 
+   border-color : black; 
+   height : 18px; 
+}
+
+.masthead
+{
+	margin:0px;
+	padding: 5 8 5 8;
+	background:#333;
+	color:white;
+	border-bottom:2px solid white;
+}
+
+.faq
+{
+	padding: 0 8 0 8;
+	margin:0px;
+	margin-top: 8px;
+}
+
+.nowplaying
+{
+	margin:0px;
+	padding:2 5 2 5;
+	background:#61676c;
+	color:white;
+}
+
+.label
+{
+	color:white ! important;
+	border-bottom:1px solid #777;
+	margin:3 0 3 0;
+}
+
+.label2
+{
+	color:black;
+	margin:3 0 3 0;
+}
+
+.button
+{
+	color:#EE3823 ! important;
+	margin:3 0 3 0;
+}
+
+#tan {
+	display:none;
+}
+
+#grayrefresh
+{
+	display: none;
+}
+
+#tanrefresh
+{
+	display: none;
+}
+.darkbutton
+{
+	color:#bbb ! important;
+	margin:3 0 3 0;
+}
+
+.songtitle
+{
+	margin:0px;
+	color:white;
+	font-size:14px ! important;
+	font-weight:bold;
+	line-height: 100%;
+}	
+
+.artistname
+{
+	margin:0px;
+	font-size:11px;
+	font-weight:normal;
+	color:white;
+	line-height: 100%;
+}
+
+.list
+{
+	padding: 0 8 0 8;
+	margin:0px;
+	margin-top: 0px;
+}
+
+.playlist
+{
+	padding: 0 8 0 8;
+	margin:0px;
+	margin-top: 8px;
+}
+
+.listing, .listing2, .even, .odd
+{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	background:black;
+	color:#999;
+	padding-left: 1px;
+	margin-top:2px;
+	margin-bottom:4px;
+	border-top:solid 1px #333;
+	#border-bottom:solid 1px black;
+}
+
+img {
+	border-style: none;
+}
+
+TD.listing A, TD.listing2 A, TD.odd A, TD.even A
+{
+	color : white ! important;
+}
+
+.listing2
+{
+	background:#333;
+	border-top:solid 1px #EE3823;
+	border-bottom:solid 1px #EE3823;
+}
+
+.listinghead
+{
+	background:#333;
+	font-size: 10px;
+	border-bottom:solid 1px #333;
+	font-weight:bold;
+	color:#999;
+}
+
+.menu1
+{
+	margin:0px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	padding: 3 8 3 8;
+	background:#61676c;
+	color:white;
+}
+
+.menu2
+{
+	margin:0px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	padding:4 8 4 8;
+	background:#999;
+	color:white;
+}
+
+DIV.menu2 TABLE {
+	border-collapse: collapse;
+}

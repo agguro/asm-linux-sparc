@@ -1,0 +1,13 @@
+diff -urN proftpd-1.2.6/contrib/ftpasswd proftpd-1.2.6.new/contrib/ftpasswd
+--- proftpd-1.2.6/contrib/ftpasswd	2002-02-14 16:50:04.000000000 +0000
++++ proftpd-1.2.6.new/contrib/ftpasswd	2002-10-18 18:11:26.000000000 +0100
+@@ -37,7 +37,8 @@
+ my $default_passwd_file = "./ftpd.passwd";
+ my $default_group_file = "./ftpd.group";
+ my $shell_file = "/etc/shells";
+-my $default_cracklib_dict = "/usr/lib/cracklib_dict";
++#my $default_cracklib_dict = "/usr/lib/cracklib_dict";
++my $default_cracklib_dict = "/var/cache/cracklib";
+ my $cracklib_dict;
+ my $output_file;
+ my $version = "1.1.2";

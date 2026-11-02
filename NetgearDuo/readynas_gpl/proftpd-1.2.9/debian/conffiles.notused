@@ -1,0 +1,5 @@
+/etc/pam.d/proftpd
+/etc/proftpd.conf
+/etc/init.d/proftpd
+/etc/cron.monthly/proftpd
+/etc/ftpusers

@@ -1,0 +1,240 @@
+# $Id: config.in,v 1.111 2001/06/01 08:12:10 davem Exp $
+# For a description of the syntax of this configuration file,
+# see Documentation/kbuild/config-language.txt.
+#
+mainmenu_name "Linux/SPARC Kernel Configuration"
+
+define_bool CONFIG_UID16 y
+define_bool CONFIG_HIGHMEM n
+
+mainmenu_option next_comment
+comment 'Code maturity level options'
+bool 'Prompt for development and/or incomplete code/drivers' CONFIG_EXPERIMENTAL
+endmenu
+
+mainmenu_option next_comment
+comment 'Loadable module support'
+bool 'Enable loadable module support' CONFIG_MODULES
+if [ "$CONFIG_MODULES" = "y" ]; then
+   bool '  Set version information on all symbols for modules' CONFIG_MODVERSIONS
+   bool '  Kernel module loader' CONFIG_KMOD
+fi
+endmenu
+
+mainmenu_option next_comment
+comment 'General setup'
+
+# Identify this as a Sparc32 build
+define_bool CONFIG_SPARC32 y
+define_bool CONFIG_PADRE y
+
+# Global things across all Sun machines.
+define_bool CONFIG_ISA n
+define_bool CONFIG_EISA n
+define_bool CONFIG_MCA n
+define_bool CONFIG_PCMCIA n
+define_bool CONFIG_SBUS n
+define_bool CONFIG_RWSEM_GENERIC_SPINLOCK y
+define_bool CONFIG_RWSEM_XCHGADD_ALGORITHM n
+define_bool CONFIG_PADRE_FPGA_VERSION y
+
+if [ "$CONFIG_KMOD" = "y" ]; then
+	bool 'Support for hot-pluggable devices' CONFIG_HOTPLUG
+	if [ "$CONFIG_HOTPLUG" = "y" ]; then
+		bool 'Enable hotplug debug' CONFIG_HOTPLUG_DEBUG
+	fi
+fi
+
+bool 'Networking support' CONFIG_NET
+bool 'System V IPC' CONFIG_SYSVIPC
+bool 'BSD Process Accounting' CONFIG_BSD_PROCESS_ACCT
+bool 'Sysctl support' CONFIG_SYSCTL
+if [ "$CONFIG_PROC_FS" = "y" ]; then
+   define_bool CONFIG_KCORE_ELF y
+fi
+tristate 'Kernel support for a.out binaries' CONFIG_BINFMT_AOUT
+tristate 'Kernel support for ELF binaries' CONFIG_BINFMT_ELF
+tristate 'Kernel support for MISC binaries' CONFIG_BINFMT_MISC
+
+bool 'Kernel support for paseo' CONFIG_PADRE_PASEO
+bool 'Kernel support for paseo fpga' CONFIG_PADRE_PASEO_FPGA
+bool 'Kernel support for p0' CONFIG_PADRE_P0
+bool 'Kernel support for p0 fpga' CONFIG_PADRE_P0_FPGA
+bool 'Kernel support for Floating point' CONFIG_PADRE_SFP
+bool 'PGT cache support' CONFIG_PADRE_PGTCACHE
+bool 'Instruction cache support'	CONFIG_PADRE_ICACHE
+bool 'Data cache support' CONFIG_PADRE_DCACHE
+if [ "$CONFIG_PADRE_DCACHE" = "y" ]; then
+	choice 'Dcache type' \
+	 "WriteThrough 	CONFIG_PADRE_DCACHE_WT \
+	  WriteBack		CONFIG_PADRE_DCACHE_WB" WriteThrough
+fi
+bool 'Lock-down instruction cache support' CONFIG_PADRE_IC3
+bool 'Lock-down data cache support' CONFIG_PADRE_DC3
+bool 'Fix 5 MHZ timer support(FPAG 11/15)' CONFIG_PADRE_FIXTIMER
+int ' Non-cacheable area for DMA (in 16Mbyte units)' CONFIG_PADRE_NONCACHESIZE 1
+int ' Non-cache block device support(device id)' CONFIG_PADRE_UNCACHE_DEV 770
+bool 'Turn on XRAID' CONFIG_XRAID
+bool 'Support 16K stack' CONFIG_PADRE_STACK_16K
+bool 'Support 8k page' CONFIG_PADRE_8K
+bool 'Support Bidirectional SENDFILE' CONFIG_PADRE_SENDFILE
+bool 'GMAC to M4 Bursts' CONFIG_PADRE_GMAC_M4_BURST
+bool 'GMAC NO FLUSH' CONFIG_PADRE_GMAC_NOFLUSH
+bool 'Extended dnotify support' CONFIG_PADRE_DNOTIFY
+endmenu
+
+mainmenu_option next_comment
+comment 'Padre debug option'
+bool ' Enable system error messages' CONFIG_PADRE_DEBUG_LEVEL_1
+bool ' Enable system warning messages' CONFIG_PADRE_DEBUG_LEVEL_2
+bool ' Enable system informational messages' CONFIG_PADRE_DEBUG_LEVEL_3
+bool ' Turn on debug message for unexpect tlb trap' CONFIG_PADRE_UNEXPECT_TLBTRAP
+bool ' Turn on register and stack dump for unaligned accessess' CONFIG_PADRE_UNALIGNED
+bool ' Turn on debug message for bug 275' CONFIG_PADRE_BUG275
+bool ' Turn on debug message for bug 336' CONFIG_PADRE_BUG336
+bool ' Turn on debug message for bug 336 SATA Trigger' CONFIG_PADRE_BUG336_TRIGGER
+bool ' Turn on debug message for bug 336 Resets' CONFIG_PADRE_BUG336_RESETS
+int  ' Default padre timer slice(1-10ms,10-100ms)' CONFIG_PADRE_HZ 1
+bool ' Turn on debug flag for out memory problem' CONFIG_PADRE_OUTMEMORY_BUG
+bool ' Turn off software patch for multiplier' CONFIG_PADRE_MULTIPLIER_BUG
+bool ' Turn off software patch for trap 10'    CONFIG_PADRE_TRAP10_BUG
+bool ' Turn on debug code for bug893' CONFIG_PADRE_BUG893
+endmenu
+
+mainmenu_option next_comment
+comment 'Special device for padre'
+bool 'Padre nor flash device support' CONFIG_MTD_PADRE
+bool 'Padre nand flash device support' CONFIG_MTD_PADRE_NAND
+if [ "$CONFIG_MTD_PADRE" = "y" -o "$CONFIG_MTD_PADRE_NAND" = "y" ]; then
+	define_bool CONFIG_MTD y
+	define_bool CONFIG_MTD_PARTITIONS y
+	define_bool CONFIG_MTD_CHAR y
+	define_bool CONFIG_MTD_BLOCK y
+	define_bool CONFIG_MTD_CFI y
+	define_bool CONFIG_MTD_ATMEL y
+	define_bool CONFIG_MTD_GEN_PROBE y
+	define_bool CONFIG_MTD_CFI_INTELEXT y
+if [ "$CONFIG_MTD_PADRE_NAND" = "y" ]; then
+	define_bool CONFIG_MTD_NAND  y
+	define_bool CONFIG_MTD_NAND_ECC y
+	define_bool CONFIG_MTD_NAND_VERIFY_WRITE y
+fi
+	bool 'Debugging' CONFIG_MTD_DEBUG
+   	if [ "$CONFIG_MTD_DEBUG" = "y" ]; then
+      	int '  Debugging verbosity (0 = quiet, 3 = noisy)' CONFIG_MTD_DEBUG_VERBOSE 0
+   	fi
+fi
+bool 'Padre serial ttyS0 support (uses UART1) ' CONFIG_PADRE_SERIAL0
+bool 'Padre serial ttyS1 support (uses UART0)' CONFIG_PADRE_SERIAL1
+bool 'Padre kernel console on UART0' CONFIG_PADRE_KCONSOLE0
+int 'Padre AHB bus arbitration (0,1,3,7)' CONFIG_PADRE_AHBARB 0
+bool 'Padre 2 cpu support' CONFIG_PADRE_2CPU
+if [ "$CONFIG_PADRE_2CPU" = "y" ]; then
+	bool 'Kernel will support cpu 0' CONFIG_PADRE_CPU0
+	if [ "$CONFIG_PADRE_CPU0" = "n" ]; then
+		define_bool CONFIG_PADRE_CPU1 y
+		define_bool CONFIG_PADRE_CPU2DEV n
+	else
+	  bool 'Padre CPU1 device and initrd support' CONFIG_PADRE_CPU2DEV
+	fi
+	int 'CPU0 memory size (in 16M units). Mininum is 3. Same value needed in both kernels.'	CONFIG_PADRE_CPU0_SIZE 8
+fi
+endmenu
+
+mainmenu_option next_comment
+comment 'PCI support'
+
+tristate 'PCI support' CONFIG_PCI
+
+if [ "$CONFIG_PCI" != "n" ]; then
+   source drivers/pci/Config.in
+fi
+endmenu
+
+mainmenu_option next_comment
+comment 'Block devices'
+
+# tristate 'Loopback device support' CONFIG_BLK_DEV_LOOP
+# dep_tristate 'Network block device support' CONFIG_BLK_DEV_NBD $CONFIG_NET
+
+source drivers/block/Config.in
+source drivers/md/Config.in
+
+# tristate 'RAM disk support' CONFIG_BLK_DEV_RAM
+# if [ "$CONFIG_BLK_DEV_RAM" = "y" -o "$CONFIG_BLK_DEV_RAM" = "m" ]; then
+#    int '   Default RAM disk size' CONFIG_BLK_DEV_RAM_SIZE 4096
+# fi
+# dep_bool '  Initial RAM disk (initrd) support' CONFIG_BLK_DEV_INITRD $CONFIG_BLK_DEV_RAM
+
+endmenu
+
+mainmenu_option next_comment
+comment 'Usb devices'
+
+source drivers/usb/Config.in
+source drivers/input/Config.in
+
+endmenu
+ 
+if [ "$CONFIG_NET" = "y" ]; then
+   source net/Config.in
+fi
+
+mainmenu_option next_comment
+comment 'ATA/IDE/MFM/RLL support'
+ 
+tristate 'ATA/IDE/MFM/RLL support' CONFIG_IDE
+ 
+if [ "$CONFIG_IDE" != "n" ]; then
+   source drivers/ide/Config.in
+else
+   define_bool CONFIG_BLK_DEV_IDE_MODES n
+   define_bool CONFIG_BLK_DEV_HD n
+fi
+endmenu
+
+mainmenu_option next_comment
+comment 'SCSI support'
+ 
+tristate 'SCSI support' CONFIG_SCSI
+ 
+if [ "$CONFIG_SCSI" != "n" ]; then
+   source drivers/scsi/Config.in
+fi
+endmenu
+
+if [ "$CONFIG_NET" = "y" ]; then
+   mainmenu_option next_comment
+   comment 'Network device support'
+
+   define_bool CONFIG_NETDEVICES y
+   source drivers/net/Config.in
+   endmenu
+fi
+
+mainmenu_option next_comment
+comment 'File Systems'
+if [ "$CONFIG_PADRE_GGATE_NET" != "n" ]; then
+   tristate 'Infrant PADRE GoldenGateFs client' CONFIG_PADRE_GGATE_FS_CLIENT $CONFIG_PADRE_GGATE_FS_CLIENT
+   tristate 'Infrant PADRE GoldenGateFs server' CONFIG_PADRE_GGATE_FS_SERVER $CONFIG_PADRE_GGATE_FS_SERVER
+fi
+source fs/Config.in
+endmenu
+
+mainmenu_option next_comment
+comment 'Sound'
+
+tristate 'Sound card support' CONFIG_SOUND
+if [ "$CONFIG_SOUND" != "n" ]; then
+   source drivers/sound/Config.in
+fi
+endmenu
+
+mainmenu_option next_comment
+comment 'Kernel hacking'
+
+bool 'Magic SysRq key' CONFIG_MAGIC_SYSRQ
+endmenu
+
+source lib/Config.in
+

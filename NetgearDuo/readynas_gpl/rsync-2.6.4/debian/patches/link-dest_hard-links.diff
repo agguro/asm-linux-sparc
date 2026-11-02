@@ -1,0 +1,19 @@
+--- generator.c	23 Apr 2005 17:48:31 -0000	1.204
++++ generator.c	23 Apr 2005 19:40:35 -0000
+@@ -914,8 +914,15 @@ static void recv_generator(char *fname, 
+ 				if (hard_link_one(file, ndx, fname, -1, &st,
+ 						  fnamecmpbuf, 1,
+ 						  itemizing && verbose > 1,
+-						  code) == 0)
++						  code) == 0) {
++					if (preserve_hard_links
++					    && file->link_u.links) {
++						hard_link_cluster(file, ndx,
++								  itemizing,
++								  code);
++					}
+ 					return;
++				}
+ 				match_level = 2;
+ 			}
+ #endif

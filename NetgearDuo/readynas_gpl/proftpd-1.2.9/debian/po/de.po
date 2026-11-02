@@ -1,0 +1,145 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#    Translators, please read /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-03 14:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: select
+#. Choices
+#: ../proftpd.templates:3
+#, fuzzy
+msgid "inetd, standalone"
+msgstr "inetd, Daemon"
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+#, fuzzy
+msgid "Run proftpd from inetd or standalone?"
+msgstr "ProFTPd über inetd oder als Daemon starten?"
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+#, fuzzy
+msgid ""
+"ProFTPd can be run either as a service from inetd, or as a standalone "
+"server.  Eeach choice has its own benefits.  If you have only a few ftp "
+"connections per day, it may not be worth the resources to keep proftpd "
+"running at all times."
+msgstr ""
+"ProFTPd kann entweder als Dienst über inetd oder als einzelner Daemon "
+"gestartet werden. Jede der zwei Startarten hat ihre Vorteile. Wenn der FTP-"
+"Server nur sehr wenig genutzt werden wird. ist es sinnvoller, ihn inetd "
+"laufen zu lassen."
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+#, fuzzy
+msgid ""
+"On the other hand, if your ftp site is visited frequently, inetd is not a "
+"good choice, because each time a connection is opened, a new process is "
+"spawned."
+msgstr ""
+"Wenn der FTP-Server jedoch sehr oft genutzt werden wird, ist es nicht "
+"sinnvoll, ihn über inetd laufen zu lassen, da bei jeder Verbindung eine "
+"eigene Instanz des Programmes gestartet werden würde."
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid "Warning on syntax changes in ProFTPd configuration."
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid ""
+"You are upgrading from a pre-1.2.8 version. Probably you will need to revise "
+"your previous configuration to be compliant with current directives. Please, "
+"consult documentation available in proftpd-doc and change /etc/proftpd.conf "
+"as needed."
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+#, fuzzy
+msgid ""
+"Unfortunately, it is near impossible for me to convert your setup "
+"automatically, but for some elementary issues. You will have to do  it "
+"yourself. ProFTPd could also be unable to use the resulting  configuration, "
+"and it will not restart after upgrading."
+msgstr ""
+"Es ist nicht möglich, die SQL-Konfiguration automatisch in die neue Version "
+"zu übernehmen."
+
+#, fuzzy
+#~ msgid "Enable anonymous access?"
+#~ msgstr "Anonymen Zugriff zulassen?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Enabling anonymous access grants access to your ftp site by any user, "
+#~ "without being a system user.  This is probably not a good idea for "
+#~ "paranoid sysadmins.  Only enable if you know what it does."
+#~ msgstr ""
+#~ "Ein anonymer Zugriff auf Ihren FTP-Server erlaubt jedem den Zugang zu "
+#~ "Ihrem FTP-Server. Dies ist keine gute Idee für sicherheitsrelevante "
+#~ "Systeme. Aktivieren Sie den anonymen Zugang nur, wenn Sie es wirklich "
+#~ "wollen."
+
+#, fuzzy
+#~ msgid "Using SQL with ProFTPd."
+#~ msgstr "SQL mit ProFTPd nutzen?"
+
+#, fuzzy
+#~ msgid ""
+#~ "I found some old sql directives in /etc/proftpd.conf.  This release of "
+#~ "proftpd doesn't know many of the old sql-related configuration options.  "
+#~ "Many new ones were introduced, and old ones aren't recognized."
+#~ msgstr ""
+#~ "Es wurden einige SQL-Direktiven in /etc/proftpd.conf gefunden. Diese "
+#~ "Version von ProFTPd kennt jedoch nur wenige der alten SQL-"
+#~ "Konfigurationsvariablen."
+
+#, fuzzy
+#~ msgid ""
+#~ "Luckily, it is well documented.  Therefore I refer you to the "
+#~ "documentation in /usr/share/doc/proftpd/README.mod_sql.  I will not start "
+#~ "proftpd; do that yourself when you edited the configuration."
+#~ msgstr ""
+#~ "In der Datei /usr/share/doc/proftpd/README.mod_sql finden Sie eine sehr "
+#~ "gut dokumentierte Anleitung zum Einsatz von SQL in ProFTPd. ProFTPd wird "
+#~ "jetzt nicht gestartet. Passen Sie bitte die Konfiguration an, und starten "
+#~ "Sie ProFTPd danach von Hand."
+
+#, fuzzy
+#~ msgid "Edit configuration file ${file}?"
+#~ msgstr "Die Konfigurationsdatei ${file} anpassen?"
+
+#, fuzzy
+#~ msgid ""
+#~ "You did not install any debconf-enabled versions of the proftpd yet. This "
+#~ "means that I shall ask you some questions about the way to start proftpd "
+#~ "and anonymous access."
+#~ msgstr ""
+#~ "Es wurde bisher keine debconf-kompatible Version von ProFTPd verwendet.  "
+#~ "Dies bedeutet, das Sie jetzt ein paar Fragen zur Konfiguration von "
+#~ "ProFTPd beantworten sollten, um die Installation zu vervollständigen."

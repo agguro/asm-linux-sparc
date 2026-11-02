@@ -1,0 +1,231 @@
+--- etc/psf/Makefile.am.old	2003-06-07 13:21:06.000000000 +0200
++++ etc/psf/Makefile.am	2003-06-13 01:30:11.000000000 +0200
+@@ -1,7 +1,7 @@
+ # Makefile.am for etc/psf/
+ 
+-sbin_PROGRAMS = psf psa
+-sbin_SCRIPTS = etc2ps.sh
++libexec_PROGRAMS = psf psa
++libexec_SCRIPTS = etc2ps.sh
+ 
+ pkgdata_DATA = pagecount.ps
+ 
+@@ -11,8 +11,8 @@
+ INCLUDES = -DZEROWIDTH \
+ 	-D_PATH_PAP=\"$(bindir)/pap\" \
+ 	-D_PATH_PSORDER=\"$(bindir)/psorder\" \
+-	-D_PATH_PSA=\"$(sbindir)/psa\" \
+-	-D_PATH_PSFILTER=\"$(sbindir)/etc2ps.sh\" \
++	-D_PATH_PSA=\"$(libexecdir)/psa\" \
++	-D_PATH_PSFILTER=\"$(libexecdir)/etc2ps.sh\" \
+ 	-D_PATH_PAGECOUNT=\"$(pkgdatadir)/pagecount.ps\"
+ 
+ EXTRA_DIST = etc2ps.sh pagecount.ps
+@@ -29,8 +29,8 @@
+ 
+ install-exec-hook:
+ 	@list='$(psf_LINKS)'; for l in $$list; do \
+-		rm $(DESTDIR)$(sbindir)/$$l 2>/dev/null || true; \
+-		(cd $(DESTDIR)$(sbindir) && $(LN_S) psf $$l);  \
++		rm $(DESTDIR)$(libexecdir)/$$l 2>/dev/null || true; \
++		(cd $(DESTDIR)$(libexecdir) && $(LN_S) psf $$l);  \
+ 	done
+ 
+ #
+--- etc/psf/Makefile.in.old	2003-06-09 17:58:47.000000000 +0200
++++ etc/psf/Makefile.in	2003-06-13 01:30:24.000000000 +0200
+@@ -181,8 +181,8 @@
+ target_os = @target_os@
+ target_vendor = @target_vendor@
+ 
+-sbin_PROGRAMS = psf psa
+-sbin_SCRIPTS = etc2ps.sh
++libexec_PROGRAMS = psf psa
++libexec_SCRIPTS = etc2ps.sh
+ 
+ pkgdata_DATA = pagecount.ps
+ 
+@@ -192,8 +192,8 @@
+ INCLUDES = -DZEROWIDTH \
+ 	-D_PATH_PAP=\"$(bindir)/pap\" \
+ 	-D_PATH_PSORDER=\"$(bindir)/psorder\" \
+-	-D_PATH_PSA=\"$(sbindir)/psa\" \
+-	-D_PATH_PSFILTER=\"$(sbindir)/etc2ps.sh\" \
++	-D_PATH_PSA=\"$(libexecdir)/psa\" \
++	-D_PATH_PSFILTER=\"$(libexecdir)/etc2ps.sh\" \
+ 	-D_PATH_PAGECOUNT=\"$(pkgdatadir)/pagecount.ps\"
+ 
+ 
+@@ -215,8 +215,8 @@
+ mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+ CONFIG_HEADER = $(top_builddir)/config.h
+ CONFIG_CLEAN_FILES =
+-sbin_PROGRAMS = psf$(EXEEXT) psa$(EXEEXT)
+-PROGRAMS = $(sbin_PROGRAMS)
++libexec_PROGRAMS = psf$(EXEEXT) psa$(EXEEXT)
++PROGRAMS = $(libexec_PROGRAMS)
+ 
+ am_psa_OBJECTS = psa.$(OBJEXT)
+ psa_OBJECTS = $(am_psa_OBJECTS)
+@@ -228,7 +228,7 @@
+ psf_LDADD = $(LDADD)
+ psf_DEPENDENCIES =
+ psf_LDFLAGS =
+-SCRIPTS = $(sbin_SCRIPTS)
++SCRIPTS = $(libexec_SCRIPTS)
+ 
+ 
+ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
+@@ -254,34 +254,34 @@
+ .SUFFIXES: .c .lo .o .obj
+ $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
+ 	cd $(top_srcdir) && \
+-	  $(AUTOMAKE) --foreign  etc/psf/Makefile
++	  $(AUTOMAKE) --gnu  etc/psf/Makefile
+ Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
+ 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
+-sbinPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
+-install-sbinPROGRAMS: $(sbin_PROGRAMS)
++libexecPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
++install-libexecPROGRAMS: $(libexec_PROGRAMS)
+ 	@$(NORMAL_INSTALL)
+-	$(mkinstalldirs) $(DESTDIR)$(sbindir)
+-	@list='$(sbin_PROGRAMS)'; for p in $$list; do \
++	$(mkinstalldirs) $(DESTDIR)$(libexecdir)
++	@list='$(libexec_PROGRAMS)'; for p in $$list; do \
+ 	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+ 	  if test -f $$p \
+ 	     || test -f $$p1 \
+ 	  ; then \
+ 	    f=`echo "$$p1" | sed 's,^.*/,,;$(transform);s/$$/$(EXEEXT)/'`; \
+-	   echo " $(INSTALL_PROGRAM_ENV) $(LIBTOOL) --mode=install $(sbinPROGRAMS_INSTALL) $$p $(DESTDIR)$(sbindir)/$$f"; \
+-	   $(INSTALL_PROGRAM_ENV) $(LIBTOOL) --mode=install $(sbinPROGRAMS_INSTALL) $$p $(DESTDIR)$(sbindir)/$$f || exit 1; \
++	   echo " $(INSTALL_PROGRAM_ENV) $(LIBTOOL) --mode=install $(libexecPROGRAMS_INSTALL) $$p $(DESTDIR)$(libexecdir)/$$f"; \
++	   $(INSTALL_PROGRAM_ENV) $(LIBTOOL) --mode=install $(libexecPROGRAMS_INSTALL) $$p $(DESTDIR)$(libexecdir)/$$f || exit 1; \
+ 	  else :; fi; \
+ 	done
+ 
+-uninstall-sbinPROGRAMS:
++uninstall-libexecPROGRAMS:
+ 	@$(NORMAL_UNINSTALL)
+-	@list='$(sbin_PROGRAMS)'; for p in $$list; do \
++	@list='$(libexec_PROGRAMS)'; for p in $$list; do \
+ 	  f=`echo "$$p" | sed 's,^.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
+-	  echo " rm -f $(DESTDIR)$(sbindir)/$$f"; \
+-	  rm -f $(DESTDIR)$(sbindir)/$$f; \
++	  echo " rm -f $(DESTDIR)$(libexecdir)/$$f"; \
++	  rm -f $(DESTDIR)$(libexecdir)/$$f; \
+ 	done
+ 
+-clean-sbinPROGRAMS:
+-	@list='$(sbin_PROGRAMS)'; for p in $$list; do \
++clean-libexecPROGRAMS:
++	@list='$(libexec_PROGRAMS)'; for p in $$list; do \
+ 	  f=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+ 	  echo " rm -f $$p $$f"; \
+ 	  rm -f $$p $$f ; \
+@@ -292,25 +292,25 @@
+ psf$(EXEEXT): $(psf_OBJECTS) $(psf_DEPENDENCIES) 
+ 	@rm -f psf$(EXEEXT)
+ 	$(LINK) $(psf_LDFLAGS) $(psf_OBJECTS) $(psf_LDADD) $(LIBS)
+-sbinSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+-install-sbinSCRIPTS: $(sbin_SCRIPTS)
++libexecSCRIPT_INSTALL = $(INSTALL_SCRIPT)
++install-libexecSCRIPTS: $(libexec_SCRIPTS)
+ 	@$(NORMAL_INSTALL)
+-	$(mkinstalldirs) $(DESTDIR)$(sbindir)
+-	@list='$(sbin_SCRIPTS)'; for p in $$list; do \
++	$(mkinstalldirs) $(DESTDIR)$(libexecdir)
++	@list='$(libexec_SCRIPTS)'; for p in $$list; do \
+ 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+ 	  if test -f $$d$$p; then \
+ 	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+-	    echo " $(sbinSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(sbindir)/$$f"; \
+-	    $(sbinSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(sbindir)/$$f; \
++	    echo " $(libexecSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(libexecdir)/$$f"; \
++	    $(libexecSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(libexecdir)/$$f; \
+ 	  else :; fi; \
+ 	done
+ 
+-uninstall-sbinSCRIPTS:
++uninstall-libexecSCRIPTS:
+ 	@$(NORMAL_UNINSTALL)
+-	@list='$(sbin_SCRIPTS)'; for p in $$list; do \
++	@list='$(libexec_SCRIPTS)'; for p in $$list; do \
+ 	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+-	  echo " rm -f $(DESTDIR)$(sbindir)/$$f"; \
+-	  rm -f $(DESTDIR)$(sbindir)/$$f; \
++	  echo " rm -f $(DESTDIR)$(libexecdir)/$$f"; \
++	  rm -f $(DESTDIR)$(libexecdir)/$$f; \
+ 	done
+ 
+ mostlyclean-compile:
+@@ -476,7 +476,7 @@
+ all-am: Makefile $(PROGRAMS) $(SCRIPTS) $(DATA)
+ 
+ installdirs:
+-	$(mkinstalldirs) $(DESTDIR)$(sbindir) $(DESTDIR)$(sbindir) $(DESTDIR)$(pkgdatadir)
++	$(mkinstalldirs) $(DESTDIR)$(libexecdir) $(DESTDIR)$(libexecdir) $(DESTDIR)$(pkgdatadir)
+ install: install-am
+ install-exec: install-exec-am
+ install-data: install-data-am
+@@ -504,7 +504,8 @@
+ 	@echo "it deletes files that may require special tools to rebuild."
+ clean: clean-am
+ 
+-clean-am: clean-generic clean-libtool clean-sbinPROGRAMS mostlyclean-am
++clean-am: clean-generic clean-libexecPROGRAMS clean-libtool \
++	mostlyclean-am
+ 
+ distclean: distclean-am
+ 
+@@ -521,7 +522,7 @@
+ 
+ install-data-am: install-pkgdataDATA
+ 
+-install-exec-am: install-sbinPROGRAMS install-sbinSCRIPTS
++install-exec-am: install-libexecPROGRAMS install-libexecSCRIPTS
+ 	@$(NORMAL_INSTALL)
+ 	$(MAKE) $(AM_MAKEFLAGS) install-exec-hook
+ 
+@@ -548,22 +549,22 @@
+ 
+ ps-am:
+ 
+-uninstall-am: uninstall-info-am uninstall-pkgdataDATA \
+-	uninstall-sbinPROGRAMS uninstall-sbinSCRIPTS
++uninstall-am: uninstall-info-am uninstall-libexecPROGRAMS \
++	uninstall-libexecSCRIPTS uninstall-pkgdataDATA
+ 
+ .PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
+-	clean-libtool clean-sbinPROGRAMS ctags distclean \
++	clean-libexecPROGRAMS clean-libtool ctags distclean \
+ 	distclean-compile distclean-depend distclean-generic \
+ 	distclean-libtool distclean-tags distdir dvi dvi-am info \
+ 	info-am install install-am install-data install-data-am \
+ 	install-exec install-exec-am install-info install-info-am \
+-	install-man install-pkgdataDATA install-sbinPROGRAMS \
+-	install-sbinSCRIPTS install-strip installcheck installcheck-am \
++	install-libexecPROGRAMS install-libexecSCRIPTS install-man \
++	install-pkgdataDATA install-strip installcheck installcheck-am \
+ 	installdirs maintainer-clean maintainer-clean-generic \
+ 	mostlyclean mostlyclean-compile mostlyclean-generic \
+ 	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
+-	uninstall-am uninstall-info-am uninstall-pkgdataDATA \
+-	uninstall-sbinPROGRAMS uninstall-sbinSCRIPTS
++	uninstall-am uninstall-info-am uninstall-libexecPROGRAMS \
++	uninstall-libexecSCRIPTS uninstall-pkgdataDATA
+ 
+ 
+ #
+@@ -572,8 +573,8 @@
+ 
+ install-exec-hook:
+ 	@list='$(psf_LINKS)'; for l in $$list; do \
+-		rm $(DESTDIR)$(sbindir)/$$l 2>/dev/null || true; \
+-		(cd $(DESTDIR)$(sbindir) && $(LN_S) psf $$l);  \
++		rm $(DESTDIR)$(libexecdir)/$$l 2>/dev/null || true; \
++		(cd $(DESTDIR)$(libexecdir) && $(LN_S) psf $$l);  \
+ 	done
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.

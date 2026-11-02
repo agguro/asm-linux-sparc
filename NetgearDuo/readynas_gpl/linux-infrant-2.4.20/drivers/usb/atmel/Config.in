@@ -1,0 +1,17 @@
+#
+# USB atmel wireless device configuration
+#
+mainmenu_option next_comment
+comment 'USB ATMEL wireless support'
+
+dep_tristate 'Atmel USB wireless support' CONFIG_USB_ATMEL76C503 $CONFIG_USB $CONFIG_USB_DFU
+if [ "$CONFIG_USB_ATMEL76C503" != "n" ]; then
+	dep_tristate 'Atmel 76c503 I3861 firmware support' CONFIG_USB_ATMEL76C503_I3861 $CONFIG_USB_ATMEL76C503
+	dep_tristate 'Atmel 76c503 I3863 firmware support' CONFIG_USB_ATMEL76C503_I3863 $CONFIG_USB_ATMEL76C503
+	dep_tristate 'Atmel 76c503 RFMD firmware support' CONFIG_USB_ATMEL76C503_RFMD $CONFIG_USB_ATMEL76C503
+	dep_tristate 'Atmel 76c503 Accton RFMD firmware support' CONFIG_USB_ATMEL76C503_RFMD_ACCTON $CONFIG_USB_ATMEL76C503
+	dep_tristate 'Atmel 76c505 RFMD firmware support' CONFIG_USB_ATMEL76C505_RFMD $CONFIG_USB_ATMEL76C503
+	dep_tristate 'Atmel 76c505 RFMD 2958 firmware support' CONFIG_USB_ATMEL76C505_RFMD2958 $CONFIG_USB_ATMEL76C503
+fi
+
+endmenu

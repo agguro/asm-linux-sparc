@@ -1,0 +1,23 @@
+libupnp (1.2.1a-1.padre3) unstable; urgency=low
+
+  * More threads to support DSM-320.
+
+ -- Justin Maggard <jmaggard@infrant.com>  Thu, 22 Sep 2005 17:46:56 -0700
+
+libupnp (1.2.1a-1.padre2) unstable; urgency=low
+
+  * Change timeout to 300s for advertisement
+
+ -- Justin Maggard <jmaggard@infrant.com>  Mon, 30 May 2005 14:41:43 -0700
+
+libupnp (1.2.1a-1.padre1) unstable; urgency=low
+
+  * New upstream.
+
+ -- Justin Maggard <jmaggard@infrant.com>  Thu, 26 May 2005 12:29:35 -0700
+
+libupnp (1.2.1-1) unstable; urgency=low
+
+  * Initial version
+
+ -- Steve McIntyre <93sam@debian.org>  Tue, 18 Jan 2005 19:42:08 +0000

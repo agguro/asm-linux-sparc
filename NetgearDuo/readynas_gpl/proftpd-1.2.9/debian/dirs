@@ -1,0 +1,6 @@
+etc/init.d
+etc/cron.monthly
+etc/default
+usr/bin
+usr/sbin
+var/run

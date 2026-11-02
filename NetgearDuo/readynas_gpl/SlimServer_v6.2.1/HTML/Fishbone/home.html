@@ -1,0 +1,19 @@
+[% IF page != 'help' %][% pagetitle = "MUSIC" | string %] [% pageicon = 'MUSIC' %] [% search = '0' %][% browse = '1' %][% music = '0' %][% home = '1' %][% playlist = '0' %][% END %][% PROCESS pageheader.html %]
+
+[% IF page == 'help' %]
+
+	<h3>[% "HELP" | string %]</h3>	
+	<ul>
+	[% IF additionalLinks.help %]
+		[% FOREACH link = additionalLinks.help %]
+		<li>
+			<a href="[% link.value %]player=[% player | uri %]">[% link.key | string %]</a>
+		</li>
+		[% END %]
+		<li>
+			<a href="[% webroot %]html/docs/readme.html">Fishbone Skin style changes</a>
+		</li>
+	[% END %]
+	</ul>
+[% END %]
+[% PROCESS pagefooter.html %]

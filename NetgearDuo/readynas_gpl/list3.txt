@@ -1,0 +1,100 @@
+./list.txt:4974:./linux-infrant-2.4.20/Documentation/powerpc/SBC8260_memory_mapping.txt
+./glibc-2.3.2.ds1/debian/patches/10_cvs.dpatch:155065: /* Definitions for POSIX memory map interface.  Linux/Alpha version.
+./glibc-2.3.2.ds1/debian/patches/10_cvs.dpatch:156475: /* Definitions for POSIX memory map interface.  Linux/ARM version.
+./glibc-2.3.2.ds1/debian/patches/10_cvs.dpatch:158650:-/* Definitions for POSIX memory map interface.  Insert rest of disclaimer here */
+./glibc-2.3.2.ds1/debian/patches/10_cvs.dpatch:158651:+/* Definitions for POSIX memory map interface.  Linux/HPPA version.
+./glibc-2.3.2.ds1/debian/patches/10_cvs.dpatch:158777: /* Definitions for POSIX memory map interface.  Linux/i386 version.
+./glibc-2.3.2.ds1/debian/patches/10_cvs.dpatch:160774: /* Definitions for POSIX memory map interface.  Linux/ia64 version.
+./glibc-2.3.2.ds1/debian/patches/10_cvs.dpatch:163613: /* Definitions for POSIX memory map interface.  Linux/MIPS version.
+./glibc-2.3.2.ds1/debian/patches/10_cvs.dpatch:167582: /* Definitions for POSIX memory map interface.  Linux/PowerPC version.
+./glibc-2.3.2.ds1/debian/patches/10_cvs.dpatch:169466: /* Definitions for POSIX memory map interface.  Linux/s390 version.
+./glibc-2.3.2.ds1/debian/patches/10_cvs.dpatch:173674: /* Definitions for POSIX memory map interface.  Linux/x86_64 version.
+./netatalk-2.0.3/libatalk/adouble/ad_mmap.c:4: * ad_mmap provides interfaces to memory mapped files. as this is the
+./linux-infrant-2.4.20/mm/memory.c:1059: * between the file and the memory map for a potential last
+./linux-infrant-2.4.20/arch/sparc/mm/fault.c:734:	 * Something tried to access memory that isn't in our memory map..
+./linux-infrant-2.4.20/arch/sparc/kernel/head.S:263:    	wr  %g1, 0, %tbr        ! Traps are at reset_vector
+./linux-infrant-2.4.20/fs/locks.c:1508:	/* Don't allow mandatory locks on files that may be memory mapped
+./linux-infrant-2.4.20/fs/locks.c:1664:	/* Don't allow mandatory locks on files that may be memory mapped
+./linux-infrant-2.4.20/fs/ufs/truncate.c:54: * with buffers shared with memory mappings, and for that reason
+./linux-infrant-2.4.20/fs/binfmt_elf.c:339:	     * Do the same thing for the memory mapping - between
+./linux-infrant-2.4.20/drivers/ide/ide-pmac.c:5: * These IDE interfaces are memory-mapped and have a DBDMA channel
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_defs.h:510: *  normal IOs instead of the MEMORY MAPPED IO method  
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_defs.h:564: *  MEMORY mapped IO input / output
+./linux-infrant-2.4.20/drivers/scsi/eata_dma_proc.h:115:typedef struct memory_map {
+./linux-infrant-2.4.20/drivers/scsi/eata_dma_proc.h:119:    __u32 memory_map;
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx.c:80:**		Memory mapped IO
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx.c:665:**	Memory mapped IO
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx.c:2097:	struct ncr_reg	*reg;		/*  memory mapped IO.		*/
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx.c:5525:		printk(KERN_INFO "%s: using memory mapped IO\n", ncr_name(np));
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx.c:7838:	**    For platforms that may not support PCI memory mapping,
+./linux-infrant-2.4.20/drivers/scsi/t128.c:57: * 1.  Autoprobe (default) - since the board is memory mapped, 
+./linux-infrant-2.4.20/drivers/scsi/aic7xxx/aic7xxx_inline.h:149:/************************** Memory mapping routines ***************************/
+./linux-infrant-2.4.20/drivers/scsi/aic7xxx/aic7xxx_core.c:3999:	 * accessible memory allocations and memory mappings we will
+./linux-infrant-2.4.20/drivers/scsi/aic7xxx/aic7xxx_osm_pci.c:298:	 * If its allowed, we prefer memory mapped access.
+./linux-infrant-2.4.20/drivers/scsi/aic7xxx/aic7xxx_osm_pci.c:314:		 * Do a quick test to see if memory mapped
+./linux-infrant-2.4.20/drivers/scsi/aic7xxx/aic7xxx_osm_pci.c:320:			       "failed memory mapped test\n",
+./linux-infrant-2.4.20/drivers/scsi/aic7xxx/aic7xxx_osm_pci.c:335:		       "unavailable. Cannot memory map device.\n",
+./linux-infrant-2.4.20/drivers/scsi/aic7xxx/aic7xxx_osm_pci.c:344:	 * We always prefer memory mapped access.
+./linux-infrant-2.4.20/drivers/scsi/README.g_NCR5380:12:The next release of this driver will support port & memory mapped cards at
+./linux-infrant-2.4.20/drivers/scsi/README.g_NCR5380:56:  for a memory mapped NCR53C400 board with interrupts disabled.
+./linux-infrant-2.4.20/drivers/scsi/sun3_NCR5380.c:122: * memory mapped) and drops this file in their 'C' wrapper.
+./linux-infrant-2.4.20/drivers/scsi/in2000.c:1907:/* The "correct" (ie portable) way to access memory-mapped hardware
+./linux-infrant-2.4.20/drivers/scsi/cpqfcTSstructs.h:568:  ULONG MemBase;           // memory mapped register addresses
+./linux-infrant-2.4.20/drivers/scsi/ncr53c8xx.c:98:**		Memory mapped IO (linux-1.3.X and above only)
+./linux-infrant-2.4.20/drivers/scsi/ncr53c8xx.c:1067:	struct ncr_reg	*reg;		/*  memory mapped IO.		*/
+./linux-infrant-2.4.20/drivers/scsi/ncr53c8xx.c:3635:			"%s: can't map memory mapped IO region\n",ncr_name(np));
+./linux-infrant-2.4.20/drivers/scsi/ncr53c8xx.c:3641:				"%s: using memory mapped IO at virtual address 0x%lx\n", ncr_name(np), (u_long) np->vaddr);
+./linux-infrant-2.4.20/drivers/scsi/ncr53c8xx.c:3881:		printk(KERN_DEBUG "%s: releasing memory mapped IO region %lx[%d]\n", ncr_name(np), (u_long) np->vaddr, 128);
+./linux-infrant-2.4.20/drivers/scsi/ncr53c8xx.c:4981:	**	Release Memory mapped IO region and IO mapped region
+./linux-infrant-2.4.20/drivers/scsi/ncr53c8xx.c:4986:	printk("%s: releasing memory mapped IO region %lx[%d]\n", ncr_name(np), (u_long) np->vaddr, 128);
+./linux-infrant-2.4.20/drivers/scsi/seagate.c:11: *      This card does all the I/O via memory mapped I/O, so there is no need
+./linux-infrant-2.4.20/drivers/scsi/seagate.c:237:					   calculate memory mapped register
+./linux-infrant-2.4.20/drivers/scsi/t128.h:50: * The trantor boards are memory mapped. They use an NCR5380 or 
+./linux-infrant-2.4.20/drivers/scsi/dtc.c:45: * 1.  Autoprobe (default) - since the board is memory mapped, 
+./linux-infrant-2.4.20/drivers/scsi/dtc.c:99: * The DTC3180 & 3280 boards are memory mapped.
+./linux-infrant-2.4.20/drivers/scsi/qla1280.h:305:/* #define MEMORY_MAPPED_IO */            /* Enable memory mapped I/O */
+./linux-infrant-2.4.20/drivers/scsi/qla1280.h:306:#undef MEMORY_MAPPED_IO            /* Disable memory mapped I/O */
+./linux-infrant-2.4.20/drivers/scsi/qla1280.h:316:#ifdef MEMORY_MAPPED_IO
+./linux-infrant-2.4.20/drivers/scsi/qla1280.h:323:#else   /* MEMORY_MAPPED_IO */
+./linux-infrant-2.4.20/drivers/scsi/qla1280.h:337:#endif  /* MEMORY_MAPPED_IO */
+./linux-infrant-2.4.20/drivers/scsi/qla1280.h:1514:    device_reg_t     *iobase;           /* Base Memory-mapped I/O address */
+./linux-infrant-2.4.20/drivers/scsi/qla1280.h:1521:    volatile unsigned char  *mmpbase;      /* memory mapped address */
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:238:#define  MEMORY_MAPPED_IO              0
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:989:#if MEMORY_MAPPED_IO
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:998:#endif /* MEMORY_MAPPED_IO */
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:2537:#if MEMORY_MAPPED_IO
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:2555:#if MEMORY_MAPPED_IO
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:2556:        DEBUG(printk("qla1280: MEMORY MAPPED IO is enabled.\n"));
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:2572:#if MEMORY_MAPPED_IO
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:2573:                /* Get memory mapped I/O address. */
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:2577:                /* Find proper memory chunk for memory map I/O reg. */
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:2592:#else /* MEMORY_MAPPED_IO */
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:2594:#endif /* MEMORY_MAPPED_IO */
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:6283:#if MEMORY_MAPPED_IO
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:6309:#if MEMORY_MAPPED_IO
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:6335:#if MEMORY_MAPPED_IO
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:6359:#if MEMORY_MAPPED_IO
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:6381:#if MEMORY_MAPPED_IO
+./linux-infrant-2.4.20/drivers/scsi/qla1280.c:6407:#if MEMORY_MAPPED_IO
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_hipd.h:62: *    SYM_OPT_NO_BUS_MEMORY_MAPPING
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_hipd.h:95:#define SYM_OPT_NO_BUS_MEMORY_MAPPING
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym53c8xx.h:144:/* #define SYM_OPT_NO_BUS_MEMORY_MAPPING */
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_fw.c:92:#ifdef SYM_OPT_NO_BUS_MEMORY_MAPPING
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_fw.c:125:#ifdef SYM_OPT_NO_BUS_MEMORY_MAPPING
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_fw.c:149:#ifdef SYM_OPT_NO_BUS_MEMORY_MAPPING
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_fw.c:157:#ifdef SYM_OPT_NO_BUS_MEMORY_MAPPING
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_fw.c:202:#ifdef SYM_OPT_NO_BUS_MEMORY_MAPPING
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_fw.c:210:#ifdef SYM_OPT_NO_BUS_MEMORY_MAPPING
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_hipd.c:1920:	 *  For platforms that may not support PCI memory mapping,
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_hipd.c:1927:#ifdef SYM_OPT_NO_BUS_MEMORY_MAPPING
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/Documentation.txt:15:4.  Memory mapped I/O versus normal I/O
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/Documentation.txt:156:Memory mapped I/O:     increases performance
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/Documentation.txt:194:4. Memory mapped I/O versus normal I/O
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/Documentation.txt:196:Memory mapped I/O has less latency than normal I/O and is the recommended 
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/Documentation.txt:197:way for doing IO with PCI devices. Memory mapped I/O seems to work fine on 
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/Documentation.txt:411:    Answer "y" if you suspect your mother board to not allow memory mapped I/O.
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_glue.h:295: *  normal IOs instead of the MEMORY MAPPED IO method  
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_glue.h:349: *  MEMORY mapped IO input / output
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_fw.h:116:#ifdef SYM_OPT_NO_BUS_MEMORY_MAPPING
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_fw.h:139:#ifdef SYM_OPT_NO_BUS_MEMORY_MAPPING
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_fw2.h:231:#ifdef SYM_OPT_NO_BUS_MEMORY_MAPPING

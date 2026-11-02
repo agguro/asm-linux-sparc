@@ -1,0 +1,117 @@
+[% statusroot = 'status.html' %]
+[% PROCESS hreftemplate %]
+[% pagetitle = "SAVED_PLAYLISTS" | string %]
+[% pageicon = 'SAVED_PLAYLISTS' %]
+[% PROCESS pageheader.html %] 
+
+<tr height="44">
+	<td width="4" height="44"><img src="html/images/spacer.gif" width=8 height=39 alt=""></td>
+	<td valign="top" class="medgrey" height="44">
+		<table cellspacing="0" width=100%>
+			<tr height="5">
+				<td width="8" height="5"><img src="html/images/spacer.gif" width=8 height=5 alt=""></td>
+				<td height="5"><img src="html/images/spacer.gif" width=305 height=5 alt=""></td>
+				<td width="4" height="5"><img src="html/images/spacer.gif" width=4 height=5 alt=""></td>
+			</tr>
+			<tr>
+				<td width="8"><img src="html/images/spacer.gif" width=8 height=8 alt=""></td>
+				<td class="exlisting" valign=top>[% PROCESS homeLink %] [% pwd_list %]</td>
+				<td width="4"></td>
+			</tr>
+			<tr height="5">
+				<td width="8" height="5"><img src="html/images/spacer.gif" width=8 height=5 alt=""></td>
+				<td height="5"><img src="html/images/spacer.gif" width=305 height=5 alt=""></td>
+				<td width="4" height="5"></td>
+			</tr>
+		</table>
+	</td>
+	<td width="4" height="44"><p><img src="html/images/spacer.gif" width=4 height=19 alt=""></p></td>
+</tr>
+
+<tr height="100%">
+	<td width="4" height="100%"></td>
+				
+	<td valign="top" height="100%"> 
+
+		<p>&nbsp; </p><p>
+		[% IF warn %]
+			</p><p><b>[% "NOTE" | string %]</b> [% "SCAN_WARNING" | string %]<p><hr>
+		[% END %]
+
+		[% IF RENAME_WARNING %]
+			<p><b>[% "NOTE" | string %]</b> [% "RENAME_WARNING" | string %]<p><hr>
+		[% END %]
+		[% IF DELETE_WARNING %]
+			<p><b>[% "NOTE" | string %]</b> [% "DELETE_WARNING" | string %]<p><hr>
+		[% END %]
+
+		[% IF playlist.title && playlist.title == untitledString %]
+			[% SET saveButtonName = "SAVE" %]
+		[% ELSE %]
+			[% SET saveButtonName = "RENAME" %]
+		[% END %]
+
+		[% UNLESS noEdit %]
+		<p>
+		<form method="get" action="edit_playlist.html"><table><tr>
+			<td>[% "NAME" | string %] <input name="newname" value="[% IF newname; newname; ELSE; playlist.title; END %]" size="40"></td>
+			<td><input name="submit" type=submit value="[% saveButtonName | string %]" onclick='this.form.renamePlaylist.value=1'></td>
+			<td><input type="submit" value="[% "EDIT" | string %]" onclick='this.form.editPlaylist.value=1'></td>
+			[% IF playlist.title && playlist.title != untitledString %]
+				<td><input type="submit" value="[% "DELETE" | string %]" onclick='this.form.deletePlaylist.value=1'></td>
+			[% END %]
+			</tr><tr>
+			<td>
+				<input type="hidden" name="id" value="[% playlist.id %]">
+				<input type="hidden" name="renamePlaylist" value="0">
+				<input type="hidden" name="editPlaylist" value="0">
+				<input type="hidden" name="deletePlaylist" value="0">
+			</td>
+			
+			[% IF RENAME_WARNING %]<td colspan="2">
+				<input align="absmiddle" type="checkbox" name="overwrite">[% "CONFIRM_OVERWRITE" | string %]</td>
+			[% END %]
+			[% IF DELETE_WARNING %]<td></td><td></td><td>
+				<input align="absmiddle" type="checkbox" name="confirm">[% "CONFIRM_DELETE" | string %]</td>
+			[% END %]
+			</tr></table>
+			<input type="hidden" name="dir" value="[% dir %]">
+			<input type="hidden" value="[% player %]" name="player">
+		</form>
+		</p>
+		[% END %]
+
+		[% IF playlistname %] <p> <hr> <p> [% END %]
+
+		[% IF browselist_header %]
+			[% browselist_header %]
+			<p>
+		[% END %]
+
+		[% browselist_pagebar %] 
+
+		<table cellspacing="0" cellpadding="4">
+
+			[% IF playlistname %]
+				<tr>
+					<td class="odd">[% "THIS_ENTIRE_PLAYLIST" | string %]</td>
+					[% class='odd' header='1' width='13' height='13' target='status' %]
+					[% PROCESS browselinks.html urlcmd='play' cmd='loadtracks' attributes='&playlist=' _ playlist.id cmdstring='PLAY' img='b_play.gif' %]
+					[% PROCESS browselinks.html urlcmd='add' cmd='addtracks' attributes='&playlist='_ playlist.id cmdstring='ADD_TO_PLAYLIST' img='b_add.gif' %]
+				</tr>
+
+			[% END %]
+
+			[% browse_list %]
+
+		</table>
+
+		[% browselist_pagebar %] 
+
+		<p>&nbsp;</p>
+	</td>
+
+	<td width="4" height="100%"></td>
+</tr>
+
+[% PROCESS pagefooter.html %]

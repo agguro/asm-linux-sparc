@@ -1,0 +1,22 @@
+#!/bin/sh -e
+
+if [ "$1" = "purge" ] ; then
+    rm -f /etc/proftpd.conf
+    rm -f /etc/proftpd.conf.proftpd-new
+    rm -f /etc/proftpd.conf.proftpd-old
+fi
+
+if [ "$1" = "purge" -o "$1" = "remove" ]
+then
+    update-inetd --disable ftp
+fi
+
+if [ "$1" = "purge" ] ; then
+        update-rc.d proftpd remove >/dev/null
+	update-inetd --remove "^.*ftp.*/usr/sbin/proftpd$" 
+	ucf --purge /etc/proftpd.conf
+	rm -rf /var/run/proftpd /var/run/proftpd.pid
+fi
+
+#DEBHELPER#
+

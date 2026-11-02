@@ -1,0 +1,4 @@
+debian/20hdparm		etc/apm/event.d/
+debian/tmp/sbin/hdparm
+contrib/*		usr/share/doc/hdparm/contrib
+debian/hdparm.conf	etc/

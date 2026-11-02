@@ -1,0 +1,163 @@
+# translation of proftpd_1.2.8-14.po to russian
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#    Translators, please read /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: proftpd_1.2.8-14\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-03 14:11+0100\n"
+"PO-Revision-Date: 2003-10-05 00:04+0600\n"
+"Last-Translator: Ilgiz Kalmetev <translator@ilgiz.pp.ru>\n"
+"Language-Team: russian <debian-russian@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=KOI8-R\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0.1\n"
+
+#. Type: select
+#. Choices
+#: ../proftpd.templates:3
+msgid "inetd, standalone"
+msgstr "через inetd, самостоятельно"
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+msgid "Run proftpd from inetd or standalone?"
+msgstr "Запускать proftpd самостоятельно или через inetd?"
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+msgid ""
+"ProFTPd can be run either as a service from inetd, or as a standalone "
+"server.  Eeach choice has its own benefits.  If you have only a few ftp "
+"connections per day, it may not be worth the resources to keep proftpd "
+"running at all times."
+msgstr ""
+"ProFTPd может быть запущен либо как сервис через inetd, либо как "
+"самостоятельный сервер. Каждый из способов имеет свои преимущества. Если с "
+"вашим ftp сервером за день происходит лишь несколько сеансов связи, то нет "
+"причины загружать ресурсы постоянно работающим proftpd."
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+msgid ""
+"On the other hand, if your ftp site is visited frequently, inetd is not a "
+"good choice, because each time a connection is opened, a new process is "
+"spawned."
+msgstr ""
+"С другой стороны, если ваш сайт часто посещается, то inetd не слишком "
+"подходит, поскольку при каждом новом соединении создается новый процесс."
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid "Warning on syntax changes in ProFTPd configuration."
+msgstr "Предупреждение: в синтаксисе настройки ProFTPd есть изменения."
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid ""
+"You are upgrading from a pre-1.2.8 version. Probably you will need to revise "
+"your previous configuration to be compliant with current directives. Please, "
+"consult documentation available in proftpd-doc and change /etc/proftpd.conf "
+"as needed."
+msgstr ""
+"Вы обновляете версию pre-1.2.8. Возможно Вам нужно проверить имеющиеся "
+"настройки на совместимость с текущей версией. Необходимую документацию Вы "
+"можете найдете в пакете proftpd-doc и исправьте файл /etc/proftpd.conf так, "
+"как Вам нужно."
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid ""
+"Unfortunately, it is near impossible for me to convert your setup "
+"automatically, but for some elementary issues. You will have to do  it "
+"yourself. ProFTPd could also be unable to use the resulting  configuration, "
+"and it will not restart after upgrading."
+msgstr ""
+"К несчастью, полная автоматическая конвертация невозможна, кроме некоторых "
+"элементарных вещей. Вы должны сделать это сами. ProFTPd не сможет "
+"использовать получившиеся настройки и не сможет перезапуститься после "
+"обновления."
+
+#, fuzzy
+#~ msgid "Enable anonymous access?"
+#~ msgstr "Разрешить анонимный доступ?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Enabling anonymous access grants access to your ftp site by any user, "
+#~ "without being a system user.  This is probably not a good idea for "
+#~ "paranoid sysadmins.  Only enable if you know what it does."
+#~ msgstr ""
+#~ "Разрешение анонимного доступа гарантирует доступ к вашему ftp-сайту "
+#~ "любого пользователя, даже если он не является пользователем системы. Для "
+#~ "системных администраторов-параноиков это видимо не очень хорошая идея. "
+#~ "Разрешайте такой доступ только в том случае, если вы знаете, что делаете."
+
+#, fuzzy
+#~ msgid "Using SQL with ProFTPd."
+#~ msgstr "Использование SQL с ProFTPd."
+
+#, fuzzy
+#~ msgid ""
+#~ "I found some old sql directives in /etc/proftpd.conf.  This release of "
+#~ "proftpd doesn't know many of the old sql-related configuration options.  "
+#~ "Many new ones were introduced, and old ones aren't recognized."
+#~ msgstr ""
+#~ "Я обнаружил несколько sql-директив в файле /etc/proftpd.conf. Этот выпуск "
+#~ "proftpd не знает многие из относящихся к sql опций настроек. Было введено "
+#~ "много новых, а некоторые старые опции больше не распознаются."
+
+#, fuzzy
+#~ msgid ""
+#~ "Luckily, it is well documented.  Therefore I refer you to the "
+#~ "documentation in /usr/share/doc/proftpd/README.mod_sql.  I will not start "
+#~ "proftpd; do that yourself when you edited the configuration."
+#~ msgstr ""
+#~ "К счастью, это хорошо документировано. Поэтому я отсылаю вас к "
+#~ "документации в файле /usr/share/doc/proftpd/README.mod_sql. Я не буду "
+#~ "запускать proftpd; сделайте это сами после того, как отредактируете файл "
+#~ "настроек."
+
+#, fuzzy
+#~ msgid "Edit configuration file ${file}?"
+#~ msgstr "Поправить настроечный файл /etc/proftpd.conf?"
+
+#, fuzzy
+#~ msgid ""
+#~ "You did not install any debconf-enabled versions of the proftpd yet. This "
+#~ "means that I shall ask you some questions about the way to start proftpd "
+#~ "and anonymous access."
+#~ msgstr ""
+#~ "У вас пока не установлена ни одна использующая debconf версия proftpd. "
+#~ "Это означает, что я задам вам несколько вопросов о методе запуска proftpd "
+#~ "и анонимном доступе."
+
+#, fuzzy
+#~ msgid ""
+#~ "However, since you had proftpd installed before, I need to know if it is "
+#~ "ok for me to edit ${file} to actually make those changes.  Only answer "
+#~ "yes if you did not change much.  You will have a chance to review the "
+#~ "changes later on."
+#~ msgstr ""
+#~ "Однако, так как у вас уже был установлен proftpd, позволите ли вы мне "
+#~ "внести полученные сведения в файл /etc/proftpd.conf. Ответьте да только в "
+#~ "том случае, если вы не вносили много изменений."
+
+#, fuzzy
+#~ msgid ""
+#~ "If you answer `no' here, I will not ask questions that may require me to "
+#~ "edit the file."
+#~ msgstr ""
+#~ "Если вы ответите здесь нет, то я не буду задавать вопросы, ответы на "
+#~ "которые мне нужно будет вносить в файл."

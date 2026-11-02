@@ -1,0 +1,21 @@
+diff -ruN proftpd-1.2.9-old/src/dirtree.c proftpd-1.2.9/src/dirtree.c
+--- proftpd-1.2.9-old/src/dirtree.c	2003-10-19 00:14:14.000000000 +0200
++++ proftpd-1.2.9/src/dirtree.c	2004-03-09 11:33:50.000000000 +0100
+@@ -1534,10 +1534,14 @@
+ 
+   if (cidr_mode) {
+ /* NOTE: encapsulation breakage note/IPv6 change needed here. */
+-#if 0
+-    if ((cli_addr->s_addr & htonl(cidr_mask)) == cidr_addr.s_addr)
+-#endif
++
++      if (pr_netaddr_get_family(cli_addr) == AF_INET) {
++  struct in_addr *cli_in_addr = pr_netaddr_get_inaddr(cli_addr);
++  if ((cli_in_addr->s_addr & htonl(cidr_mask)) == cidr_addr.s_addr) {
+       return 1;
++  }
++      };
++
+ 
+   } else {
+     pr_netaddr_t *acl_addr = NULL;

@@ -1,0 +1,25 @@
+<!-- Page hitlist.html -->
+	[% pagetitle = "STATISTICS" | string %]
+	[% PROCESS pageheader.html %]
+
+	[% WRAPPER submenu url='hitlist.html' linktitle=pagetitle %][%- END -%]
+
+	<table cellspacing="0" border="0" cellpadding="4" width="100%">
+		<tr align="center">
+			<td>[% song_count %]</td>
+			<td>[% album_count %]</td>
+		</tr>
+		<tr align="center">
+			<td>[% artist_count %]</td>
+			<td align="center">[% genre_count %]</td>
+		</tr>
+	</table>
+
+	[% PROCESS subtitle title='MOSTPLAYED' %]
+
+	<table cellspacing="0" border="0" cellpadding="0" width="100%">
+		[% browse_list %]
+	</table>
+
+	[% PROCESS pagefooter.html %]
+<!-- /Page hitlist.html -->

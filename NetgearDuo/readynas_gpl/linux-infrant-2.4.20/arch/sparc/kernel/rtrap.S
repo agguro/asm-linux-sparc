@@ -1,0 +1,241 @@
+/* $Id: rtrap.S,v 1.57 2001/07/17 16:17:33 anton Exp $
+ * rtrap.S: Return from Sparc trap low-level code.
+ *
+ * Copyright (C) 1995 David S. Miller (davem@caip.rutgers.edu)
+ */
+
+#include <asm/cprefix.h>
+#include <asm/page.h>
+#include <asm/ptrace.h>
+#include <asm/psr.h>
+#include <asm/asi.h>
+#include <asm/smp.h>
+#include <asm/contregs.h>
+#include <asm/winmacro.h>
+#include <asm/asmmacro.h>
+
+#define t_psr     l0
+#define t_pc      l1
+#define t_npc     l2
+#define t_wim     l3
+#define twin_tmp1 l4
+#define glob_tmp  g4
+#define curptr    g6
+
+	/* We need to check for a few things which are:
+	 * 1) The need to call schedule() because this
+	 *    processes quantum is up.
+	 * 2) Pending signals for this process, if any
+	 *    exist we need to call do_signal() to do
+	 *    the needy.
+	 *
+	 * Else we just check if the rett would land us
+	 * in an invalid window, if so we need to grab
+	 * it off the user/kernel stack first.
+	 */
+	.section .ic3.init,"ax",@progbits
+
+	.globl	ret_trap_entry
+	.globl	C_LABEL(ret_trap_lockless_ipi)
+ret_trap_entry:
+C_LABEL(ret_trap_lockless_ipi):
+	andcc	%t_psr, PSR_PS, %g0
+	be	1f
+	 nop
+
+	wr	%t_psr, 0x0, %psr
+	b	ret_trap_kernel
+	 nop
+
+1:
+	ld	[%curptr + AOFF_task_need_resched], %g2
+	orcc	%g2, %g0, %g0
+	be	signal_p
+	 ld	[%curptr + AOFF_task_sigpending], %g2
+
+	call	C_LABEL(schedule)
+	 nop
+
+	ld	[%curptr + AOFF_task_sigpending], %g2
+signal_p:
+	cmp	%g2, 0
+	bz,a	ret_trap_continue
+	 ld	[%sp + REGWIN_SZ + PT_PSR], %t_psr
+
+	clr	%o0
+	mov	%l5, %o2
+	mov	%l6, %o3
+	call	C_LABEL(do_signal)
+	 add	%sp, REGWIN_SZ, %o1	! pt_regs ptr
+
+	/* Fall through. */
+	ld	[%sp + REGWIN_SZ + PT_PSR], %t_psr
+	clr	%l6
+ret_trap_continue:
+	wr	%t_psr, 0x0, %psr
+	WRITE_PAUSE
+
+	ld	[%curptr + AOFF_task_thread + AOFF_thread_w_saved], %twin_tmp1
+	orcc	%g0, %twin_tmp1, %g0
+	be	ret_trap_nobufwins
+	 nop
+
+	wr	%t_psr, PSR_ET, %psr
+	WRITE_PAUSE
+
+	mov	1, %o1
+	call	C_LABEL(try_to_clear_window_buffer)
+	 add	%sp, REGWIN_SZ, %o0
+
+	b	signal_p
+	 ld	[%curptr + AOFF_task_sigpending], %g2
+
+ret_trap_nobufwins:
+	/* Load up the user's out registers so we can pull
+	 * a window from the stack, if necessary.
+	 */
+	LOAD_PT_INS(sp)
+
+	/* If there are already live user windows in the
+	 * set we can return from trap safely.
+	 */
+	ld	[%curptr + AOFF_task_thread + AOFF_thread_uwinmask], %twin_tmp1
+	orcc	%g0, %twin_tmp1, %g0
+	bne	ret_trap_userwins_ok
+	 nop
+	
+	/* Calculate new %wim, we have to pull a register
+	 * window from the users stack.
+	 */
+ret_trap_pull_one_window:
+	rd	%wim, %t_wim
+	sll	%t_wim, 0x1, %twin_tmp1
+	srl	%t_wim, 0x7, %glob_tmp
+	or	%glob_tmp, %twin_tmp1, %glob_tmp
+	and	%glob_tmp, 0xff, %glob_tmp
+
+	wr	%glob_tmp, 0x0, %wim
+
+	/* Here comes the architecture specific 
+	 * branch to the user stack checking routine
+	 * for return from traps.
+	 */
+	b	C_LABEL(rett_stackchk)
+	 andcc	%fp, 0x7, %g0	
+
+ret_trap_userwins_ok:
+	LOAD_PT_PRIV(sp, t_psr, t_pc, t_npc)
+	or	%t_pc, %t_npc, %g2
+	andcc	%g2, 0x3, %g0
+	be	1f
+	 nop
+
+	b	ret_trap_unaligned_pc
+	 add	%sp, REGWIN_SZ, %o0
+
+1:
+	LOAD_PT_YREG(sp, g1)
+	LOAD_PT_GLOBALS(sp)
+
+	wr	%t_psr, 0x0, %psr
+	WRITE_PAUSE
+
+	jmp	%t_pc
+	rett	%t_npc
+	
+ret_trap_unaligned_pc:
+	ld	[%sp + REGWIN_SZ + PT_PC], %o1
+	ld	[%sp + REGWIN_SZ + PT_NPC], %o2
+	ld	[%sp + REGWIN_SZ + PT_PSR], %o3
+
+	wr	%t_wim, 0x0, %wim		! or else...
+
+	wr	%t_psr, PSR_ET, %psr
+	WRITE_PAUSE
+
+	call	C_LABEL(do_memaccess_unaligned)
+	 nop
+
+	b	signal_p
+	 ld	[%curptr + AOFF_task_sigpending], %g2
+
+ret_trap_kernel:
+	/* Will the rett land us in the invalid window? */
+	mov	2, %g1
+	sll	%g1, %t_psr, %g1
+	srl	%g1, 8, %g2
+	or	%g1, %g2, %g1
+	rd	%wim, %g2
+	andcc	%g2, %g1, %g0
+	be	1f		! Nope, just return from the trap
+	 sll	%g2, 0x1, %g1
+
+	/* We have to grab a window before returning. */
+	srl	%g2, 7,  %g2
+	or	%g1, %g2, %g1
+	and	%g1, 0xff, %g1
+
+	wr	%g1, 0x0, %wim
+
+	/* Grrr, make sure we load from the right %sp... */
+	LOAD_PT_ALL(sp, t_psr, t_pc, t_npc, g1)
+
+	restore	%g0, %g0, %g0
+	LOAD_WINDOW(sp)
+	b	2f
+	 save	%g0, %g0, %g0
+
+	/* Reload the entire frame in case this is from a
+	 * kernel system call or whatever...
+	 */
+1:
+	LOAD_PT_ALL(sp, t_psr, t_pc, t_npc, g1)
+2:
+	wr	%t_psr, 0x0, %psr
+	WRITE_PAUSE
+
+	jmp	%t_pc
+	rett	%t_npc
+
+ret_trap_user_stack_is_bolixed:
+	wr	%t_wim, 0x0, %wim
+
+	wr	%t_psr, PSR_ET, %psr
+	WRITE_PAUSE
+
+	call	C_LABEL(window_ret_fault)
+	 add	%sp, REGWIN_SZ, %o0
+
+	b	signal_p
+	 ld	[%curptr + AOFF_task_sigpending], %g2
+
+	.globl	C_LABEL(rett_stackchk)
+C_LABEL(rett_stackchk):
+	bne	ret_trap_user_stack_is_bolixed
+	 sethi   %hi(PAGE_OFFSET-0x40000000), %g1
+	cmp	%g1, %fp
+	bleu	ret_trap_user_stack_is_bolixed
+	 mov	PADRE_MMU_DFSR, %g1
+	lda	[%g1] ASI_MMU, %g0
+
+   	mov PADRE_MMU_CONTROL, %g1
+    mov PADRE_MMU_CONTROL_DE | PADRE_MMU_CONTROL_IE | PADRE_MMU_CONTROL_NF, %g2
+    sta %g2, [%g1] ASI_MMU
+
+	restore	%g0, %g0, %g0
+
+	LOAD_WINDOW(sp)
+
+	save	%g0, %g0, %g0
+
+    mov PADRE_MMU_CONTROL_DE | PADRE_MMU_CONTROL_IE, %g2
+    sta %g2, [%g1] ASI_MMU
+
+	mov	PADRE_MMU_DFSR, %g1
+	lda	[%g1] ASI_MMU, %g2
+
+	andcc	%g2, PADRE_MMU_DFSR_V, %g0
+	be	ret_trap_userwins_ok
+	 nop
+
+	b,a	ret_trap_user_stack_is_bolixed

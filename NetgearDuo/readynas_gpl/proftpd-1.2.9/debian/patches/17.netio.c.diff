@@ -1,0 +1,12 @@
+diff -ruN proftpd-1.2.9-old/src/netio.c proftpd-1.2.9/src/netio.c
+--- proftpd-1.2.9-old/src/netio.c	2003-10-17 08:15:38.000000000 +0200
++++ proftpd-1.2.9/src/netio.c	2004-04-12 09:37:55.000000000 +0200
+@@ -682,7 +682,7 @@
+           }
+ 
+ #ifdef EAGAIN
+-	  if (errno == EAGAIN)
++	  if (bread == -1 && errno == EAGAIN)
+             goto polling;
+ #endif
+ 

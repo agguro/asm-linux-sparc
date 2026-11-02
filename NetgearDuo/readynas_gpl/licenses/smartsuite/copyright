@@ -1,0 +1,14 @@
+This package was debianized by Christopher L Cheney <ccheney@debian.org> on
+Fri,  9 Feb 2001 22:35:52 -0600.
+
+It was downloaded from http://sourceforge.net/projects/smartsuite/
+
+Upstream Author(s): Michael Cornwell <cornwell@acm.org>
+                    Andre Hedrick <andre@linux-ide.org>
+
+Copyright:
+
+You are free to distribute this software under the terms of the GNU
+General Public License.  On Debian systems, the complete text of the
+GNU General Public License can be found in
+common-licenses/GPL file.

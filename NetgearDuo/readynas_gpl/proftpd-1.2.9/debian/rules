@@ -1,0 +1,223 @@
+#!/usr/bin/make -f
+# -*- makefile -*- made with the aid of debmake, by Christoph Lameter,
+
+package = proftpd
+
+SHELL = /bin/bash
+CC = gcc
+CFLAGS := -O3 -Wall -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
+IE := install -m755 -s
+ID := install -m644
+
+# Some special build options
+ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+  CFLAGS += -g
+  ifneq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+    IE := install -m755
+  endif
+endif
+
+DH_COMPAT=3
+export DH_COMPAT
+
+# the dbs rules
+TAR_DIR := proftpd-1.2.9
+include debian/scripts/dbs-build.mk
+
+# dpkg-arch rules
+ifeq (,$(DEB_BUILD_GNU_TYPE))
+  include debian/scripts/dpkg-arch.mk
+endif
+
+DOC = usr/share/doc
+MAN = usr/share/man
+
+# This is the suite of modules maintained in debian/, not upstream CVS.
+# To enable mod_pgsql, put it after or in place of mod_mysql.
+# Always keep in order modules. If in doubt ask to #proftpd ...
+#EXTRAMODS = mod_mysql:mod_ratio:
+QUOTAMOD  = mod_quotatab:
+EXTRAMODS = mod_ratio:mod_tls:mod_rewrite:mod_radius:mod_wrap:mod_quotatab_file:
+MYSQLMODS = mod_sql:mod_sql_mysql:mod_quotatab_sql:
+PGSQLMODS = mod_sql:mod_sql_postgres:mod_quotatab_sql:
+LDAPMODS  = mod_ldap:mod_quotatab_ldap:
+
+# This should be commented out for the build to succeed.
+#DEBUG = -DDEBUG_NOFORK -g3 
+
+configure_args := --prefix=/usr --cache-file=../config.cache		\
+	--sysconfdir=/etc --localstatedir=/var/run --enable-autoshadow  \
+	--srcdir=../.. --enable-ipv6 --disable-sendfile --enable-largefile \
+	--enable-pool-size=4096 --enable-buffer-size=8192
+
+ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
+  configure_args += --build $(DEB_HOST_GNU_TYPE)
+else
+  configure_args += --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
+endif
+	
+#$(BUILD_TREE)/configure: $(BUILD_TREE)/configure.in
+#	cd $(BUILD_TREE) && autoconf
+
+
+proftpd.conf.5: build-tree/$(TAR_DIR)/doc/Configuration.html
+	chmod +x debian/html2man.pl
+	debian/html2man.pl <build-tree/$(TAR_DIR)/doc/Configuration.html >proftpd.conf.5
+
+stampdir/build: stampdir/configure proftpd.conf.5 $(dh_mak_deps) 
+	dh_testdir
+	# The -DLINUX bit is cause ./configure doesnt detect alpha
+	( cd build-tree/$(TAR_DIR)/build/pam && $(MAKE) all PLATFORM=-DLINUX )
+	( cd build-tree/$(TAR_DIR)/build/mysql && $(MAKE) proftpd PLATFORM=-DLINUX )
+	( cd build-tree/$(TAR_DIR)/build/pgsql && $(MAKE) proftpd PLATFORM=-DLINUX )
+	( cd build-tree/$(TAR_DIR)/build/ldap && $(MAKE) proftpd PLATFORM=-DLINUX )
+	touch stampdir/build
+
+build: stampdir/build
+
+stampdir/configure: $(unpacked) $(patched)
+	for d in pam mysql pgsql ldap ; do mkdir -p build-tree/$(TAR_DIR)/build/$$d/contrib/dist/rpm ; done
+	cd build-tree/$(TAR_DIR)/modules ; for m in mod_{ratio,sql,sqlpw,mysql,pgsql}.c ; do if [ ! -e $$m ] ; then ln -s ../contrib/$$m . ; fi ; done
+
+	( cd build-tree/$(TAR_DIR)/build/pam && CC="$(CC) -Wall $(CFLAGS) $(DEBUG) -I.. -I../../.." \
+		../../configure $(configure_args) --with-modules=$(QUOTAMOD)$(EXTRAMODS)mod_readme:mod_ifsession )
+	( cd build-tree/$(TAR_DIR)/build/mysql && CC="$(CC) -Wall $(CFLAGS) $(DEBUG) -I.. -I../../.." \
+		../../configure $(configure_args) --with-modules=$(QUOTAMOD)$(MYSQLMODS)$(EXTRAMODS)mod_readme:mod_ifsession )
+	( cd build-tree/$(TAR_DIR)/build/pgsql && CC="$(CC) -Wall $(CFLAGS) $(DEBUG) -I.. -I../../.." \
+		../../configure $(configure_args) --with-modules=$(QUOTAMOD)$(PGSQLMODS)$(EXTRAMODS)mod_readme:mod_ifsession )
+	( cd build-tree/$(TAR_DIR)/build/ldap && CC="$(CC) -Wall $(CFLAGS) $(DEBUG) -I.. -I../../.." \
+		../../configure $(configure_args) --with-modules=$(QUOTAMOD)$(LDAPMODS)$(EXTRAMODS)mod_readme:mod_ifsession )
+	touch stampdir/configure
+
+clean:
+	dh_testdir
+	dh_clean
+
+	-test -r /usr/share/misc/config.sub && \
+		cp -f /usr/share/misc/config.sub config.sub
+	-test -r /usr/share/misc/config.guess && \
+		cp -f /usr/share/misc/config.guess config.guess
+
+	rm -rf stampdir build-tree
+	rm -f stamp-build stamp-configure debian/files.saved debian/files
+	rm -rf build
+	rm -f $$(find . -type l) $$(find . -name "*~" -o -name "*.o")
+	rm -f proftpd config.cache config.log lib/*.a ftpshut Make.rules
+	rm -rf debian/proftpd debian/proftpd-{doc,common,ldap,pgsql,mysql}
+	rm -rf debian/{files*,*substvars*,*.gz} core
+	rm -f debian/proftpd-{mysql,pgsql,ldap}.{postinst,postrm,prerm,config,init}
+	rm -f $$(find * -name "*.orig") modules/mod_ratio.c
+	rm -f contrib/dist/rpm/proftpd.spec
+	rm -f proftpd.conf.5
+
+binary-indep:	checkroot build
+	dh_testdir
+	dh_clean -k -i
+	dh_installdirs -i $(DOC) -pproftpd-doc
+	dh_installdocs -i debian/copyright
+	dh_installchangelogs -i build-tree/$(TAR_DIR)/ChangeLog
+	dh_installdocs -i build-tree/$(TAR_DIR)/README* \
+		debian/*.txt \
+		$$(find build-tree/$(TAR_DIR)/doc/* -type f -maxdepth 0 | egrep -v "Get|Show|license") \
+		$$(find build-tree/$(TAR_DIR)/contrib -name "*.html" -type f -maxdepth 1) \
+		build-tree/$(TAR_DIR)/contrib/README.mod_wrap \
+		build-tree/$(TAR_DIR)/contrib/README.ratio build-tree/$(TAR_DIR)/contrib/UPGRADE.mod_sql
+	dh_installexamples -i build-tree/$(TAR_DIR)/sample-configurations/*
+	dh_compress -i
+	dh_fixperms -i
+	dh_installdeb -i
+	dh_gencontrol -i -u-isp
+	dh_md5sums -i
+	dh_fixperms -i
+	dh_builddeb -i
+
+binary-arch:	checkroot build
+	dh_testdir
+	dh_clean -k -i
+	dh_installdirs -a $(DOC) $(MAN)
+	dh_installdocs -a debian/copyright
+	dh_installchangelogs -a build-tree/$(TAR_DIR)/ChangeLog
+
+	for t in mysql pgsql ldap ; do \
+		for d in postinst postrm prerm config init ; do \
+			sed -e "s,usr/share/doc/proftpd,usr/share/doc/proftpd-$$t,g" \
+				< debian/proftpd.$$d > debian/proftpd-$$t.$$d ; \
+		done ; \
+		ln -sf proftpd.templates debian/proftpd-$$t.templates ; \
+	done
+
+	for d in pam mysql pgsql ldap ; do \
+		case $$d in \
+			pam) \
+				packagename="proftpd" ;\
+			;; \
+			*) \
+				packagename="proftpd-$$d" ;\
+			;; \
+		esac ;\
+		cwd=`pwd` ; \
+		set -e ; \
+		dh_installdirs -p$$packagename etc/pam.d etc/init.d etc/default ;\
+		( cd build-tree/$(TAR_DIR)/build/$$d && $(MAKE) install-proftpd \
+			rundir=var/run/proftpd \
+			mandir=usr/share/man \
+			sbindir=usr/sbin \
+			bindir=usr/bin \
+			sysconfdir=etc INSTALL=install DESTDIR=$$cwd/debian/$$packagename/ ) ;\
+		rm -f debian/$$packagename/usr/sbin/in.proftpd ;\
+		mkdir -p debian/$$packagename/usr/share/doc/$$packagename/examples ;\
+		cp debian/basic.conf debian/$$packagename/usr/share/doc/$$packagename/examples/proftpd.conf ;\
+		cp debian/welcome.msg debian/$$packagename/usr/share/doc/$$packagename/examples/welcome.msg ;\
+		cp debian/ftpusers debian/$$packagename/etc ;\
+		install -m 755 debian/proftpd.init debian/$$packagename/etc/init.d/proftpd ;\
+		install -m 644 debian/proftpd.pam debian/$$packagename/etc/pam.d/proftpd ;\
+		install -m 644 debian/default debian/$$packagename/etc/default/proftpd ;\
+	done
+
+	dh_installdirs -pproftpd-common usr/bin \
+					usr/share/man usr/share/man/man1 usr/share/man/man5 usr/share/man/man8
+	cwd=`pwd` ;\
+	( cd build-tree/$(TAR_DIR)/build/pam && $(MAKE) install-utils install-man \
+		rundir=var/run/proftpd \
+		mandir=usr/share/man \
+		sbindir=usr/sbin \
+		bindir=usr/bin \
+		sysconfdir=etc INSTALL=install DESTDIR=$$cwd/debian/proftpd-common/ )
+
+	dh_installdirs -pproftpd-common usr/sbin etc/cron.monthly
+	install debian/ftpusers.5 debian/proftpd-common/usr/share/man/man5/ftpusers.5
+	install proftpd.conf.5 debian/proftpd-common/usr/share/man/man5/proftpd.conf.5
+	install debian/ftpasswd.8 debian/proftpd-common/usr/share/man/man8/ftpasswd.8
+	install build-tree/$(TAR_DIR)/contrib/xferstats.holger-preiss \
+		debian/proftpd-common/usr/sbin/ftpstats
+
+	install -m 755 build-tree/$(TAR_DIR)/contrib/ftpasswd debian/proftpd-common/usr/sbin/ftpasswd
+	install -m 755 debian/proftpd.cron.monthly debian/proftpd-common/etc/cron.monthly/proftpd
+	cp debian/ftpstats.8 debian/proftpd-common/usr/share/man/man8
+
+	dh_installdebconf -a
+	dh_compress -a
+	dh_fixperms -a
+	dh_installdeb -a
+	dh_shlibdeps -a
+	dh_perl -a
+	dh_gencontrol -a -u-isp
+	dh_strip -a
+	dh_md5sums -a
+	dh_fixperms -a
+	dh_builddeb -a
+	if egrep "^DEBUG" debian/rules; then false; fi
+
+binary:	binary-indep binary-arch
+
+checkroot:
+	dh_testdir
+	dh_testroot
+
+.PHONY: binary binary-arch binary-indep clean checkroot
+
+tidy:
+	rm -f o *~ debian/*~
+	- cd debian && indent -v mod_mysql.c mod_pgsql.c mod_ratio.c
+	cd debian && makeinfo --no-headers -o mod_mysql.txt mod_mysql.texi
+	cd debian && makeinfo --no-headers -o mod_pgsql.txt mod_pgsql.texi

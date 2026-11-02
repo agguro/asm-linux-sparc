@@ -1,0 +1,135 @@
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#    Developers do not need to manually edit POT or PO files.
+#
+# Carlos Valdivia Yagüe <valyag@dat.etsit.upm.es>, 2003.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: proftpd 1.2.8-8\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-03 14:11+0100\n"
+"PO-Revision-Date: 2003-07-12 18:40+0200\n"
+"Last-Translator: Carlos Valdivia Yagüe <valyag@dat.etsit.upm.es>\n"
+"Language-Team: Debian L10n Spanish <debian-l10n-spanish@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: select
+#. Choices
+#: ../proftpd.templates:3
+msgid "inetd, standalone"
+msgstr "inetd, independiente"
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+msgid "Run proftpd from inetd or standalone?"
+msgstr "¿Ejecutar proftpd desde inetd o independientemente?"
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+msgid ""
+"ProFTPd can be run either as a service from inetd, or as a standalone "
+"server.  Eeach choice has its own benefits.  If you have only a few ftp "
+"connections per day, it may not be worth the resources to keep proftpd "
+"running at all times."
+msgstr ""
+"ProFTPd puede ejecutarse como servicio desde inetd o como servidor "
+"independiente. Ambas opciones tienen sus ventajas. Si recibe solamente unas "
+"pocas conexiones ftp diarias, puede que no merezca la pena mantener proftpd "
+"funcionando constantemente con el consiguiente consumo de recursos."
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+msgid ""
+"On the other hand, if your ftp site is visited frequently, inetd is not a "
+"good choice, because each time a connection is opened, a new process is "
+"spawned."
+msgstr ""
+"Por otro lado, si su sitio ftp recibe muchas visitas, inetd no es una buena "
+"elección, porque cada vez que se abre una conexión se crea un nuevo proceso."
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid "Warning on syntax changes in ProFTPd configuration."
+msgstr "Aviso de cambios de sintaxis en la configuración de ProFTPd."
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid ""
+"You are upgrading from a pre-1.2.8 version. Probably you will need to revise "
+"your previous configuration to be compliant with current directives. Please, "
+"consult documentation available in proftpd-doc and change /etc/proftpd.conf "
+"as needed."
+msgstr ""
+"Está actualizando desde una versión de ProFTPd anterior a la 1.2.8. Es muy "
+"posible que necesite revisar la configuración anterior para que se adecue a "
+"las directivas actuales. Por favor, consulte la documentación disponible en "
+"proftpd-doc y modifique apropiadamente /etc/proftpd.conf."
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid ""
+"Unfortunately, it is near impossible for me to convert your setup "
+"automatically, but for some elementary issues. You will have to do  it "
+"yourself. ProFTPd could also be unable to use the resulting  configuration, "
+"and it will not restart after upgrading."
+msgstr ""
+"Desgraciadamente, es casi imposible convertir su configuración de forma "
+"automática, salvo algunas cuestiones elementales, por lo que tendrá que "
+"hacerlo manualmente. ProFTPd podría tener problemas para usar la nueva "
+"configuración y no arrancar después de actualizar."
+
+#~ msgid "Enable anonymous access?"
+#~ msgstr "¿Permitir acceso anónimo?"
+
+#~ msgid ""
+#~ "Enabling anonymous access grants access to your ftp site by any user, "
+#~ "without being a system user.  This is probably not a good idea for "
+#~ "paranoid sysadmins.  Only enable if you know what it does."
+#~ msgstr ""
+#~ "Permitir acceso anónimo ofrece acceso a su sitio ftp a cualquier usuario "
+#~ "aunque no lo sea del sistema. Probablemente no sea una buena idea para "
+#~ "administradores paranoicos. Sólo permítalo si sabe lo que hace."
+
+#~ msgid "Manage ProFTPd configuration with debconf?"
+#~ msgstr "¿Gestionar la configuración de ProFTPd con debconf?"
+
+#~ msgid ""
+#~ "If you accept here, some aspect of ProFTPd will be automatically managed "
+#~ "by debconf. ProFTPd is quite complicated and flexible, so this kind of "
+#~ "management could be useful for newbies, or very simple kinds of "
+#~ "configuration."
+#~ msgstr ""
+#~ "Si acepta, algunos aspectos de ProFTPd se gestionarán automáticamente con "
+#~ "debconf. ProFTPd es muy complicado y flexible, por lo que puede resultar "
+#~ "útil a usuarios noveles o para configuraciones muy sencillas."
+
+#~ msgid ""
+#~ "If you refuse here, all aspects of ProFTPd configuration will be under "
+#~ "your responsability. If this is your first installation, I'll create a "
+#~ "very basic default configuration in /etc/proftpd.conf, else I'll try "
+#~ "create an updated configuration on the basis of your current one and some "
+#~ "known conversion issues."
+#~ msgstr ""
+#~ "En caso contrario, todos los aspectos de la configuración quedarán bajo "
+#~ "su responsabilidad. Si es su primera instalación se creará una "
+#~ "configuración predeterminada muy básica en /etc/proftpd.conf, sino se "
+#~ "intentará actualizar la configuración existente teniendo en cuenta "
+#~ "ciertos problemas conocidos en la conversión."

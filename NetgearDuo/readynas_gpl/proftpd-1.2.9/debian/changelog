@@ -1,0 +1,1401 @@
+proftpd (1.2.9-9.padre4) unstable; urgency=low
+
+  * Do not use sendfile at all for now.  Causes data corruption when sending
+    files over WAN.
+
+ -- Justin Maggard <jmaggard@infrant.com>  Fri,  7 Oct 2005 15:23:49 -0700
+
+proftpd (1.2.9-9.padre3) unstable; urgency=low
+
+  * Do not use sendfile if the file is >4GB.
+
+ -- Justin Maggard <jmaggard@infrant.com>  Mon, 21 Jun 2004 11:52:46 -0700
+
+proftpd (1.2.9-9.padre2) unstable; urgency=low
+
+  * Re-enable large file support
+  * Include Christoph's patch to enable sendfile with large file support
+
+ -- Justin Maggard <jmaggard@infrant.com>  Thu, 27 May 2004 11:48:35 -0700
+
+proftpd (1.2.9-9.padre1) unstable; urgency=low
+
+  * Enable sendfile
+  * Disable large file support
+  * Enlarge buffer size
+
+ -- Justin Maggard <jmaggard@infrant.com>  Thu, 27 May 2004 11:46:17 -0700
+
+proftpd (1.2.9-9) unstable; urgency=low
+
+  * Added mod_ifsession compilation (rules), as asked by users.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Sat, 17 Apr 2004 20:17:30 +0200
+
+proftpd (1.2.9-8) unstable; urgency=high
+
+  * netbase versioning uniformed to 4.13 for each package.
+  * The no-end saga of ucf, again. Version -7 missed modifications done in -6 for
+    #239528, due to cvs repository outdated status.
+    (closes: #244020)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Tue, 13 Apr 2004 13:51:47 +0200
+
+proftpd (1.2.9-7) unstable; urgency=high
+
+  * Removed a double check for inetd update (proftpd.postinst)
+    (closes: #242013)
+  * Added an '|| true' into install_ftp (proftpd.postinst)
+  * Integrating a patch to avoid an infinite loop.
+    See http://bugs.proftpd.org/show_bug.cgi?id=2300 for patch.
+    Fixed by 17.netio.c.diff
+    (closes: #243071,#243277)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Mon, 12 Apr 2004 09:41:52 +0200
+
+proftpd (1.2.9-6) unstable; urgency=high
+
+  * Umpf. Previuous upload did not solve the issue. It seems definitively a
+    problem with ucf (Thanks Paul Slootman): --debconf-ok should be used
+    only before a db_stop. Also reverted again with redirection for
+    update-inetd. 
+    For some reason the whole problem was not so easily evident.
+    (closes: #239528)
+  * Previous upload missed patch 16.dirtree.c.diff due to outdated cvs
+    repository on alioth.
+  * Cosmetic changes into basic anon section (DirFake*).
+    Other issues are secondary/outdated.
+    (closes: #240209)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Mon, 29 Mar 2004 23:31:52 +0200
+
+proftpd (1.2.9-5) unstable; urgency=high
+                                                                                                                                         
+  * Reverted redirection of stdin and stdout for update-inetd. Also reverted
+    netbase versioning dependency. Apparently workaround in current
+    update-inetd does not work as it should.
+    (closes: #239528)
+                                                                                                                                         
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Wed, 24 Mar 2004 20:14:55 +0100
+                                                                                                                                         
+proftpd (1.2.9-4) unstable; urgency=high
+
+  * Typo introduced in postrm (closes: #236963)
+  * Removed redirection workaround for update-inetd (already builtin in netbase >=4.13).
+    Changed version dependency for netbase as consequence.
+    (closes: #236595)
+  * Security problem (although conf dependent) fixed in patch 16.dirtree.c.diff. (Thanks iSteve)
+    See http://bugs.proftpd.org/show_bug.cgi?id=2267 for hint and patch.
+  * Typo in ftpstats.8 corrected (Thanks iSteve)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Tue,  9 Mar 2004 11:50:36 +0100
+
+proftpd (1.2.9-3) unstable; urgency=low
+
+  * New patch 15.mod_quotatab_sql.c.diff. (Thanks Jerome Walters)
+    Bug found by Christian Schulte <cs@schulte.it>: delta values are signed,
+    and can be negative.
+  * Now use --debconf-ok for ucf, but needs versioning depends on ucf >= 0.30
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Thu, 26 Feb 2004 00:11:09 +0100
+
+proftpd (1.2.9-2) unstable; urgency=low
+
+  * Using basic.conf from 1.2.8 series, instead of the old one with prefixed
+    anonymous section.
+  * Added libncurses5-dev build-dep for ftptop.
+  * Policy bumped to 3.6.1 (no changes).
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Mon, 17 Nov 2003 13:59:24 +0100
+
+proftpd (1.2.9-1) unstable; urgency=low
+
+  * The first post-Halloween release now moving to sid. 
+    Now using upstream tarball.
+  * CVS repository enabled: tagging appropriately.
+  * Removed patch 14.manpages.diff: manpages are integrated in upstream
+    tarballs, even if not present in CVS.
+  * New patch: 14.mod_quotatab.diff: mod_quotatab 1.2.11 contributed module
+    now replaces the old 1.2.7.
+  * Removed 13.manpages.diff patch which is not due in off-cvs releases.
+  * Tries to manage upgrades from pre-1.2.9 series in a soft way:
+        - The scoreboard file format changed, so all inetd sessions need to be killed
+          and file moved before restarting the service. The file needs to be
+          moved for a standalone configuration, anyway.
+        - SocketOptions directive replaces and deprecates the following
+          directives: tcpReceiveWindow, and tcpSendWindow.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Mon,  3 Nov 2003 14:14:00 +0100
+
+proftpd (1.2.8+cvs20031020-1) experimental; urgency=low
+
+  * A new CVS snapshot (post 1.2.9rc3).
+  * Merged stuff from unstable branch
+  	- New russian template.
+  	- Added a versioned dependency from debianutils to proftpd-common
+   	- Removed RFCs
+        - Changed order in module loading for dependencies
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Mon, 20 Oct 2003 23:36:58 +0200
+
+proftpd (1.2.8+cvs20030927-1) experimental; urgency=high
+
+  * A new CVS snapshot (post 2003-9-24 exploit).
+  * Merged stuff from unstable branch (>= -9):
+         - Now using case insensitive egrep in init files
+         - Patches renumbered sequentially
+         - Removing anonymous access enabling/disabling. A well commented basic
+           configuration, to be modified by hand is much more effective and secure.
+           Also that code is completely failing if admin changed configuration on his
+           own, as generally done by everyone. So, debconf configuration is much less
+           intrusive, and it's performed anyway. User 'ftp' is also added by
+           default if not present, being a considered a 'system' one.
+
+           Added a NEWS.Debian file to explain the new policy.
+           Changed templates as consequence.
+         - International templates revised.
+         - Added strict version source dependency for proftpd-common.
+         - Use proftpd.org instead of .net in control file descriptions.
+         - Added NEWS.Debian as kept in unstable branch.
+         - Removed 05.ftpstats.diff (unuseful).
+         - Postinst revised to manage welcome.msg nicely.
+  * Bugs fixed at this time (see below):
+    (closes: #192590,#204157,#192590,#203230,#186074,#212416)
+    (closes: #145669 see http://www.castaglia.org/proftpd/patches/README.require-valid-user)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Sun, 28 Sep 2003 17:52:31 +0200
+
+proftpd (1.2.8+cvs20030818-1) experimental; urgency=low
+
+  * A new CVS snapshot. IPV6 is now integrated.
+  * Removed previous patches 01.ipv6_rollback.diff and 00.ipv6.diff all IPv6
+    related.
+  * Changed patch 20.contrib.mod_ldap.c.diff to reflect modifications in
+    inet.h
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Tue, 19 Aug 2003 09:19:19 +0200
+
+proftpd (1.2.8+cvs20030805-1) experimental; urgency=low
+
+  * A new CVS snapshot. See NEWS file for a list of bugs solved.
+    All Debian patches applies but some hacks on the first one.
+  * Policy updated to 3.6.0
+  * Bugs closed at this time: #204157,#192590,#203230
+  * Added IPV6 support.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Tue,  5 Aug 2003 20:57:31 +0200
+
+proftpd (1.2.8+cvs20030620-1) experimental; urgency=low
+
+  * This is based on cvs tree at the date. It's not prime time ready.
+  * Removed duplicated tarball: fixes #192590
+  * Removed patches already in CVS:
+       AB.fixes_handling_of_contexts_to_use_proper_pool.diff
+       B2.mod_sql_postgres.c.diff
+       10.mod_cap.c.diff
+  * Added patches:
+       91.autoconf.diff - move configure.in to configure.ac to force use of autoconf2.50
+       B2.mod_sql_mysql.c.diff - use <mysql/mysql.h> instead of <mysql.h>
+       B3.manpages.diff - add man pages that are missing in the cvs tree
+  * Added autoconf build-dep.
+  * Policy updated to 3.5.10.
+  * Minor changes in rules file in order to build correctly.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Sat, 21 Jun 2003 17:31:36 +0200
+
+proftpd (1.2.8-8) unstable; urgency=high
+
+  * Added a set +e before testing proftpd configuration.
+    Proftpd could crash in some cases when testing.
+    (closes: #197585)
+  * Added AB.fixes_handling_of_contexts_to_use_proper_pool.diff:
+    fixes handling of contexts to use properpool, by patching src/dirtree.c and src/sets.c.
+    This is from current CVS tree.
+    (closes: #197586)
+  * Security: added B2.mod_sql_postgres.c.diff:
+    See http://bugs.proftpd.org/show_bug.cgi?id=2087 for information. This
+    has been created using diff among mod_sql_postgres.c-1.16 and mod_sql_postgres.c-1.10.
+    This is from current CVS tree.
+    (closes: #197984)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Thu, 19 Jun 2003 13:50:29 +0200
+
+proftpd (1.2.8-7) unstable; urgency=high
+
+  * Added an input (</dev/tty) redirection for ucf in maint scripts.
+    (closes: #194359). This is a workaround for #193694 which is a
+    debconf/ucf interaction problem.
+  * Japanese podebconf template
+    (closes: #194646)
+  * Updated french podebconf template
+    (closes: #192406)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Tue, 27 May 2003 12:49:50 +0200
+
+proftpd (1.2.8-6) unstable; urgency=low
+
+  * Added missing HTML documentation to proftpd-doc. This also clarify misbehaving for mod_tls.
+    (closes: #150694)
+  * Added mod_rewrite, mod_radius, mod_wrap to all packages. So added
+    libwrap0-dev among build-deps.
+    (closes: #158305)
+  * Added more README files and removed a couple of obsoleted ones.
+  * debconf template and it.po revised as suggested.
+    (closes: #190821)
+  * New fr.po integrated.
+    (closes: #191227)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Tue,  6 May 2003 20:56:06 +0200
+
+proftpd (1.2.8-5) unstable; urgency=high
+
+  * Explicitly depends on libmysqlclient10-dev, which is the last LGPL licensed.
+    Also, current sql module is not tested with mysql4, so the conservative
+    approach is the safest one.
+  * Introduced Replaces in control/proftpd-common against old packages.
+    (closes: #188114)
+  * Policy updated.
+  * Maintainer script totally revised. Wow! Some more hints in basic.conf
+    added too. Also a new warning note is displayed when upgrading.
+    (closes: #168305, #145662, #187695, #186646, #187695)
+    Debconf IS NOT a configuration tool. Now I use it only for minimal
+    config interactions. We absolutely needed a more powerful config editor
+    for proftpd.conf, but I seriously doubt it can be really written.
+  * Introduced -q for savelog instead of stdout/stderr redirect, in
+    cron.monthly.
+    (closes: #188722)
+  * Now truly install ftpasswd.8 among proftpd-common man pages :-/
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Thu, 24 Apr 2003 12:31:26 +0200
+
+proftpd (1.2.8-4) unstable; urgency=medium
+
+  * Init file revised to use current default pidfile or PidFile directive.
+    Scoreboard file name no more has the daemon pid bundled.
+    (closes: #186312)
+  * Now postinst changes obsolete LsDefaultOptions in ListOptions directive.
+    That's needed in moving from 1.2.6 basic.conf. Added a list_options()
+    function for this.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Thu, 27 Mar 2003 11:09:00 +0100
+
+proftpd (1.2.8-3) unstable; urgency=high
+
+  * Removed dh_undocumented which is no more used.
+  * Added a new patch:
+  	10.mod_cap.c.diff - solves a double free in mod_cap which caused #185030.
+  * Re-added mod_cap thanks to previous patch. So readded libcap-dev.
+  * Patch 20.contrib.mod_ldap.c.diff revised.
+    (closes: #185125, #175581,#185567)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Sat, 22 Mar 2003 11:56:53 +0100
+
+proftpd (1.2.8-2) unstable; urgency=high
+
+  * Removed mod_cap. It needs more investigation.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Tue, 18 Mar 2003 13:27:24 +0100
+
+proftpd (1.2.8-1) unstable; urgency=high
+
+  * New upstream release, merging with my experimental 1.2.7 pkg...
+    (closes: #185084)
+    This also solve a potential seriuous license bug as stated
+    in http://lists.debian.org/debian-legal/2003/debian-legal-200303/msg00287.html
+    and http://lists.debian.org/debian-legal/2003/debian-legal-200301/msg00287.html.
+  * IPv6 removed. It will be available in 1.2.9 anyway. It was also disabled in all
+    releases before 1.2.6-5, so I guess it's not a high-requested feature :)
+  * configure updated to 2.57.
+  * added config.(sub|guess) cleaning.
+  * Paul asked to become co-maintainer.
+  * Removed patches:
+  	30.libcap.change.build.dir.diff
+        32.libcap.compilation.fix.diff.uue
+        50.proftpd-1.2.6rc1-tls.2002.07.11.patch
+        AE.mod_tls.c.no.certificates.found.diff
+        91.mod_tls.diff
+        AF.ipv6.diff
+        B0.mod_ls.c.fsmatch.diff
+  * Added patches:
+  	90.man.diff
+  * Changed fr.po: now truly closes: #182889.
+  * Policy update.
+  * Added dep/build-dep from libcap2(-dev). It does not work with stable libcap.
+    (closes: #185030, hopefully #185125)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Tue, 18 Mar 2003 12:34:58 +0100
+                                                                                           
+proftpd (1.2.6-5) unstable; urgency=low
+
+  * Only restart the daemon if runlevels allow, in accordance with
+    policy section 10.3.3.2. (Closes: #166907)
+  * Revised contents of ftpstats.8 (frankie)
+  * Added ftpasswd.8 (frankie)
+  * Removed obsolete proftpd libcap building. Now uses standard one. (frankie)
+    (Closes: #168953)
+  * fr.po updated (frankie) (Closes: #182889)
+  * pt_BR.po updated (frankie) (Closes: #177226)
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Mon,  3 Mar 2003 10:39:59 +0100
+
+proftpd (1.2.6-4) unstable; urgency=low
+
+  * debian/control: put proftpd-doc in section "doc".
+  * Now uses po-debconf templates (frankie).
+  * Added Italian template (frankie).
+  * debian/control: added frankie@debian.org as co-maintainer.
+  * debian/control: added build-depend on sharutils, as we now need
+    uudecode because of...
+  * debian/patches: two of the patches contain RCS Id tags in their
+    context, which got mangled by CVS, so they're now uuencoded, which
+    required changes to...
+  * debian/scripts/file2cat: now uudecodes files with .uue extension
+  * debian/scripts/dbs-build.mk: ignore CVS directories when applying
+    patches.
+  * debian/rules: use $$m instead of $m for loop variable.
+    (Closes: #166205)
+  * debian/patches/AC.mod_unixpw.c.ldap.fix.diff: if getpwnam/getpwuid
+    return NULL, revert to original method of getting pw entries.
+    (Closes: #165188)
+  * debian/rules: remove incorrect logic for detecting kernel version
+    which was causing linuxprivs never to be compiled in. Thanks to 
+    frankie for tracing this one. (Closes: #166215)
+
+ -- Paul Martin <pm@debian.org>  Mon, 28 Oct 2002 14:24:28 +0000
+
+proftpd (1.2.6-3) unstable; urgency=low
+
+  * debian/proftpd.config: unfortunately Ivo's patch had a bug in it.
+    Fixed this and another problematic conditional pointed out by Andrew
+    Suffield. (Closes: #164556,#164556)
+  * debian/proftpd.config: more compare-versions fixes. (Closes: #165677)
+
+ -- Paul Martin <pm@debian.org>  Mon, 21 Oct 2002 12:27:08 +0100
+
+proftpd (1.2.6-2) unstable; urgency=low
+
+  * New maintainer. (Closes: #163632)
+  * debian/proftpd.config: fix version test (Closes: #164556)
+  * debian/patches/B0.mod_ls.c.fsmatch.diff: Fixes the "virtual
+    filesystem" abstraction. Only contrib/mod_test.c would be
+    affected, if we built it.
+  * debian/rules: added undocumented.7 link to ftpasswd.8.
+    (Bug: #150101) Bug left open until proper manpage is written.
+  * debian/patches/B1.ftpasswd.cracklib.location.diff: Change the
+    default location of the cracklib dictionaries to match their
+    Debian location. (Closes: #159365)
+
+ -- Paul Martin <pm@debian.org>  Fri, 18 Oct 2002 18:12:59 +0100
+
+proftpd (1.2.6-1) unstable; urgency=low
+
+  * New upstream release.
+  * debian/patches/20.contrib.mod_ldap.c.diff: Updated.
+  * debian/patches/AF.ipv6.diff: Updated.
+  * debian/patches/AG.mod_ratio.c.3.3.diff: Removed.
+  * debian/patches/AH.mod_ldap.c.HEAD.diff: Removed.
+
+ -- Ivo Timmermans <ivo@debian.org>  Sat,  7 Sep 2002 14:49:52 +0200
+
+proftpd (1.2.5+1.2.6rc2-1) unstable; urgency=low
+
+  * New upstream version.
+  * debian/control: Change section from non-US to net.
+  * debian/copyright: Change licenses for mod_ldap.c and mod_ratio.c.
+  * Take advantage of the required new source upload to create an
+    .orig.tar.gz and a .diff.gz.
+  * debian/proftpd.postinst: Call db_stop before replace_file.
+  * debian/patches/33.mod_quota.c.exemption.fix.diff: Removed (upstream
+    has removed mod_quota.c).
+  * debian/rules: Don't include mod_quota.c in compilation.
+  * debian/patches/50proftpd-1.2.5-tls.2002.05.30.patch: Replaced by
+    50.proftpd-1.2.6rc1-tls.2002.07.11.patch.
+  * debian/patches/AB.mod_ls.c.large.files.support.diff: Removed (upstream
+    has included LFS).
+  * debian/patches/AF.ipv6.diff: Updated.
+  * debian/patches/AG.mod_ratio.c.3.3.diff: Update mod_ratio.c to version
+    3.3.
+  * debian/patches/AH.mod_ldap.c.HEAD.diff: Update mod_ldap.c to CVS HEAD.
+
+ -- Ivo Timmermans <ivo@debian.org>  Sun,  1 Sep 2002 17:06:41 +0200
+
+proftpd (1.2.5-3) unstable; urgency=low
+
+  * debian/proftpd.init:
+      - Remove bashism;
+      - signal(): remove superfluous "proftpd" in the find statement;
+        (Closes: #156878)
+      - Added new option "force-stop", which will try to kill proftpd even
+        though the config file says it is started from inetd (like
+        force-start). (Closes: #153922)
+  * debian/proftpd.config: Stop any running proftpd when the old setting
+    was to be run standalone, and the new setting to run from inetd.
+    (Closes: #144882, #151362)
+  * debian/proftpd.postrm: Remove debconf calls.
+    (Closes: #148727, #156464)
+  * debian/copyright:
+      - Include the license exception the ProFTPd team has given (long
+        ago) to allow binaries linked against OpenSSL to be distributed.
+      - Include licenses for contributed modules.
+
+ -- Ivo Timmermans <ivo@debian.org>  Sun, 18 Aug 2002 20:25:11 +0200
+
+proftpd (1.2.5-2) unstable; urgency=low
+
+  * debian/proftpd.init: Let the init script get the location of the
+    scoreboard from the config. (Closes: #150162)
+  * debian/patches/AE.mod_tls.c.no.certificates.found.diff: Don't try to
+    check certificate files on startup. (Closes: #153992, #154238)
+  * debian/patches/20.contrib.mod_ldap.diff: Fix segfault in uid-lookup in
+    proftpd-ldap. (Closes: #150525)
+  * debian/control: Changed sections from non-US/main to non-US.
+  * debian/patches/AF.ipv6.diff: IPv6 patch from Jan Rekorajski, Amand
+    TIHON and others.
+
+ -- Ivo Timmermans <ivo@debian.org>  Tue, 13 Aug 2002 23:23:54 +0200
+
+proftpd (1.2.5-1) unstable; urgency=low
+
+  * New upstream version. (Closes: #146839)
+  * Updated TLS patch.
+  * Upstream now includes ftpasswd, deleted it from 99.misc.diff.
+  * Deleted the patch to delete doc/rfc/draft-murray-auth-ftp-ssl-08.txt,
+    which has been deleted upstream.
+  * Updated AB.mod_ls.c.large.files.support.diff.
+  * Removed one "ShowSymlinks on" from basic.conf. (Closes: #148358)
+
+ -- Ivo Timmermans <ivo@debian.org>  Thu, 13 Jun 2002 17:16:10 +0200
+
+proftpd (1.2.4+1.2.5rc1-6) unstable; urgency=high
+
+  * One more try...
+  * /etc/proftpd.conf is no longer marked as a conffile.  Instead, we
+    verify its existence every time postinst is ran, possibly copying it
+    over from our default version in
+    /usr/share/doc/<package>/examples/proftpd.conf.  If we need to change
+    it, ucf is called to let the user merge in any changes he
+    made. (Closes: #143351)
+  * Rephrased the shared/proftpd/replace_file_install debconf question.
+    (Closes: #144715)
+  * Removed mention of obsolete proftpd-sql in package description.
+    (Closes: #144365)
+
+ -- Ivo Timmermans <ivo@debian.org>  Sun, 28 Apr 2002 10:22:42 +0200
+
+proftpd (1.2.4+1.2.5rc1-5) unstable; urgency=high
+
+  * Reworked postinst to handle configuration files better; allow the user
+    to review the changes before committing them.  Thanks to Roland Mas
+    for the help. (Closes: #143351)
+  * Stop proftpd from prerm. (Closes: #143376)
+
+ -- Ivo Timmermans <ivo@debian.org>  Mon, 22 Apr 2002 13:50:50 +0200
+
+proftpd (1.2.4+1.2.5rc1-4) unstable; urgency=high
+
+  * Configuring proftpd-ldap, proftpd-*sql with debconf was broken, now
+    uses shared debconf templates.  This fixes a release critical bug
+    nobody reported.
+  * Properly mention that support for mysql or postgresql is included in
+    proftpd-{my,pg}sql package descriptions.
+
+ -- Ivo Timmermans <ivo@debian.org>  Wed, 17 Apr 2002 12:07:20 +0200
+
+proftpd (1.2.4+1.2.5rc1-3) unstable; urgency=medium
+
+  * Use CFLAGS when running configure.
+  * Large file support (partially by Petr Cech, thank you).
+    (Closes: #139325)
+  * Fix typo in postinst. (Closes: #140498)
+  * Correct == to = in init script. (Closes: #140896)
+  * Apply fix for proftpd-ldap by Steve Langasek, which makes mod_unixpw
+    use getpwnam if pwdfname isn't /etc/passwd. (Closes: #141275)
+  * Fix crash of proftpd-*sql when user shell field is NULL.
+    (Closes: #140141)
+  * Updated debconf template for Brazilian Portugese. (Closes: #141690)
+
+ -- Ivo Timmermans <ivo@debian.org>  Thu, 11 Apr 2002 19:25:53 +0200
+
+proftpd (1.2.4+1.2.5rc1-2) unstable; urgency=low
+
+  * Changelog entry for 1.2.4-2 got lost, readded.
+  * Changed build dependency for postgresql-dev to 7.2 or higher.
+  * Added build dependency on bzip2.
+  * Patch, probably from Ignacy Gawedzki, to prevent server crash when
+    using REST+GET on unaccessible source. (Closes: #136696)
+
+ -- Ivo Timmermans <ivo@debian.org>  Mon,  4 Mar 2002 19:37:21 +0100
+
+proftpd (1.2.4+1.2.5rc1-1) unstable; urgency=low
+
+  * New upstream version. (Closes: #125829)
+  * Switch to dbs.
+  * Updated TLS patch. (Closes: #118804)
+  * Fix ftpstats (see bugreport for details). (Closes: #133647)
+  * Updated init.d script, use /etc/defaults.  Thanks to Marc Haber for
+    the patch. (Closes: #120324, #128805)
+  * Fixed a typo in postinst which might have caused problems when
+    upgrading.
+  * Renamed the English debconf template, added French translation.
+    (Closes: #136104)
+  * Redirect stderr to /dev/null in cron.monthly. (Closes: #136309)
+
+ -- Ivo Timmermans <ivo@debian.org>  Sun,  3 Mar 2002 18:37:41 +0100
+
+proftpd (1.2.4-2) unstable; urgency=high
+
+  * Fix segfault on ls /////////// (Closes: 125829)
+
+ -- Ivo Timmermans <ivo@debian.org>  Sun, 23 Dec 2001 23:00:43 +0100
+
+proftpd (1.2.4-1) unstable; urgency=low
+
+  * New upstream release
+  * Added Russian debconf templates.
+    (Closes: #114953, #114954, #114955, #114957)
+  * Fixed small error in build script that prevented the German debconf
+    templates from being installed.
+  * Updated standards version.
+  * Make proftpd suggest proftpd-doc instead of recommend.
+    (Closes: #113673)
+  * Allow two extra digits for total number of bytes sent in the xferstat
+    script. (Closes: #107387)
+  * Link in mod_wrap. (Closes: #111454)
+
+ -- Ivo Timmermans <ivo@debian.org>  Mon, 22 Oct 2001 01:45:19 +0200
+
+proftpd (1.2.2-1) unstable; urgency=high
+
+  * New upstream release (Closes: #109070):
+     - Doesn't use ifdef's inside a printf call.
+       (Closes: #104402, #104948)
+  * Don't log `No certificates found' message for each connection, only
+    print it on startup. (Closes: #103318)
+  * Change documentation for HideGroup. (Closes: #106548)
+  * Add new directives for proftpd-ldap: LDAPCheckAllow, LDAPCheckDeny,
+    LDAPHomedirOnDemandScript
+
+ -- Ivo Timmermans <ivo@debian.org>  Sat, 18 Aug 2001 17:29:31 +0200
+
+proftpd (1.2.1+1.2.2rc3-3) unstable; urgency=low
+
+  * Depend on adduser. (Closes: #102944)
+  * Updated the Spanish debconf template. (Closes: #102135)
+  * Include genuser.pl and ftpasswd in the proftpd-common package.
+    (Closes: #102489)
+
+ -- Ivo Timmermans <ivo@debian.org>  Tue,  3 Jul 2001 01:01:44 +0200
+
+proftpd (1.2.1+1.2.2rc3-2) unstable; urgency=low
+
+  * Added -r to rm -f /var/run/proftpd in postrm.
+
+ -- Ivo Timmermans <ivo@debian.org>  Mon,  2 Jul 2001 00:48:16 +0200
+
+proftpd (1.2.1+1.2.2rc3-1) unstable; urgency=low
+
+  * New upstream release.
+  * Applied the TLS patch by Peter Runestig.
+  * Included new config.sub and config.guess. (Closes: #99862)
+  * Fixed regexp in proftpd.init. (Closes: #98078)
+
+ -- Ivo Timmermans <ivo@debian.org>  Thu, 28 Jun 2001 11:57:49 +0200
+
+proftpd (1.2.1-9) unstable; urgency=low
+
+  * Changed sections now that postgresql is in non-US. (Closes: #97124)
+  * Kill any references to /usr/doc and /usr/man from debian/rules.
+
+ -- Ivo Timmermans <ivo@debian.org>  Fri, 11 May 2001 11:16:51 +0200
+
+proftpd (1.2.1-8) unstable; urgency=low
+
+  * Fixed the logic that determines how to handle
+    /etc/proftpd.conf. (Closes: #96593)
+
+ -- Ivo Timmermans <ivo@debian.org>  Wed,  9 May 2001 10:57:32 +0200
+
+proftpd (1.2.1-7) unstable; urgency=low
+
+  * Check that /etc/proftpd.conf exists before calculating the md5sum
+    (doh).
+
+ -- Ivo Timmermans <ivo@debian.org>  Sun,  6 May 2001 14:06:32 +0200
+
+proftpd (1.2.1-6) unstable; urgency=low
+
+  * Make proftpd-doc suggest proftpd-common. (Closes: #95724)
+  * Added tests to see if /etc/proftpd.conf exists. (Closes: #95650)
+
+ -- Ivo Timmermans <ivo@debian.org>  Wed,  2 May 2001 15:09:40 +0200
+
+proftpd (1.2.1-5) unstable; urgency=low
+
+  * Include German debconf templates. (Closes: #93770, #93989)
+  * Redirect update-inetd stdout and stdin to /dev/tty.
+    (Closes: #93152)
+  * Include ftpusers(5) manual page, originally from the ftpd package.
+    (Closes: #94348)
+  * Automatically generate a proftpd.conf(5) manual page from the file
+    doc/Configuration.html; add perl-base to build dependencies.
+    (Closes: #65354)
+
+ -- Ivo Timmermans <ivo@debian.org>  Thu, 19 Apr 2001 03:13:02 +0200
+
+proftpd (1.2.1-4) unstable; urgency=low
+
+  * Make proftpd-common and -doc replace proftpd. (Closes: #93230)
+  * Don't edit /etc/init.d/proftpd from postinst, as this is already
+    handled correctly with a grep. (Closes: #93331)
+  * Split proftpd-sql into proftpd-mysql and proftpd-pgsql.  This is ugly,
+    but necessary. (Closes: #72347, #93150)
+  * proftpd-ldap no longer conflicts with itself.
+  * All the configure scripts use the same config.cache file.
+
+ -- Ivo Timmermans <ivo@debian.org>  Mon,  9 Apr 2001 02:34:26 +0200
+
+proftpd (1.2.1-3) unstable; urgency=low
+
+  * `Let's split up' -- Created a separate package for SQL authentication,
+    drop mod_sql from the standard package.
+  * Created a separate package with mod_ldap for LDAP authentication
+    (untested!). (Closes: #60458)
+  * Check md5sum of /etc/proftpd.conf or ask user before asking questions
+    that mean we have to edit the file. (Closes: #90673)
+  * Needs debhelper 3.0 or later.
+  * Include Brazilian, Dutch and Spanish debconf templates.
+    (Closes: #92143, #92318)
+  * Move all debconf related stuff out of postinst into config.  This
+    makes update-inetd work correctly if it needs to ask something.
+    (Closes: #91931, #91987; addresses #90676)
+  * Also edit the ServerType directive in /etc/proftpd.conf when switching
+    to/from inetd mode. (Closes: #91931, #91987)
+  * Use /etc/pam.d/proftpd (fix typo). (Closes: #91745)
+  * Drop manual.uue from the source, delete sharutils from build depends.
+  * Remove the contents from /var/run/proftpd in postrm and postinst.
+    (Closes: #90675, #91262)
+
+ -- Ivo Timmermans <ivo@debian.org>  Sat, 24 Mar 2001 23:32:58 +0100
+
+proftpd (1.2.1-2) unstable; urgency=low
+
+  * Added postgresql-dev and sharutils to the build dependencies.
+    (Closes: #90650)
+  * Run proftpd as root from inetd.  proftpd switches to the user/group
+    that is given in the configuration file after startup anyway.
+    (Closes: #90643, #90645)
+  * Set priority to optional.
+  * In cron.monthly, test for ftpstats in the right directory
+    (/usr/sbin). (Closes: #90669)
+
+ -- Ivo Timmermans <ivo@debian.org>  Thu, 22 Mar 2001 18:21:46 +0100
+
+proftpd (1.2.1-1) unstable; urgency=low
+
+  * New upstream release.  (Closes: #49742, #60188, #62589, #64926,
+    Closes: #66784, #66785, #68848, #74153, #74545, #74758, #77701,
+    Closes: #76453, #78922, #80220, #81757, #82921, #83822, #85561,
+    Closes: #86175, #86855)
+  * New maintainer. (Closes: #66783, #67343, #68356, #72841, #75487,
+    Closes: #76258, #85259, #85589, #85710, #85724, #85940, #86011,
+    Closes: #86519, #87194, #90299)
+  * Send savelog output from cron.monthly to /dev/null.
+    (Closes: #72894, #88150)
+  * Applied a patch submitted by me that fixes segfaults due to using
+    a nonexistant postgres connection. (Closes: #76710)
+  * Fixed a small error. (Closes: #77701)
+  * Check for the presence of any SQL* directives in proftpd.conf on
+    upgrade, refer to README.mod_sql. (Closes: #77701)
+  * Added /etc/ftpusers file. (Closes: #79062, #87568)
+  * Changed modules/mod_pam.c to use /etc/pam.d/proftpd by default.
+  * Replace pam_unix_password by pam_unix and remove the shadow option
+    from /etc/pam.d/proftpd. (Closes: #81753)
+  * Ask whether proftpd should start from inetd or standalone.
+    (Closes: #67720)
+  * Test if ftpstats exists on the system before executing it in
+    cron.monthly. (Closes: #86773)
+  * postinst: Call cp in a separate shell to prevent ~ftp caching trouble.
+    (Closes: #44530)
+  * Made changes to contrib/mod_sql*.c to allow both mysql and postgres
+    modules to be linked in.
+  * Fixed small but obvious mistake in mod_sqlpw.c. (Closes: #76723)
+  * Apply fix from ftp://ftp.urbanrage.com/pub/c/mod_quota.c (by Dmitry
+    Alyabyev) for QuotaExempt.
+  * Added a line with PersistentPasswd to basic.conf, to please NIS and
+    LDAP users bugging about proftpd not finding their dynamic
+    users. (Closes: #62197)
+  * Set DenyFilter in basic.conf to prevent a DoS posted to bugtraq
+    (proftpd bug id 1066). (Closes: #89871)
+  * Move Umask to the <Directory> blocks.
+
+ -- Ivo Timmermans <ivo@debian.org>  Wed,  7 Mar 2001 02:52:26 +0100
+
+proftpd (1.2.0pre10-2.1) unstable; urgency=high
+
+  * Non-Maintainer upload.
+  * Applied patch against string format buffer attack.
+  * Removed extra User/Group pair from basic.conf, server now runs as
+    user/group nobody by default.
+  * Added build dependencies on libmysqlclient-dev (instead of
+    mysql-dev), zlib1g-dev, debhelper and libpam-dev.
+  * In contrib/libcap/libcap.h: moved the capability.h include to just
+    below sys/types.h to fix horrible build errors.
+
+ -- Ivo Timmermans <ivo@debian.org>  Sat, 24 Feb 2001 02:32:02 +0100
+
+proftpd (1.2.0pre10-2) frozen unstable; urgency=high
+
+  * Use setproctitle(%s,foo) in main.c, lamagra@DIGIBEL.ORG advisory.
+
+ -- Johnie Ingram <johnie@debian.org>  Wed,  5 Jul 2000 18:50:07 -0500
+
+proftpd (1.2.0pre10-1) unstable; urgency=low
+
+  * New upstream version (CVS), closes: #59851, #58043, #58149, #41090.
+  * Included lines in default config which make files overwritable,
+    closes: #58258.
+  * Added patch from Gerhard Poul to create xferreport in cron.daily,
+    closes: #57935.
+  * Added patch from Christian Hammers so the init.d script reliably kills
+    the daemon even in inetd mode, and without using killall, closes:
+    #48487, #45853.
+  * Added directory umask to default config, closes: #42279.
+  * Included more documentation and READMEs.
+  * Disabled mod_pgsql and statically linked to library for mod_mysql,
+    closes: #51120, #50342.
+  * Enabled new module mod_quota.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue,  7 Mar 2000 14:54:10 -0600
+
+proftpd (1.2.0pre9-7) unstable; urgency=low
+
+  * New upstream version (CVS), fixes TYPE L, closes: #58043.
+
+ -- Johnie Ingram <johnie@debian.org>  Wed, 16 Feb 2000 16:17:00 -0600
+
+proftpd (1.2.0pre9-6) unstable; urgency=low
+
+  * Uploaded for the correct dist (unstable).
+
+ -- Johnie Ingram <johnie@debian.org>  Mon, 20 Dec 1999 05:19:47 -0600
+
+proftpd (1.2.0pre9-5) unstable; urgency=low
+
+  * Included ftpstats manpage by Darren Benham (gecko), closes: #51867,
+    #39508.
+  * Changed xferstats to ftpstats in example crontab, closes: #50027.
+  * Slink version updated as of 2.1r4, closes: #33193, #36829, #34564.
+  * No longer asks debconf questions in the postinst, closes: #48353,
+    #46695.
+  * Included compile fixes from slink version, closes: #49170.
+
+ -- Johnie Ingram <johnie@debian.org>  Fri, 17 Dec 1999 21:01:02 -0600
+
+proftpd (1.2.0pre9-4) stable; urgency=low
+
+  * Included compile fixes from slink version.
+  * Changed xferstats to ftpstats in example crontab, closes: #50027.
+
+ -- Johnie Ingram <johnie@debian.org>  Mon,  8 Nov 1999 22:12:13 -0600
+
+proftpd (1.2.0pre9-3) stable; urgency=high
+
+  * Really really important security upload for slink.
+
+ -- Johnie Ingram <johnie@debian.org>  Mon,  8 Nov 1999 19:35:58 -0600
+
+proftpd (1.2.0pre9-2) unstable; urgency=low
+
+  * New upstream version, closes: #49170 (have_sendfile on m68k).
+
+ -- Johnie Ingram <johnie@debian.org>  Sat, 30 Oct 1999 20:51:00 -0500
+
+proftpd (1.2.0pre9-1) unstable; urgency=low
+
+  * New upstream version, closes: #43842, #38203, #48274, #46407, #40085, #33206.
+  * Included patch from Madarasz Gergely so it works on 2.0 kernels again
+    (adopted upstream), closes: #47138.
+  * Database client libraries are linked dynamically, closes: #47147.
+  * Split of netbase ends inetd.conf problems, closes: #17514.
+  * Starting in standalone mode removes ftp from inetd.conf, closes: #29734.
+  * Changed PAM service class to 'ftp'.
+
+ -- Johnie Ingram <johnie@debian.org>  Sat, 30 Oct 1999 20:44:31 -0500
+
+proftpd (1.2.0pre7-3) unstable; urgency=low
+
+  * New upstream version (pre8 beta).
+  * Added detection of slink (ancient non-FHS) system during build.
+  * Changed awkward name xferstats.proftpd to ftpstats.
+  * Debconfified install question.
+  * Updated SQL support.
+
+ -- Johnie Ingram <johnie@debian.org>  Mon,  4 Oct 1999 13:32:59 -0500
+
+proftpd (1.2.0pre7-2) unstable; urgency=low
+
+  * Turned off debugging feature, closes: #46309.
+
+ -- Johnie Ingram <johnie@debian.org>  Thu, 30 Sep 1999 09:49:00 -0500
+
+proftpd (1.2.0pre7-1) unstable; urgency=low
+
+  * New upstream version.
+  * Fixed pam configuration error, closes: #45775, #45769
+  * Split mod_sql out of mod_mysql; added mod_pgsql.
+
+ -- Johnie Ingram <johnie@debian.org>  Mon, 27 Sep 1999 00:51:11 -0500
+
+proftpd (1.2.0pre6-3) unstable; urgency=low
+
+  * Updated mod_mysql module, updated CVS, added docs.
+  * Closing old bugs:
+    * Authentication (PAM) works, closes: #38229, #22894, #10360.
+    * Kills on upgrade, closes: #44531.  
+    * Restarts on upgrade, closes: #38560, #33540, #33205.
+    * But only if ServerType standalone, closes: #32950.
+    * No killall to fail, closes: #38260.
+
+ -- Johnie Ingram <johnie@debian.org>  Sat, 18 Sep 1999 01:48:47 -0500
+
+proftpd (1.2.0pre6-2) unstable; urgency=high
+
+  * New upstream security update.
+
+ -- Johnie Ingram <johnie@debian.org>  Thu, 16 Sep 1999 13:14:32 -0500
+
+proftpd (1.2.0pre6-1) unstable; urgency=low
+
+  * New upstream version.
+  * Separate PAM configuration file; PersistentPasswd defaults to off to
+    allow NIS and PAM auth to work.
+  * Reactivated linuxprivs module, fixed upstream.
+
+ -- Johnie Ingram <johnie@debian.org>  Mon, 13 Sep 1999 02:50:19 -0500
+
+proftpd (1.2.0pre5-1) unstable; urgency=low
+
+  * New upstream version.
+  * ARM support (1.1.7r3-4 NMU, #29805), mod_mysql, and all debian patches
+    are now included upstream.
+
+ -- Johnie Ingram <johnie@debian.org>  Fri, 10 Sep 1999 03:58:40 -0500
+
+proftpd (1.2.0pre4-3) unstable; urgency=low
+
+  * Updated to Standards-Version 3.0.1.1 (FHS).
+  * Purging proftpd will stop the daemon, closes: #44531.
+
+ -- Johnie Ingram <johnie@debian.org>  Sun,  5 Sep 1999 09:50:48 -0500
+
+proftpd (1.2.0pre4-2) unstable; urgency=high
+
+  * More security fixes.
+
+ -- Johnie Ingram <johnie@debian.org>  Sun,  5 Sep 1999 09:38:01 -0500
+
+proftpd (1.2.0pre4-1) unstable; urgency=high
+
+  * New upstream version, fixing remote root exploit.
+  * Prepared with the PAM of glibc 2.1, closes: #36742, #38562.
+  * Note: the README.Solaris2.5x is included as humor, illustrating how
+    bad non-free OSes can be, closes: #36540.
+  * Fixed segfault possibility in mysql module.
+  * Updated to Standards-Version 3.0.1.0.
+  * Conflicts with and provides ftp-server, closes: #42407.
+  * Added dependency on libpam-modules.
+
+ -- Johnie Ingram <johnie@debian.org>  Mon, 30 Aug 1999 11:52:18 -0500
+
+proftpd (1.2.0pre2-7) unstable; urgency=low
+
+  * Added useful undocumented features to mod_ratio and mod_mysql.
+
+ -- Johnie Ingram <johnie@debian.org>  Mon,  3 May 1999 12:23:18 -0400
+
+proftpd (1.2.0pre2-6) unstable; urgency=low
+
+  * Activated PAM support, closes: #24115, #24524.
+  * Also closes: #35292, fixed in 1.20pre2-4.
+
+ -- Johnie Ingram <johnie@debian.org>  Fri, 23 Apr 1999 11:04:57 -0400
+
+proftpd (1.2.0pre2-5) unstable; urgency=low
+
+  * Changed default (undocumented) TimeoutStalled from 0 to 300.
+
+ -- Johnie Ingram <johnie@debian.org>  Sat, 10 Apr 1999 17:53:29 -0400
+
+proftpd (1.2.0pre2-4) unstable; urgency=low
+
+  * Conflicts with wu-ftpd-academ, closes: #35036.
+  * The postrm no longer dies if proftpd is not currently running, closes:
+    #35292.
+  * Updated mod_ratio to 2.0beta, added experimental and utterly
+    undocumented mod_mysql 0.1.
+  * Updated to Standards-Version 2.5.0.0.
+
+ -- Johnie Ingram <johnie@debian.org>  Thu,  8 Apr 1999 12:01:42 -0400
+
+proftpd (1.2.0pre2-3) unstable; urgency=low (high for glibc 2.1)
+
+  * New upstream version (1.2.0pre2)
+      * Fixes root priv problem with glibc 2.1 (mod_linuxprivs disabled),
+        closes: #34604.
+      * Fixes ls -lR again, closes: #34521, #33671, #33494
+      * Returns 550 instead of 553 when retrieving dir, closes: #29498.
+
+ -- Johnie Ingram <johnie@debian.org>  Fri, 19 Mar 1999 10:29:43 -0500
+
+proftpd (1.2.0pre2-2) frozen unstable; urgency=medium
+
+  * Uploaded for frozen.  Fixes ls -alR looping bug discovered by Jim
+    Pick, closes: #33494.
+
+ -- Johnie Ingram <johnie@debian.org>  Thu,  4 Mar 1999 08:11:14 -0500
+
+proftpd (1.2.0pre2-1) unstable; urgency=medium
+
+  * New upstream version, closes: #33494 (ls -alR looping bug discovered
+    by Jim Pick).
+  * Debugging turned off by default, closes: #33396.
+
+ -- Johnie Ingram <johnie@debian.org>  Wed, 17 Feb 1999 12:46:15 -0500
+
+proftpd (1.2.0pre1-2) stable frozen unstable; urgency=high
+
+  * Uploaded for stable by request of Wichert Akkerman.  This fixes the
+    Palmetto bug discovered by netect.com.  Upgrade.  Now.
+  * Bug also fixed in slink and potato on Feb 4, closes: #32686, #33173.
+
+ -- Johnie Ingram <johnie@debian.org>  Wed, 10 Feb 1999 09:26:18 -0500
+
+proftpd (1.2.0pre1-1) frozen unstable; urgency=medium
+
+  * Include path exploit fix (closes: #32686, important).
+  * Rehashing (-HUP) now properly discards old LogFormat logs, and
+    recreates from the conf file, closes: #28641.
+  * Fixed division by 0 in xferstats.proftp, closes: #26946.
+  * No longer complains to stderr when capababilities (a 2.2.x feature)
+    aren't supported by the kernel, closes: #27861.
+  * Includes ARM support (1.1.7r3-4 NMU), closes: #29805.
+  * Module mod_ls fixed so ncftp -R works, closes: #29520.
+  * Removing package kills proftpd, closes: #30157, #32331, #32607.
+  * No longer slow (846.68 kB/s over ethernet), closes: #29396.
+  * Tweaked regex in /etc/init.d/proftpd.
+  * Daemon is not pointlessly stopped during upgrade: #28900.
+  * Updated documentation from upstream website.
+
+ -- Johnie Ingram <johnie@debian.org>  Thu,  4 Feb 1999 13:37:17 -0500
+
+proftpd (1.1.7r3-4) unstable; urgency=low
+
+  * Only queries about installing anonymous ftp once (#27873 and #25432).
+
+ -- Johnie Ingram <johnie@debian.org>  Mon, 12 Oct 1998 18:24:59 -0400
+
+proftpd (1.1.7r3-3) unstable; urgency=low
+
+  * Merged fix from Alpha release by Paul Slootman (#27823).
+  * Bugs fixed prior to this release, or non-bugs: #20130, #24675, #25158,
+    #25162.
+
+ -- Johnie Ingram <johnie@debian.org>  Mon, 12 Oct 1998 17:16:53 -0400
+
+proftpd (1.1.7r3-2) unstable; urgency=low
+
+  * New upstream version (CVS).
+
+ -- Johnie Ingram <johnie@debian.org>  Mon, 12 Oct 1998 12:53:14 -0400
+
+proftpd (1.1.7r3-1.1) unstable; urgency=low
+
+  * non-maintainer (binary-only) upload for Alpha
+  * invoke "make install" with some modified parameters, else it tries to
+    create directories outside the source directory.
+
+ -- Paul Slootman <paul@debian.org>  Mon, 12 Oct 1998 21:07:12 +0200
+
+proftpd (1.1.7r3-1) unstable; urgency=low
+
+  * New upstream version (pristine).
+
+ -- Johnie Ingram <johnie@debian.org>  Sat, 10 Oct 1998 13:11:38 -0400
+
+proftpd (1.1.7r2-2) unstable; urgency=low
+
+  * New upstream version (CVS).
+  * Module linuxprivs is now compiled in for better security, on
+    architectures with kernel source newer than 2.1.103.
+
+ -- Johnie Ingram <johnie@debian.org>  Wed,  7 Oct 1998 10:55:38 -0400
+
+proftpd (1.1.7r2-1) unstable; urgency=low, closes=26839
+
+  * New upstream version (pristine).
+  * Removal will not run init.d script if script doesn't exist (#26839).
+
+ -- Johnie Ingram <johnie@debian.org>  Tue,  6 Oct 1998 14:17:08 -0400
+
+proftpd (1.1.7r1-1) unstable; urgency=low
+
+  * New upstream version 1.1.7pl1 (CVS).
+
+ -- Johnie Ingram <johnie@debian.org>  Wed, 23 Sep 1998 11:29:21 -0400
+
+proftpd (1.1.7pre1-1) unstable; urgency=low, closes=25168 16502 20868 26638 23485 25272
+
+  * New upstream version (CVS) includes ability to diable wtmp logging
+    (#16502) and a correct implementation of %L (#20868).
+  * Fixed xferstats conflict with hylafax-server (#26638).
+  * Removing proftpd now stops the running daemon (#25272).
+  * Bugs fixed prior to this release, by other packages, or non-bugs:
+    #25168, #23485.
+  * Updated to Standards-Version 2.4.1.4.
+
+ -- Johnie Ingram <johnie@debian.org>  Sat, 12 Sep 1998 17:16:53 -0400
+
+proftpd (1.1.6r2-3) unstable; urgency=low
+
+  * Ratio support is accepted by upstream author as a "contrib" module,
+    and now fully documented.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue,  8 Sep 1998 22:30:45 -0400
+
+proftpd (1.1.6r2-2) unstable; urgency=low, closes=26089 25133
+
+  * New upstream version (CVS), fixing symlink Bug (#26089) and general
+    slowness when used with 2.1.x kernels (#25133).
+
+ -- Johnie Ingram <johnie@debian.org>  Tue,  8 Sep 1998 14:54:59 -0400
+
+proftpd (1.1.6r2-1) unstable; urgency=low, closes=26167 26305 23156 17488
+
+  * New upstream version (CVS).
+  * Modified for new debhelper behavior (#26167, #26305).
+  * Closes #17488, as ls -lat is now supported.
+  * Added xferstats manpage and program wu-ftpd-academ, as modified by
+    Holger Preiss (TU Dresden) (#23156).
+
+ -- Johnie Ingram <johnie@debian.org>  Tue,  8 Sep 1998 12:29:25 -0400
+
+proftpd (1.1.6r-1.1) unstable; urgency=low
+
+  * non-maintainer upload for Alpha
+  * don't use wildcards in debian/examples, as that fails with debhelper_1.1.9
+
+ -- Paul Slootman &lt;paul@debian.org&gt;  Wed, 26 Aug 1998 22:37:29 +0200
+
+proftpd (1.1.6r-1) unstable; urgency=low
+
+  * New upstream version (CVS).
+
+ -- Johnie Ingram <johnie@debian.org>  Thu, 20 Aug 1998 10:51:04 -0400
+
+proftpd (1.1.6pre4-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue,  4 Aug 1998 12:25:14 -0400
+
+proftpd (1.1.6pre2-1) unstable; urgency=low
+
+  * New upstream version (fixes ident timeouts).
+
+ -- Johnie Ingram <johnie@debian.org>  Fri, 31 Jul 1998 11:51:32 -0400
+
+proftpd (1.1.6pre1-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Johnie Ingram <johnie@debian.org>  Thu, 30 Jul 1998 14:29:27 -0400
+
+proftpd (1.1.5r-3) unstable; urgency=low
+
+  * New upstream version (1.1.5pl3).
+
+ -- Johnie Ingram <johnie@debian.org>  Mon, 20 Jul 1998 23:04:08 -0400
+
+proftpd (1.1.5r-2) unstable; urgency=low
+
+  * Tweaked syslog logging: CWD command, initial connect, etc.
+  * Added HostRatio directive.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue, 14 Jul 1998 12:09:35 -0400
+
+proftpd (1.1.5r-1) unstable; urgency=low
+
+  * New upstream version.
+  * Removed extraneous debugging output from mod_ratio.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue, 14 Jul 1998 11:00:58 -0400
+
+proftpd (1.1.5pre3-2) unstable; urgency=low
+
+  * Added custom-written ratio module.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue, 14 Jul 1998 01:23:00 -0400
+
+proftpd (1.1.5pre3-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Johnie Ingram <johnie@debian.org>  Sun, 12 Jul 1998 22:11:05 -0400
+
+proftpd (1.1.5pre1-1) unstable; urgency=low, closes=23568 17765 18589
+
+  * New upstream version.
+  * Source code uses correct FSF address (#23568).
+  * Recursive directory listings (ls -lR) now supported (#17765).
+  * No longer possible to crash/spin server with huge dirs (#18589).
+  * Probably fixes 10360, 16502, 18855, 20130, 22894, 23485, and 23875,
+    but more testing is needed.
+
+ -- Johnie Ingram <johnie@debian.org>  Sun,  5 Jul 1998 18:24:45 -0400
+
+proftpd (1.0.3-1) unstable; urgency=low, closes=22207 22437 14447 21808
+
+  * New upstream version.
+  * ProFTPD now uses port 20 for outgoing data instead of "wierd ports"
+    (#14447).
+  * Pre-install script will not fail if init.d script is missing (#22207).
+  * Closes Bug #22437 against ncftp, incorrect handling of multiline
+    responses, actually due to proftpd's incorrect multiline response.
+  * Includes example configurations (#21808).
+
+ -- Johnie Ingram <johnie@debian.org>  Fri, 22 May 1998 17:17:20 -0400
+
+proftpd (1.0.2-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Johnie Ingram <johnie@debian.org>  Thu, 21 May 1998 15:21:06 -0400
+
+proftpd (1.0.1-1) unstable; urgency=low
+
+  * New (somewhat unreleased) upstrem version, fixing potential segfault
+    problem.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue, 19 May 1998 13:48:26 -0400
+
+proftpd (1.0.0unoff1-2) unstable; urgency=low
+
+  * Real-time ratio levels are now logged for each user, at the higher
+    debugging levels (>= 3).
+  * Ratios are calculated at session start in addition to during chdir
+    commands.
+
+ -- Johnie Ingram <johnie@debian.org>  Sun, 19 Apr 1998 20:06:01 -0400
+
+proftpd (1.0.0unoff1-1) unstable; urgency=low
+
+  * Now includes current directories in status output.
+  * The ftpwho command now shows the entire command being executed.
+  * Remoted commands logged separate from malloc debugging: most at level
+    3, STOR, RETR and CWD at level 2.
+  * Now logs the rough bandwidth of each transfer to syslog.
+  * Disabled NEED_PERSISTENT_PASSWORD so NIS works (#18144, #14916).
+  * Converted from debmake to debhelper packaging technology.
+  * Undocumented support for upload/download ratios added.
+
+ -- Johnie Ingram <johnie@debian.org>  Sat, 18 Apr 1998 23:24:15 -0400
+
+proftpd (1.0.0-8) unstable; urgency=low
+
+  * Priority is now extra.
+
+ -- Johnie Ingram <johnie@debian.org>  Wed, 18 Mar 1998 17:01:21 -0500
+
+proftpd (1.0.0-7) unstable; urgency=low
+
+  * Corrected spelling of proftpd in init.d message output.
+
+ -- Johnie Ingram <johnie@debian.org>  Sat, 14 Mar 1998 19:47:23 -0500
+
+proftpd (1.0.0-6) unstable; urgency=low
+
+  * Included force-reload target in help text returned by init.d script,
+    and switched to the unofficial official downcase style.
+
+ -- Johnie Ingram <johnie@debian.org>  Fri,  6 Feb 1998 23:43:19 -0500
+
+proftpd (1.0.0-5) unstable; urgency=low
+
+  * Corrected year and URL info in copyright file.
+  * Added reload and force-reload targets to init.d script.
+  * Updated to Standards-Version 2.4.0.0.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue,  3 Feb 1998 15:05:51 -0500
+
+proftpd (1.0.0-4) unstable; urgency=low, closes=17489
+
+  * Applied proftpd-1.0.0-chmod.patch, fixing behavior of the SITE CHMOD
+    command when octal numbers do not begin with 0.
+  * Default config now shows symlinks as symlinks (#17489).
+
+ -- Johnie Ingram <johnie@debian.org>  Tue,  3 Feb 1998 13:14:10 -0500
+
+proftpd (1.0.0-3) unstable; urgency=low
+
+  * Built with new version of debmake to correct md5sum error.
+
+ -- Johnie Ingram <johnie@debian.org>  Wed, 21 Jan 1998 13:33:39 -0500
+
+proftpd (1.0.0-2) unstable; urgency=low, closes=14234
+
+  * Setting up anonymous FTP now sets up an example welcome.msg (#14234).
+  
+ -- Johnie Ingram <johnie@debian.org>  Thu,  1 Jan 1998 14:02:50 -0500
+
+proftpd (1.0.0-1) unstable; urgency=low, closes=12753
+
+  * New upstream version, fixes MDTM and NOOP commands.
+  * Closed #12753, as install now asks to set up anonymous FTP.
+  * Init script modified for better compliance with policy 2.3.0.1 section
+    3.6.
+
+ -- Johnie Ingram <johnie@debian.org>  Wed, 31 Dec 1997 23:43:20 -0500
+
+proftpd (0.99.0pl11-2) unstable; urgency=low
+
+  * Fixed bug in preinst discovered on powerpc architecture -- the preinst
+    script could fail with some versions of bash.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue,  9 Dec 1997 20:11:07 -0500
+
+proftpd (0.99.0pl11-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue, 11 Nov 1997 13:53:58 -0500
+
+proftpd (0.99.0pl10-1) unstable; urgency=low, closes=14725
+
+  * New upstream version, supporting md5 passwords (#14725).
+  * Fixed bug where proftpd would not start automatically after upgrade if
+    anonymous FTP was enabled.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue, 11 Nov 1997 12:36:52 -0500
+
+proftpd (0.99.0pl9-2) unstable; urgency=low
+
+  * Fixed errors in default proftpd.conf pointed out by Scott K. Ellis.
+  * Configuration script no longer asks if anonymous FTP should be
+    enabled, if anonymous FTP is enabled.
+  * Closed #10360, as proftpd now works correctly on both shadow and
+    non-shadow systems.
+
+ -- Johnie Ingram <johnie@debian.org>  Wed, 29 Oct 1997 14:54:31 -0500
+
+proftpd (0.99.0pl9-1) unstable; urgency=low
+
+  * New upstream version.
+  * Features support for the SIZE command (#13963).
+  
+ -- Johnie Ingram <johnie@debian.org>  Wed, 29 Oct 1997 14:05:12 -0500
+
+proftpd (0.99.0pl8-1) unstable; urgency=low
+
+  * New upstream version.
+  * Includes support for the MDTM command used by the ftp method of dpkg
+    (#13959).
+  * Added code from Christoph Lameter to set up anonymous ftp (#13334).
+  * Removed patch to fix non-shadow support, as this feature has been
+    added to the configuration script.
+  * Added SHELL=/bin/bash to debian rules.
+  * Updated to Standards-Version 2.3.0.0 and debmake 3.4.2..
+
+ -- Johnie Ingram <johnie@debian.org>  Mon, 20 Oct 1997 16:11:05 -0400
+
+proftpd (0.99.0pl7-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Fixes wtmp corruption program (#12013, #12483).
+  * Added patch to fix non-shadow support.
+
+ -- Johnie Ingram <johnie@debian.org>  Wed, 24 Sep 1997 14:10:51 -0400
+
+proftpd (0.99.0pl6-5) unstable; urgency=low
+
+  * Tweaked packaging for better multi-architecture support.
+
+ -- Johnie Ingram <johnie@debian.org>  Sun, 31 Aug 1997 00:38:31 -0400
+
+proftpd (0.99.0pl6-4) unstable; urgency=low
+
+  * Updated to Standards-Version 2.2.0.0 and debmake 3.3.11.
+  * Removed "Evil" code to auto-fetch HTML manual during package build
+    reported by James Troup (#11598).
+  * Switched to pristine upstream tar archive.
+
+ -- Johnie Ingram <johnie@debian.org>  Sat,  9 Aug 1997 14:59:24 -0400
+
+proftpd (0.99.0pl6-3) unstable; urgency=low
+
+  * Linked against libc6 again on Intel architecture.
+  * Fixed errors in default proftpd.conf pointed out by Rob Browning.
+
+ -- Johnie Ingram <johnie@debian.org>  Mon, 28 Jul 1997 04:26:05 -0400
+
+proftpd (0.99.0pl6-2) unstable; urgency=low
+
+  * Updated HTML manual, modifed build script to mirror automatically.
+
+ -- Johnie Ingram <johnie@debian.org>  Thu, 10 Jul 1997 11:14:33 -0400
+
+proftpd (0.99.0pl6-1) unstable; urgency=low
+
+  * New upstream version.
+  * Added complete HTML manual and FAQ to package.
+  * Updated to Standards-Version 2.1.3.3 and debmake 3.3.4.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue,  8 Jul 1997 23:46:06 -0400
+
+proftpd (0.99.0pl5-1) unstable; urgency=low
+
+  * New upstream version.
+  * No longer unnecessarily edits /etc/inetd.conf during upgrades,
+    and /etc/init.d/proftpd script now automatically detects when proftpd
+    is being run out of inetd instead (Bug #10462).
+  * Closed Bug #10373.
+
+ -- Johnie Ingram <johnie@debian.org>  Wed, 11 Jun 1997 02:46:55 -0400
+
+proftpd (0.99.0pl4-3) unstable; urgency=low
+
+  * Built with libc5 (on i386 systems) in another attempt to fix Bug
+    #10373 (corruption of utmp and wtmp).
+  * Some tweaks to debian "clean" target.
+
+ -- Johnie Ingram <johnie@debian.org>  Sat,  7 Jun 1997 11:47:45 -0400
+
+proftpd (0.99.0pl4-2) unstable; urgency=low
+
+  * Added TODO file and upstream changelog to package.
+  * Temporarily disabled wtmp logging since this corrupts the log on
+    libc5/libc6 systems (Bug #10373).
+
+ -- Johnie Ingram <johnie@debian.org>  Thu,  5 Jun 1997 20:14:17 -0400
+
+proftpd (0.99.0pl4-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Johnie Ingram <johnie@debian.org>  Thu,  5 Jun 1997 13:28:13 -0400
+
+proftpd (0.99.0pl3-2) unstable; urgency=low
+
+  * Added patch from author to fix premature termination of the control
+    connection during MPUT commands.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue,  3 Jun 1997 15:59:42 -0400
+
+proftpd (0.99.0pl3-1) unstable; urgency=low
+
+  * Initial Release.
+  * Contains two additional patches from the author to fix compilation on
+    libc6, and to log the full pathname in the xferlog.
+
+ -- Johnie Ingram <johnie@debian.org>  Tue,  3 Jun 1997 09:41:41 -0400
+
+

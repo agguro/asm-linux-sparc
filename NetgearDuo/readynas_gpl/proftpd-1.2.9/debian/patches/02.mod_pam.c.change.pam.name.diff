@@ -1,0 +1,12 @@
+diff -urN proftpd-1.2.8/modules/mod_auth_pam.c proftpd-1.2.8-debian/modules/mod_auth_pam.c
+--- proftpd-1.2.8/modules/mod_auth_pam.c	2003-01-02 19:25:20.000000000 +0100
++++ proftpd-1.2.8-debian/modules/mod_auth_pam.c	2003-03-17 15:09:28.000000000 +0100
+@@ -57,7 +57,7 @@
+ #endif /* HAVE_PAM_PAM_APPL_H */
+ 
+ static pam_handle_t *	pamh			= NULL;
+-static char *		pamconfig		= "ftp";
++static char *		pamconfig		= "proftpd";
+ static char *		pam_user 		= NULL;
+ static char *		pam_pass 		= NULL;
+ static size_t		pam_user_len		= 0;

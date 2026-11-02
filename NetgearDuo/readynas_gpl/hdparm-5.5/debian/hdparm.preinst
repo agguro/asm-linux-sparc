@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if [ "$1" = install -o "$1" = upgrade ]; then
+  if dpkg --compare-versions "$2" lt 5.4-9; then
+    update-rc.d -f hdparm remove > /dev/null 2>&1
+  fi
+  if dpkg --compare-versions "$2" lt 5.4-6; then
+    if [ -e /etc/hdparm.conf ]; then
+      echo -n "Hmmm.  Non-standard /etc/hdparm.conf found.  Backing it up to /etc/hdparm.conf.bak . . "
+      mv /etc/hdparm.conf /etc/hdparm.conf.bak
+      echo "done."
+    fi
+    if dpkg --compare-versions "$2" ge 5.4-3; then
+      if [ -e /etc/default/hdparm ]; then  
+        echo -n "Moving old /etc/default/hdparm to /etc/hdparm.conf . . "
+        mv /etc/default/hdparm /etc/hdparm.conf
+        echo "done."
+      fi
+    fi
+  fi
+fi
+
+#DEBHELPER#

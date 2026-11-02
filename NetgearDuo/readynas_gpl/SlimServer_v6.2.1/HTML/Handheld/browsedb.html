@@ -1,0 +1,28 @@
+	[% pagetitle = "BROWSE_MUSIC" | string %]
+	[% PROCESS pageheader.html %]
+
+	[% WRAPPER submenu url='browsedb.html' arguments='hierarchy=playlist,playlistTrack&level=0' linktitle=pwd_list %]
+		<tr><td>
+			[% IF browselist_pagebar %][% browselist_pagebar %][% END %][% IF browselist_header %]&nbsp;|&nbsp;[% browselist_header %][% END %]
+		</td></tr>
+	[%- END -%]
+	
+	[% IF warn %]
+		<p><b>[% "NOTE" | string %]</b>
+		[% "SCAN_WARNING" | string %] 
+		[% IF audiodir %]
+			[% "SCAN_CLICK" | string %] <a href="browsetree.html?player=[% player | uri %]">[% "HERE" | string %]</a>.
+		[% END %]
+		<hr></p>
+	[% END %]
+	
+	[% IF coverArt %]
+		<p><a href="/music/[% coverArt %]/cover.jpg"><img src="/music/[% coverArt %]/thumb.jpg"></a></p>
+	[% END %]
+	
+	<table cellspacing="0" border="0" cellpadding="4" width="100%">
+		[% browse_list %]
+	</table>
+
+	[% PROCESS songcount.html %]	
+	[% PROCESS pagefooter.html %]

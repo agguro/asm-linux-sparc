@@ -1,0 +1,7 @@
+#!/bin/bash
+BASEDIR=`pwd`
+rm -f $BASEDIR/debian/tmp/usr/bin/tomb-install
+mkdir -p $BASEDIR/debian/tmp/etc/mediatomb
+cat config/sqlite3.sql | sqlite3 $BASEDIR/debian/tmp/etc/mediatomb/sqlite3.db
+sed -e 's#__DEFAULT_NAME__#Infrant UPnP Media Server#' -e 's#__DEFAULT_HOME__#/etc/mediatomb#' config/config-dist.xml > $BASEDIR/debian/tmp/etc/mediatomb/config.xml
+ln -sf /usr/share/mediatomb/web $BASEDIR/debian/tmp/etc/mediatomb/web

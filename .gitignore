@@ -73,3 +73,6 @@ Thumbs.db
 /toolchain/
 /sysroot/
 *.o
+
+# ZIP files
+*.zip

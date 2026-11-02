@@ -1,0 +1,28 @@
+mediatomb (0.7.1-1.padre4) stable; urgency=low
+
+  * Rebuild with UPnP header file changes.
+
+ -- Justin Maggard <jmaggard@infrant.com>  Thu, 22 Sep 2005 18:09:51 -0700
+
+mediatomb (0.7.1-1.padre3) stable; urgency=low
+
+  * Disallow symlinks.
+
+ -- Justin Maggard <jmaggard@infrant.com>  Fri, 15 Jul 2005 13:58:45 -0700
+
+mediatomb (0.7.1-1.padre2) stable; urgency=low
+
+  * Force it to work when no user homedir is set.
+
+ -- Justin Maggard <jmaggard@infrant.com>  Tue, 31 May 2005 15:36:58 -0700
+
+mediatomb (0.7.1-1.padre1) stable; priority=low
+
+  * First rev.
+
+ -- Justin Maggard <jmaggard@infrant.com>  Wed, 25 May 2005 20:15:20 -0700
+
+
+Local variables:
+mode: debian-changelog
+End:

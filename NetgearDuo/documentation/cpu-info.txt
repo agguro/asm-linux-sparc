@@ -1,0 +1,40 @@
+agguro@netgear:~$ cat /proc/cpuinfo
+cpu		: Infrant Technologics, Inc. - neon version: 0
+fpu		: Softfpu
+ncpus probed	: 1
+ncpus active	: 1
+BogoMips	: 186.36
+MMU		: version: 0
+LP		: HW.FW version: 0.1
+FPGA		: fpga000000-0 Configuration: 0
+AHB arbitraion	: 7
+CPU id		: 0
+Switch		: 0
+ASIC		: IT3107
+
+agguro@netgear:~$ cat /proc/iomem
+5c010000-5c0100ff : 0000:00:17.2
+  5c010000-5c0100ff : ehci_hcd
+
+agguro@netgear:~$ dmesg | grep -iE 'cpu|sparc|soc|flash|nand|boot|rom'
+audit: initializing netlink socket (disabled)
+xor engine =>  SPARC.
+Boot type/reason: normal/0/24M4167500500
+NAND device: Manufacture ID: 0xec, Chip ID: 0x76 (Samsung NAND 64MiB 3,3V 8-bit)
+Samsung NAND flash rev C 
+Creating 2 MTD partitions on "NAND 64MiB 3,3V 8-bit":
+0x00000000-0x00100000 : "P0 flash partition 1"
+0x00100000-0x04000000 : "P0 flash partition 2"
+NEON flash: probing 8-bit flash bus
+CFI: Found no NEON flash device at location zero
+NEON flash: unknown flash device, mfr id 0x1, dev id 0x0
+NEON flash: Found no Atmel device at location zero
+startstop  XRAID command = start, flash_cache=0
+Change X_RAID running mode from 0 to 1
+enable_irq(11) unbalanced from f804059c
+usb usb1: configuration #1 chosen from 1 choice
+PCI: VIA IRQ fixup for 0000:00:17.0, from 0 to 11
+usb usb2: configuration #1 chosen from 1 choice
+PCI: VIA IRQ fixup for 0000:00:17.1, from 0 to 11
+usb usb3: configuration #1 chosen from 1 choice
+

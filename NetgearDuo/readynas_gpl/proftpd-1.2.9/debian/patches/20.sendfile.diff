@@ -1,0 +1,13 @@
+diff -uNr proftpd-1.2.9-orig/build-tree/proftpd-1.2.9/modules/mod_xfer.c proftpd-1.2.9/build-tree/proftpd-1.2.9/modules/mod_xfer.c
+--- proftpd-1.2.9-orig/modules/mod_xfer.c	Mon Jun 21 11:47:37 2004
++++ proftpd-1.2.9/modules/mod_xfer.c	Mon Jun 21 11:47:09 2004
+@@ -617,6 +617,9 @@
+    * - We're transmitting an ASCII file.
+    * - There's no data left to transmit.
+    */
++  if(session.xfer.file_size > 0xffffffffULL) {
++	return 0;
++  }
+   if (have_xfer_rate ||
+      !(session.xfer.file_size - count) ||
+      (session.sf_flags & (SF_ASCII|SF_ASCII_OVERRIDE))) {

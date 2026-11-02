@@ -1,0 +1,134 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#    Translators, please read /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: proftpd 1.2.8-6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-03 14:11+0100\n"
+"PO-Revision-Date: 2003-05-08 09:37+0100\n"
+"Last-Translator: Christian Perrier <bubulle@debian.org>\n"
+"Language-Team: Debian french translation team <debian-l10n-french@lists."
+"debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: select
+#. Choices
+#: ../proftpd.templates:3
+msgid "inetd, standalone"
+msgstr "inetd, indépendamment"
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+msgid "Run proftpd from inetd or standalone?"
+msgstr "Lancer proftpd à partir d'inetd ou indépendamment ?"
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+msgid ""
+"ProFTPd can be run either as a service from inetd, or as a standalone "
+"server.  Eeach choice has its own benefits.  If you have only a few ftp "
+"connections per day, it may not be worth the resources to keep proftpd "
+"running at all times."
+msgstr ""
+"ProFTPd peut être lancé soit à partir d'inetd, soit comme un serveur "
+"indépendant. Chaque méthode a ses avantages. Pour quelques connexions par "
+"jour, il n'est peut-être pas nécessaire de laisser proftpd tourner en "
+"permanence."
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+msgid ""
+"On the other hand, if your ftp site is visited frequently, inetd is not a "
+"good choice, because each time a connection is opened, a new process is "
+"spawned."
+msgstr ""
+"Par contre, si votre site ftp est assez fréquenté, inetd n'est pas un choix "
+"judicieux, car chaque ouverture de connexion lance un nouveau processus."
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid "Warning on syntax changes in ProFTPd configuration."
+msgstr ""
+"Avertissement pour changement de syntaxe dans la configuration de ProFTPd"
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid ""
+"You are upgrading from a pre-1.2.8 version. Probably you will need to revise "
+"your previous configuration to be compliant with current directives. Please, "
+"consult documentation available in proftpd-doc and change /etc/proftpd.conf "
+"as needed."
+msgstr ""
+"Vous effectuez une mise à jour depuis une version inférieure à 1.2.8. Il "
+"vous sera probablement nécessaire de revoir votre configuration antérieure "
+"afin d'être conforme aux nouvelles directives. Veuillez, s'il vous plait, "
+"consulter la documentation disponible dans le paquet proftpd-doc et "
+"modifier /etc/proftpd.conf en conséquence."
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid ""
+"Unfortunately, it is near impossible for me to convert your setup "
+"automatically, but for some elementary issues. You will have to do  it "
+"yourself. ProFTPd could also be unable to use the resulting  configuration, "
+"and it will not restart after upgrading."
+msgstr ""
+"Malheureusement, il est à peu près impossible de convertir votre "
+"configuration automatiquement, sauf pour des points particulièrement "
+"simples. Vous devrez le faire vous-même. ProFTPd pourrait être incapable "
+"d'utiliser le fichier de configuration résultant et ne redémarrera donc pas "
+"après la mise à jour."
+
+#~ msgid "Enable anonymous access?"
+#~ msgstr "Autoriser les connexions anonymes ?"
+
+#~ msgid ""
+#~ "Enabling anonymous access grants access to your ftp site by any user, "
+#~ "without being a system user.  This is probably not a good idea for "
+#~ "paranoid sysadmins.  Only enable if you know what it does."
+#~ msgstr ""
+#~ "Autoriser les connexions anonymes donne l'accès au serveur ftp à toute "
+#~ "personne (même inconnue de la machine). Les administrateurs système "
+#~ "paranoïaques pensent que ce n'est probablement pas une bonne idée. Ne "
+#~ "l'activez que si vous savez ce que vous faites."
+
+#~ msgid "Manage ProFTPd configuration with debconf?"
+#~ msgstr "Gérer la configuration de ProFTPd avec debconf ?"
+
+#~ msgid ""
+#~ "If you accept here, some aspect of ProFTPd will be automatically managed "
+#~ "by debconf. ProFTPd is quite complicated and flexible, so this kind of "
+#~ "management could be useful for newbies, or very simple kinds of "
+#~ "configuration."
+#~ msgstr ""
+#~ "Si vous acceptez ici, certains aspects de ProFTPd seront gérés "
+#~ "automatiquement par debconf. ProFTPd est relativement complexe et "
+#~ "souple : ce type de gestion peut simplifier la tâche pour les débutants "
+#~ "ou pour les configurations très simples."
+
+#~ msgid ""
+#~ "If you refuse here, all aspects of ProFTPd configuration will be under "
+#~ "your responsability. If this is your first installation, I'll create a "
+#~ "very basic default configuration in /etc/proftpd.conf, else I'll try "
+#~ "create an updated configuration on the basis of your current one and some "
+#~ "known conversion issues."
+#~ msgstr ""
+#~ "Si vous refusez, l'ensemble de la configuration de ProFTPd sera de votre "
+#~ "responsabilité. S'il s'agit de votre première installation, je vais créer "
+#~ "un fichier de configuration très simplifié sous le nom /etc/proftpd.conf. "
+#~ "Si un fichier de configuration existe, je vais tenter de le convertir à "
+#~ "l'aide de méthodes de conversion connues."

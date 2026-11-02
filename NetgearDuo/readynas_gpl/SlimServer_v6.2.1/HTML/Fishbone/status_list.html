@@ -1,0 +1,25 @@
+[% BLOCK playlistlinks %]
+	[% PROCESS link page='status_header.html' p0='p0=playlist' p1='move' p2=num p3='%2D1' img='move.up.gif' text='MOVEUP' target='status'%]
+	[% PROCESS link p3='%2B1' 		img='move.down.gif' text='MOVEDOWN' %]
+	[% PROCESS link p3=nextsongind 	img='queue.gif'  	text='NEXT' %]
+	[% PROCESS link p1='delete' 	img='remove.gif'  	text='REMOVE_FROM_PLAYLIST' %]
+	[% PROCESS link page='songinfo.html' p0='item=' _ itemobj.id img='info.gif' text='SONG_INFO' target='browser' %]
+[% END %]
+
+[%- BLOCK link %]
+		<td [% IF currentsong %]class="listing2"[% END %][% IF not currentsong %]class="listing"[% END %] width="11" align="center">
+		<a href="[% page %]?[% p0 %]&p1=[% p1 %]&p2=[% p2 %]&p3=[% p3 %]&player=[% player | uri %]&start=[% start %]" target="[% target %]">
+		<img src="[% webroot %]html/images/[% img %]" height="11" align="middle"
+			alt='[% text | string %]' 
+			title='[% text | string %]' 
+			onMouseOver="self.status='[% text | string %]';return true">
+		</a>
+	</td>
+[% END -%]
+
+<tr>
+	<td [% IF currentsong %]class="listing2" ><a name="currentsong"></a>[% END %][% IF not currentsong %]class="listing"><a name="[% num %]"></a>[% END %]
+	[% INCLUDE tracklink.html %]
+	</td>
+	[% INCLUDE playlistlinks %]
+</tr>

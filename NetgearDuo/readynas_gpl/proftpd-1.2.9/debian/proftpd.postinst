@@ -1,0 +1,154 @@
+#!/bin/sh -e
+
+# summary of how this script can be called:
+#        * <postinst> `configure' <most-recently-configured-version>
+#        * <old-postinst> `abort-upgrade' <new version>
+#        * <conflictor's-postinst> `abort-remove' `in-favour' <package> <new-version>
+#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
+#          <failed-install-package> <version> `removing'
+#          <conflicting-package> <version>
+# for details, see /usr/share/doc/packaging-manual/
+#
+# quoting from the policy:
+#     Any necessary prompting should almost always be confined to the
+#     post-installation script, and should be protected with a conditional
+#     so that unnecessary prompting doesn't happen if a package's
+#     installation fails and the `postinst' is called with `abort-upgrade',
+#     `abort-remove' or `abort-deconfigure'.
+
+
+CONF="/etc/proftpd.conf"
+CONF_NEW="/etc/proftpd.conf.proftpd-new"
+
+installftp()
+{
+	if ! grep -q "^ftp:" /etc/passwd
+	    then
+	    adduser --system ftp || true
+            if [ -f /usr/share/doc/proftpd/examples/welcome.msg -a -d ~ftp ] ; then
+                cp -p -v /usr/share/doc/proftpd/examples/welcome.msg ~ftp/welcome.msg.proftpd-new || true
+                do_update ~ftp/welcome.msg || true
+	    fi
+	fi
+}
+
+list_options()
+{
+    if [ -f $CONF_NEW ] ; then
+	sed -e "s/lsdefaultoptions/ListOptions/i" $CONF_NEW > $CONF_NEW.tmp
+	mv -f $CONF_NEW.tmp $CONF_NEW
+    fi
+}
+
+tcpwin_options()
+{
+    if [ -f $CONF_NEW ] ; then
+        sed -e "s/tcpreceivewindow/SocketOptions rcvbuf/i" \
+            -e "s/tcpsendwindow/SocketOptions sndbuf/i" \
+                                                $CONF_NEW > $CONF_NEW.tmp
+        mv -f $CONF_NEW.tmp $CONF_NEW
+    fi
+}
+                                                                                         
+scoreboard()
+{
+    if [ -f $CONF_NEW ] ; then
+        sed -e "s/\(scoreboardpath.*\)/#\n#ScoreboardPath is deprecated in 1.2.9, use ScoreboardFile instead\n#\1\n#\n#ScoreboardFile\t\/var\/run\/proftpd.scoreboard\n#/i" \
+                                                $CONF_NEW > $CONF_NEW.tmp
+        mv -f $CONF_NEW.tmp $CONF_NEW
+    fi
+}
+
+
+switch_on()
+{
+    if [ -f $CONF_NEW ] ; then
+	sed -e 's/^\(ServerType.*\)inetd/\1standalone/' $CONF_NEW >$CONF_NEW.tmp
+	mv -f $CONF_NEW.tmp $CONF_NEW
+    fi
+}
+
+switch_off()
+{
+    if [ -f $CONF_NEW ] ; then
+	sed -e 's/^\(ServerType.*\)standalone/\1inetd/' $CONF_NEW >$CONF_NEW.tmp
+	mv -f $CONF_NEW.tmp $CONF_NEW
+    fi
+}
+
+replace_file () {
+    file=$1
+    if [ ! -f ${file} ] ; then
+	mv ${file}.proftpd-new ${file}
+    else
+	cp $file ${file}.proftpd-old
+	ucf --debconf-ok ${file}.proftpd-new $file 
+    fi
+}
+
+do_update () {
+    file=$1
+    if diff -q ${file} ${file}.proftpd-new >/dev/null 2>&1; then
+	# Old file and new file are identical
+	rm -f ${file}.proftpd-new
+    else
+	replace_file $file
+    fi
+}
+
+DONTSTART=0
+
+. /usr/share/debconf/confmodule
+
+if [ "$1" = "configure" ]; then
+    
+    # use current configuration or generate a new one from scratch
+    if [ ! -f /etc/proftpd.conf ] ; then
+       cp /usr/share/doc/proftpd/examples/proftpd.conf $CONF_NEW
+    else
+       cp $CONF $CONF_NEW
+    fi
+    
+    update-inetd --group STANDARD --add 'ftp	stream	tcp	nowait	root	/usr/sbin/tcpd /usr/sbin/proftpd' 
+
+    db_get shared/proftpd/inetd_or_standalone
+    if [ "$RET" = "inetd" ] ; then
+	    update-inetd --enable ftp
+	    switch_off
+    else
+	    update-inetd --disable ftp
+	    switch_on
+    fi
+
+    installftp
+
+    # do mandatory changes
+    list_options
+    tcpwin_options
+    scoreboard
+
+    # propose maintainer changes to user
+    do_update /etc/proftpd.conf
+
+    # Proftpd could not close all of its fd nicely
+    db_stop
+
+    # clean run files (pidfile and scoreboard)
+    rm -f /var/run/proftpd/proftpd* /var/run/proftpd.pid 
+
+fi
+
+if [ -e "/etc/init.d/proftpd" ]; then
+    update-rc.d proftpd defaults 50 >/dev/null
+    if [ $DONTSTART -eq 0 ] ; then
+        set +e; /usr/sbin/proftpd -t >/dev/null 2>&1; set -e
+    	if [ $? = 0 ]; then
+		invoke-rc.d proftpd start
+	else
+		echo "Cannot start proftpd, please check syntax of your configuration file $CONF"
+	fi
+    fi
+fi
+
+#DEBHELPER#
+

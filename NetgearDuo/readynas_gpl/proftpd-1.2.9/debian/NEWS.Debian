@@ -1,0 +1,21 @@
+proftpd (1.2.8-11) unstable; urgency=low
+
+ 	Since latest 1.2.8 releases, a lots of patches coming from CVS have been
+ 	merged  in the  code,  so  that debian  edition is  less buggy  than the
+ 	official edition.  All  patches  are reported  in changelog,  along with
+ 	ProFTP bugzilla crossrefs.
+
+ 	All old  debconf craps^Wcode for anonymous  enabling/disabling has been
+ 	removed, so that postinst configuration  is less intrusive than before.
+ 	The  system  'ftp' user  is  also  always  added  by default,  even  if
+ 	disabled.
+
+ 	Maintainer scripts now manage  anyway some simple directives migrations
+ 	and also inetd|standalone modes as before.  Also they now are (and will
+ 	be)  written to  point known  configuration gotchas  and pitfalls  when
+	needed.
+
+	Hopefully, this new policy will satisfy the conscious sys admin.
+
+ -- Francesco Paolo Lovergine <frankie@debian.org>  Sat, 23 Aug 2003 10:39:04 +0200
+

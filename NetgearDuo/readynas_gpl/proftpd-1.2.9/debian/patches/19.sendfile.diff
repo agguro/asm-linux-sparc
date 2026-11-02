@@ -1,0 +1,12 @@
+diff -uNr proftpd-1.2.9-orig/build-tree/proftpd-1.2.9/configure proftpd-1.2.9/build-tree/proftpd-1.2.9/configure
+--- proftpd-1.2.9-orig/configure	Mon Oct 13 00:27:20 2003
++++ proftpd-1.2.9/configure	Thu May 27 17:05:52 2004
+@@ -15135,7 +15135,7 @@
+ if test "${pr_cv_func_sendfile+set}" = set; then
+   echo $ECHO_N "(cached) $ECHO_C" >&6
+ else
+-  pr_cv_func_sendfile="None"
++  pr_cv_func_sendfile="Linux"
+ 
+         if test "$pr_cv_func_sendfile" = "None"; then
+       cat >conftest.$ac_ext <<_ACEOF

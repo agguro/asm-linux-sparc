@@ -1,0 +1,329 @@
+diff -ruN proftpd-1.2.8+cvs20030805-old/contrib/mod_ldap.c proftpd-1.2.8+cvs20030805/contrib/mod_ldap.c
+--- proftpd-1.2.8+cvs20030805-old/contrib/mod_ldap.c	2003-07-16 21:06:36.000000000 +0200
++++ proftpd-1.2.8+cvs20030805/contrib/mod_ldap.c	2003-08-05 11:08:42.000000000 +0200
+@@ -40,13 +40,16 @@
+  *                                         - LDAPForceHomedirOnDemand support
+  * Andreas Strodl (andreas at strodl dot org) - multiple group support
+  * Ross Thomas (ross at grinfinity dot com) - Non-AuthBinds auth fix
+- * Ivo Timmermans (ivo at debian dot org) - TLS support
++ * Ivo Timmermans (ivo at debian dot org) - LDAPCheckAllow,LDAPCheckDeny,
++ *                                         LDAPHomedirOnDemandScript,
++ *                                         TLS support
+  * Bert Vermeulen (bert at be dot easynet dot net) - LDAPHomedirOnDemand,
+  *                                                   LDAPDefaultAuthScheme
+  *
+  *
+  * $Id: mod_ldap.c,v 1.30 2003/07/10 16:09:23 jwm Exp $
+  * $Libraries: -lldap -llber$
++ * $Libraries: -lldap -llber -lcrypto$
+  */
+ 
+ /* You can override the attribute names that mod_ldap uses here. */
+@@ -89,7 +92,7 @@
+  * TLS after connecting to the LDAP server. If TLS cannot be enabled, the
+  * LDAP connection will fail.
+  */
+-/* #define USE_LDAPV3_TLS */
++#define USE_LDAPV3_TLS 
+ 
+ /* Uncomment this if you have OpenSSL and wish to verify non-crypt()
+  * password hashes locally with OpenSSL. You'll also need to edit
+@@ -97,7 +100,7 @@
+  * (-I/path/to/include-dir) and link again OpenSSL's crypto library
+  * (-L/path/to/lib-dir -lcrypto).
+  */
+-/* #define HAVE_OPENSSL */
++#define HAVE_OPENSSL
+ 
+ /*
+  * If you have to edit anything below this line, it's a bug. Report it
+@@ -164,8 +167,11 @@
+             *ldap_auth_basedn, *ldap_uid_basedn, *ldap_gid_basedn,
+             *ldap_quota_basedn,
+             *ldap_defaultauthscheme, *ldap_authbind_dn,
++            *ldap_check_allow = NULL, *ldap_check_deny = NULL,
++            *ldap_hdod_script = NULL,
+             *ldap_hdod_prefix, **ldap_hdod_suffix,
+             *ldap_default_quota;
++static array_header *ldap_check_allow_result = NULL, *ldap_check_deny_result = NULL;
+ static int ldap_doauth = 0, ldap_douid = 0, ldap_dogid = 0, ldap_doquota = 0,
+            ldap_authbinds = 1, ldap_negcache = 1,
+            ldap_querytimeout = 0, ldap_hdod = 0, ldap_hdod_prefix_nouname = 0,
+@@ -419,15 +425,72 @@
+   return filter;
+ }
+ 
++void ldap_array_add_attrs(char **ldap_attrs, char *attr)
++{
++  int i;
++
++  if(attr == NULL)
++    return;
++  if(ldap_attrs == NULL)
++    return;
++  for(i = 0; ldap_attrs[i]; i++)
++    ;
++ ldap_attrs[i] = attr;
++ ldap_attrs[i+1] = NULL;
++}
++
++/* Duplicate the array of char*'s, and reserve space for two extra
++   elements */
++char **ldap_array_duplicate(char **ldap_attrs, pool *p)
++{
++  int i;
++  char **r;
++
++  for(i = 0; ldap_attrs[i]; i++)
++    ;
++  r = pcalloc(p, (i + 3) * sizeof(char *));
++  for(i = 0; ldap_attrs[i]; i++)
++    r[i] = ldap_attrs[i];
++  r[i] = NULL;
++  return r;
++}
++
++/* Execute script when a new homedir is to be created.  The script
++   will have the homedir as its first and only argument. */
++static int execute_hdod_script(const char *script, const char *dir)
++{
++  pid_t pid;
++  int status;
++
++  if(!(pid = fork()))
++    { /* child */
++      if(execl(script, script, dir, NULL) < 0)
++       return -1;
++    }
++  else
++    { /* parent */
++      if(wait4(pid, &status, WUNTRACED, NULL) < 0)
++       return -1;
++    }
++
++  return 0;
++}
++
++
++
++
+ static struct passwd *
+ pr_ldap_user_lookup(pool *p,
+                     char *filter_template, const char *replace,
+-                    char *basedn, char *ldap_attrs[],
++                    char *basedn, char *orig_ldap_attrs[],
+                     char **user_dn)
+ {
+   char *filter, **values, *dn;
+   int i = 0, ret;
+   LDAPMessage *result, *e;
++  unsigned short int homedirisnew = 0;
++  char **ldap_attrs;
++
+ 
+   if (! basedn) {
+     log_pri(PR_LOG_ERR, "mod_ldap: no LDAP base DN specified for auth/UID lookups, declining request.");
+@@ -445,6 +508,15 @@
+ 
+   filter = pr_ldap_generate_filter(p, filter_template, replace);
+ 
++  /* Copy the array */
++  ldap_attrs = ldap_array_duplicate(orig_ldap_attrs, p);
++
++  /* Add two extra attributes if we want user based access control */
++  if(ldap_check_allow)
++    ldap_array_add_attrs(ldap_attrs, ldap_check_allow);
++  if(ldap_check_deny)
++    ldap_array_add_attrs(ldap_attrs, ldap_check_deny);
++
+   if ((ret = ldap_search_st(ld, basedn, ldap_search_scope, filter, ldap_attrs, 0, &ldap_querytimeout_tp, &result)) != LDAP_SUCCESS) {
+     if (ret == LDAP_SERVER_DOWN) {
+       log_pri(PR_LOG_ERR, "mod_ldap: pr_ldap_user_lookup(): LDAP server went away, trying to reconnect");
+@@ -545,6 +617,20 @@
+         continue;
+       }
+ 
++      /* Don't worry if either of these isn't found in the tree */
++      if(ldap_check_allow)
++       if (strcasecmp(ldap_attrs[i], ldap_check_allow) == 0) {
++         /* value of ldap_check_allow has been found */
++         ++i;
++         continue;
++       }
++      if(ldap_check_deny)
++       if (strcasecmp(ldap_attrs[i], ldap_check_deny) == 0) {
++         /* value of ldap_check_deny has been found */
++         ++i;
++         continue;
++       }
++
+       /* We only restart the while loop above if we can fill in alternate
+        * values for certain attributes. If something odd has happened, we
+        * fall through to here and will complain about not being able to find
+@@ -1764,6 +1850,45 @@
+ #endif /* USE_LDAPV3_TLS */
+ }
+ 
++MODRET set_ldap_allow(cmd_rec *cmd)
++{
++  config_rec *c;
++
++  CHECK_ARGS(cmd, 1);
++  CHECK_CONF(cmd,CONF_ROOT|CONF_VIRTUAL|CONF_GLOBAL);
++
++  c = add_config_param_str("LDAPCheckAllow", 1, cmd->argv[1]);
++  c->flags |= CF_MERGEDOWN;
++
++  return(HANDLED(cmd));
++}
++
++MODRET set_ldap_deny(cmd_rec *cmd)
++{
++  config_rec *c;
++
++  CHECK_ARGS(cmd, 1);
++  CHECK_CONF(cmd,CONF_ROOT|CONF_VIRTUAL|CONF_GLOBAL);
++
++  c = add_config_param_str("LDAPCheckDeny", 1, cmd->argv[1]);
++  c->flags |= CF_MERGEDOWN;
++
++  return(HANDLED(cmd));
++}
++
++MODRET set_ldap_hdod_script(cmd_rec *cmd)
++{
++  config_rec *c;
++
++  CHECK_ARGS(cmd, 1);
++  CHECK_CONF(cmd,CONF_ROOT|CONF_VIRTUAL|CONF_GLOBAL);
++
++  c = add_config_param_str("LDAPHomedirOnDemandScript", 1, cmd->argv[1]);
++  c->flags |= CF_MERGEDOWN;
++
++  return(HANDLED(cmd));
++}
++
+ static int
+ ldap_getconf(void)
+ {
+@@ -1893,6 +2018,8 @@
+     ldap_hdod_suffix[i] = NULL;
+   }
+ 
++  ldap_hdod_script  = (char *)get_param_ptr(main_server->conf,"LDAPHomedirOnDemandScript", FALSE);
++
+   /* If ldap_defaultauthscheme is NULL, ldap_check() will assume crypt. */
+   ldap_defaultauthscheme = (char *)get_param_ptr(main_server->conf, "LDAPDefaultAuthScheme", FALSE);
+ 
+@@ -1900,9 +2027,94 @@
+   ldap_use_tls = (int)get_param_int(main_server->conf, "LDAPUseTLS", FALSE);
+ #endif
+ 
++  ldap_check_allow = (char *)get_param_ptr(main_server->conf, "LDAPCheckAllow", FALSE);
++  ldap_check_deny  = (char *)get_param_ptr(main_server->conf, "LDAPCheckDeny",  FALSE);
++
+   return 0;
+ }
+ 
++/* Check any allow/deny IP address ranges to see if this user is
++   allowed to connect.  This function uses the result of
++   ldap_lookup_user(), so it can only be called after the USER command
++   has been handled completely.
++*/
++int ldap_check_ip_match(cmd_rec *cmd, const char *name)
++{
++  char *arg;
++  int argc;
++  int negate = 0;
++  array_header *res;
++
++  if(strcasecmp(name, "Allow") == 0) {
++    res = ldap_check_allow_result;
++  } else {
++    res = ldap_check_deny_result;
++  }
++
++  if(res != (array_header*)(NULL)) {
++    for(argc = 0; (arg = (char*)((char**)res->elts)[argc]) && argc < res->nelts; argc++) {
++      if(*arg == '!') {
++       negate++;
++       arg++;
++      } else negate = 0;
++
++      /* match_ip() is in dirtree.c */
++      switch(match_ip(session.c->remote_addr,session.c->remote_name,arg)) {
++      case 1:
++       /* If in logical negate mode, we specifically did NOT find what we
++        * were looking for.
++        */
++       if(negate) break;
++
++       /* otherwise, we did */
++       return TRUE;
++
++      case -1:
++       /* -1 is only returned on an explicit mismatch, which can only
++        * happen for "NONE".  Negate is not valid in this case, and is
++        * disallowed by mod_core's _add_allow_deny().
++        */
++       return FALSE;
++
++      default:
++       /* No match, but if we are in negate mode, that means it IS
++        * a match.
++        */
++       if(negate) return FALSE;
++       break;
++      }
++    }
++  }
++  return FALSE;
++}
++
++
++/* When we get a PASS command, first check if the user is allowed to
++   log in; check with any allow/deny values that we acquired from LDAP
++   earlier.
++   The user must exist in the LDAP directory.
++*/
++MODRET ldap_cmd_pass(cmd_rec *cmd)
++{
++  if(ldap_check_allow)
++    /* Check allow rules */
++    if(ldap_check_ip_match(cmd, "Allow") == TRUE)
++      return DECLINED(cmd);  /* No change, continue the command chain */
++
++  if(ldap_check_deny)
++    /* Check deny rules */
++    if(ldap_check_ip_match(cmd, "Deny") == TRUE)
++      {
++       log_pri(LOG_NOTICE, "User denied access based on the value of %s\n",
++               ldap_check_deny);
++       /* User is not allowed to log in, based on his IP address. */
++       return ERROR_MSG(cmd,R_530,"Login incorrect.");
++      }
++
++  return DECLINED(cmd);  /* No change, continue the command chain */
++}
++
++
+ static conftable ldap_config[] = {
+   { "LDAPServer",                          set_ldap_server,            NULL },
+   { "LDAPDNInfo",                          set_ldap_dninfo,            NULL },
+@@ -1923,12 +2135,16 @@
+   { "LDAPHomedirOnDemandPrefixNoUsername", set_ldap_hdodprefixnouname, NULL },
+   { "LDAPHomedirOnDemandSuffix",           set_ldap_hdodsuffix,        NULL },
+   { "LDAPForceHomedirOnDemand",            set_ldap_forcehdod,         NULL },
++  { "LDAPHomedirOnDemandScript",           set_ldap_hdod_script,       NULL },
+   { "LDAPDefaultAuthScheme",               set_ldap_defaultauthscheme, NULL },
+   { "LDAPUseTLS",                          set_ldap_usetls,            NULL },
++  { "LDAPCheckAllow",                      set_ldap_allow,             NULL },
++  { "LDAPCheckDeny",                       set_ldap_deny,              NULL },
+   { NULL,                                  NULL,                       NULL }
+ };
+ 
+ static cmdtable ldap_cmdtab[] = {
++  {CMD, C_PASS, G_NONE, ldap_cmd_pass, FALSE, FALSE },
+   {CMD, "ldap_quota_lookup", G_NONE, handle_ldap_quota_lookup, FALSE, FALSE},
+   {0, NULL}
+ };

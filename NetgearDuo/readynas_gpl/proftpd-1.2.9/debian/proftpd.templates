@@ -1,0 +1,26 @@
+Template: shared/proftpd/inetd_or_standalone
+Type: select
+_Choices: inetd, standalone
+Default: standalone
+_Description: Run proftpd from inetd or standalone?
+ ProFTPd can be run either as a service from inetd, or as a standalone
+ server.  Eeach choice has its own benefits.  If you have only a few ftp
+ connections per day, it may not be worth the resources to keep proftpd
+ running at all times.
+ .
+ On the other hand, if your ftp site is visited frequently, inetd is not a
+ good choice, because each time a connection is opened, a new process is
+ spawned.
+
+Template: shared/proftpd/warning
+Type: note
+_Description: Warning on syntax changes in ProFTPd configuration.
+ You are upgrading from a pre-1.2.8 version. Probably you will need
+ to revise your previous configuration to be compliant with
+ current directives. Please, consult documentation available
+ in proftpd-doc and change /etc/proftpd.conf as needed.
+ .
+ Unfortunately, it is near impossible for me to convert your setup
+ automatically, but for some elementary issues. You will have to do 
+ it yourself. ProFTPd could also be unable to use the resulting 
+ configuration, and it will not restart after upgrading.

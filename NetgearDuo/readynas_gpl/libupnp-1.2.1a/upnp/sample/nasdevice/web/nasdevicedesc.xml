@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+  <specVersion>
+    <major>1</major>
+    <minor>0</minor>
+  </specVersion>
+  <device>
+    <deviceType>urn:schemas-upnp-org:device:Basic:1</deviceType>
+    <friendlyName>Infrant NAS Server</friendlyName>
+    <manufacturer>Infrant Technologies</manufacturer>
+    <modelName>ReadyNAS</modelName>
+    <serialNumber>100000000001</serialNumber>
+    <UDN>uuid:Upnp-NASServer-1_0-1000000000001</UDN>
+    <serviceList>
+      <service>
+        <serviceType>urn:schemas-upnp-org:service:nascontrol:1</serviceType>
+        <serviceId>urn:upnp-org:serviceId:nascontrol1</serviceId>
+        <controlURL>/upnp/control/nascontrol1</controlURL>
+        <eventSubURL>/upnp/event/nascontrol1</eventSubURL>
+        <SCPDURL>/nascontrolSCPD.xml</SCPDURL>
+      </service>
+    </serviceList>
+    <presentationURL>/nasdevicepres.html</presentationURL>
+  </device>
+</root>

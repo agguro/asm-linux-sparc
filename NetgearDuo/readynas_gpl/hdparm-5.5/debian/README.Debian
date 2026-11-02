@@ -1,0 +1,34 @@
+hdparm for Debian
+-----------------
+
+To get the best performance out of your hard drive turn on DMA support in the
+kernel and enable 32bit IO (-c) and multiple sector I/O (-m) with hdparm. You
+can find out the number to use for -m by using -i and reading MaxMultSect.
+
+These settings can now be set in either /etc/hdparm.conf or in 
+/etc/apm/20hdparm.  I advise against setting the same features in both -
+unpredictable things could happen.
+
+Note that for a brief moment this package used /etc/default/hdparm, but that 
+it now uses /etc/hdparm.conf
+
+Additional information from David B Harris:
+The init script is probably not safe to run with an MD array, as there is a 
+possibility of disk corruption during rebuild if the array was not stopped 
+cleanly.  As the rebuld process begins (at least on newer MD arrays) before
+init is started, there is no way to run the init script early enough for this 
+to always be safe.  Please do not add anything to hdparm.conf, and instead 
+run hdparm by hand only after you are sure that your array has finished 
+rebuilding.
+
+hdparm's init script is set to run at rcS.d/S07 because there have been
+reports of data corruption with mounted disks.  This particular placement
+may not work for you if the ability to use things like DMA relies on
+having modules for your motherboard loaded, as it is run before the module
+loading script.  If this is the case for you, please move your symlink to
+rcS.d/S21, and it will run right after loading modules, but before mounting
+of the rest of your partitions.  That is as safe as it can reasonably be,
+in those circumstances.  The other option is to compile your kernel with
+the needed modules built in, and leave the link in place.
+
+ -- Stephen Gran <sgran@debian.org>  Wed, 24 Dec 2003 13:15:45 -0500

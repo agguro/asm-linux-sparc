@@ -1,0 +1,21 @@
+diff -urN proftpd-1.2.8/modules/mod_xfer.c proftpd-1.2.8-debian/modules/mod_xfer.c
+--- proftpd-1.2.8/modules/mod_xfer.c	2003-02-25 02:39:35.000000000 +0100
++++ proftpd-1.2.8-debian/modules/mod_xfer.c	2003-03-17 15:30:33.000000000 +0100
+@@ -1407,11 +1407,13 @@
+ 
+   fmode = file_mode(dir);
+ 
++  if(!fmode) {
++    pr_response_add_err(R_550,"%s: %s",cmd->arg,strerror(errno));
++    return ERROR(cmd);
++  }
++
+   if (!S_ISREG(fmode)) {
+-    if (!fmode)
+-      pr_response_add_err(R_550, "%s: %s", cmd->arg, strerror(errno));
+-    else
+-      pr_response_add_err(R_550, "%s: Not a regular file", cmd->arg);
++    pr_response_add_err(R_550,"%s: Not a regular file",cmd->arg);
+     return ERROR(cmd);
+   }
+ 

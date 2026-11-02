@@ -1,0 +1,12 @@
+diff -urN proftpd-1.2.8+cvs20030620/contrib/mod_sql_postgres.c proftpd-1.2.8+cvs20030620-debian/contrib/mod_sql_postgres.c
+--- proftpd-1.2.8+cvs20030620/contrib/mod_sql_postgres.c	2003-06-19 09:34:54.000000000 +0200
++++ proftpd-1.2.8+cvs20030620-debian/contrib/mod_sql_postgres.c	2003-06-21 12:51:53.000000000 +0200
+@@ -37,7 +37,7 @@
+ 
+ #define _POSTGRES_PORT "5432"
+ 
+-#include <libpq-fe.h>
++#include <postgresql/libpq-fe.h>
+ #include "conf.h"
+ #include "../contrib/mod_sql.h"
+ 

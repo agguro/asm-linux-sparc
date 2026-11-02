@@ -1,0 +1,27 @@
+diff -urN proftpd-1.2.8/modules/mod_auth_unix.c proftpd-1.2.8-debian/modules/mod_auth_unix.c
+--- proftpd-1.2.8/modules/mod_auth_unix.c	2003-02-18 18:55:22.000000000 +0100
++++ proftpd-1.2.8-debian/modules/mod_auth_unix.c	2003-03-17 15:35:17.000000000 +0100
+@@ -196,6 +196,11 @@
+ static struct passwd *p_getpwnam(const char *name) {
+   struct passwd *pw = NULL;
+ 
++  if (pwdfname!=NULL && !strncmp(pwdfname, "/etc/passwd", 12)) {
++    pw = getpwnam(name);
++   if (pw) return pw;
++  }
++
+   p_setpwent();
+   while ((pw = p_getpwent()) != NULL)
+     if (!strcmp(name,pw->pw_name))
+@@ -207,6 +212,11 @@
+ static struct passwd *p_getpwuid(uid_t uid) {
+   struct passwd *pw = NULL;
+ 
++  if (pwdfname!=NULL && !strncmp(pwdfname, "/etc/passwd", 12)) {
++    pw = getpwuid(uid);
++    if (pw) return pw;
++  }
++
+   p_setpwent();
+   while ((pw = p_getpwent()) != NULL)
+     if (pw->pw_uid == uid)

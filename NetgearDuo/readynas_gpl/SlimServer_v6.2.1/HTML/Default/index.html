@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+	<head>
+		[% PROCESS standardheader.html %]
+	</head>
+
+	<frameset cols="50%,50%" frameborder="no" framespacing="0">
+		<frame name="browser" noresize src="home.html?player=[% player | uri %]">
+		<frameset frameborder="no" framespacing="0" rows="160,*">
+			<frame name="status" noresize scrolling="no" src="status_header.html?player=[% player | uri %]">
+			<frame name="playlist" noresize src="playlist.html?player=[% player | uri %]">
+		</frameset>
+
+			<body>
+				<p></p>
+			</body>
+
+		</noframes>
+	</frameset><noframes></noframes>
+
+</html>

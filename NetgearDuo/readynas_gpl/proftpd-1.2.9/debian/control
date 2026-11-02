@@ -1,0 +1,131 @@
+Source: proftpd
+Section: net
+Priority: optional
+Maintainer: Francesco Paolo Lovergine <frankie@debian.org>
+Uploaders: Paul Martin <pm@debian.org>
+Standards-Version: 3.6.1
+Build-Depends: libmysqlclient10-dev, libpam-dev, debhelper (>=4.1.16), zlib1g-dev, postgresql-dev (>= 7.2), libldap2-dev, perl-base, libssl-dev, libwrap0-dev, patch, bzip2, sharutils, libcap-dev, libwrap0-dev, autoconf, libncurses5-dev
+
+Package: proftpd
+Architecture: any
+Depends: netbase (>= 4.07), ${shlibs:Depends}, debconf (>= 0.5.00), proftpd-common (= ${Source-Version}), adduser
+Conflicts: wu-ftpd, wu-ftpd-academ, ftp-server, proftpd-mysql, proftpd-pgsql, proftpd-ldap
+Provides: ftp-server
+Suggests: proftpd-doc
+Description: Versatile, virtual-hosting FTP daemon
+ A powerful replacement for wu-ftpd, this File Transfer Protocol
+ daemon supports hidden directories, virtual hosts, and per-directory
+ ".ftpaccess" files.  It uses a single main configuration file, with a
+ syntax similar to Apache.
+ .
+ Because of the advanced design, anonymous-FTP directories can have
+ an arbitrary internal structure (bin, lib, etc, and special files are
+ not needed).  Advanced features like multiple password files and
+ upload/download ratios are also supported.
+ .
+ This package contains only the basic functionality of proftpd and PAM
+ authentication.  If you need SQL, use proftpd-mysql or proftpd-pgsql
+ and if you need LDAP, use proftpd-ldap.
+ .
+ More information can be found at http://www.proftpd.org/.
+
+Package: proftpd-common
+Architecture: any
+Depends: netbase (>= 4.07), ${perl:Depends}, ${shlibs:Depends}, debconf (>= 0.5.00), proftpd|proftpd-mysql|proftpd-pgsql|proftpd-ldap, debianutils (>= 1.16)
+Suggests: proftpd-doc
+Replaces: proftpd (<< 1.2.8-1), proftpd-mysql (<< 1.2.8-1), proftpd-pgsql (<< 1.2.8-1), proftpd-ldap (<< 1.2.8-1)
+Description: Versatile, virtual-hosting FTP daemon
+ A powerful replacement for wu-ftpd, this File Transfer Protocol
+ daemon supports hidden directories, virtual hosts, and per-directory
+ ".ftpaccess" files.  It uses a single main configuration file, with a
+ syntax similar to Apache.
+ .
+ Because of the advanced design, anonymous-FTP directories can have
+ an arbitrary internal structure (bin, lib, etc, and special files are
+ not needed).  Advanced features like multiple password files and
+ upload/download ratios are also supported.
+ .
+ This package provides the common administrative programs.
+ .
+ More information can be found at http://www.proftpd.org/.
+
+Package: proftpd-doc
+Architecture: all
+Suggests: proftpd-common
+Replaces: proftpd (<= 1.2.1-2)
+Section: doc
+Description: Versatile, virtual-hosting FTP daemon (Documentation)
+ A powerful replacement for wu-ftpd, this File Transfer Protocol
+ daemon supports hidden directories, virtual hosts, and per-directory
+ ".ftpaccess" files.  It uses a single main configuration file, with a
+ syntax similar to Apache.
+ .
+ Because of the advanced design, anonymous-FTP directories can have
+ an arbitrary internal structure (bin, lib, etc, and special files are
+ not needed).  Advanced features like multiple password files and
+ upload/download ratios are also supported.
+ .
+ More information can be found at http://www.proftpd.org/.
+
+Package: proftpd-mysql
+Architecture: any
+Depends: netbase (>= 4.07), ${shlibs:Depends}, debconf (>= 0.5.00), proftpd-common (= ${Source-Version}), adduser
+Conflicts: wu-ftpd, wu-ftpd-academ, ftp-server, proftpd, proftpd-pgsql, proftpd-ldap
+Provides: ftp-server
+Description: Versatile, virtual-hosting FTP daemon (with SQL support)
+ A powerful replacement for wu-ftpd, this File Transfer Protocol
+ daemon supports hidden directories, virtual hosts, and per-directory
+ ".ftpaccess" files.  It uses a single main configuration file, with a
+ syntax similar to Apache.
+ .
+ Because of the advanced design, anonymous-FTP directories can have
+ an arbitrary internal structure (bin, lib, etc, and special files are
+ not needed).  Advanced features like multiple password files and
+ upload/download ratios are also supported.
+ .
+ This package contains the proftpd daemon compiled with support for
+ MySQL user authentication.  It also supports PAM authentication.
+ .
+ More information can be found at http://www.proftpd.org/.
+
+Package: proftpd-pgsql
+Architecture: any
+Depends: netbase (>= 4.07), ${shlibs:Depends}, debconf (>= 0.5.00), proftpd-common (= ${Source-Version}), adduser
+Conflicts: wu-ftpd, wu-ftpd-academ, ftp-server, proftpd, proftpd-mysql, proftpd-ldap
+Provides: ftp-server
+Description: Versatile, virtual-hosting FTP daemon (with SQL support)
+ A powerful replacement for wu-ftpd, this File Transfer Protocol
+ daemon supports hidden directories, virtual hosts, and per-directory
+ ".ftpaccess" files.  It uses a single main configuration file, with a
+ syntax similar to Apache.
+ .
+ Because of the advanced design, anonymous-FTP directories can have
+ an arbitrary internal structure (bin, lib, etc, and special files are
+ not needed).  Advanced features like multiple password files and
+ upload/download ratios are also supported.
+ .
+ This package contains the proftpd daemon compiled with support for
+ PostgreSQL user authentication.  It also supports PAM authentication.
+ .
+ More information can be found at http://www.proftpd.org/.
+
+Package: proftpd-ldap
+Architecture: any
+Depends: netbase (>= 4.07), ${shlibs:Depends}, debconf (>= 0.5.00), proftpd-common (= ${Source-Version}), adduser
+Conflicts: wu-ftpd, wu-ftpd-academ, ftp-server, proftpd, proftpd-mysql, proftpd-pgsql
+Provides: ftp-server
+Description: Versatile, virtual-hosting FTP daemon (with LDAP support)
+ A powerful replacement for wu-ftpd, this File Transfer Protocol
+ daemon supports hidden directories, virtual hosts, and per-directory
+ ".ftpaccess" files.  It uses a single main configuration file, with a
+ syntax similar to Apache.
+ .
+ Because of the advanced design, anonymous-FTP directories can have
+ an arbitrary internal structure (bin, lib, etc, and special files are
+ not needed).  Advanced features like multiple password files and
+ upload/download ratios are also supported.
+ .
+ This package contains the proftpd daemon compiled with support for
+ LDAP user authentication.  It also supports PAM authentication.
+ .
+ More information can be found at http://www.proftpd.org/.

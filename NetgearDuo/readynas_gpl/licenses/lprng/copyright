@@ -1,0 +1,44 @@
+This is Debian/GNU Linux's prepackaged version of LPRng - an Enhanced
+Printer Spooler. LPRng was written by Patrick Powell
+<papowell@sdsu.edu> and others.
+
+This package was put together by Craig Small <csmall@debian.org>
+from sources obtained from ftp://ftp.astart.com/pub/LPRng .
+
+                    *LPRng and IFHP LICENSE*
+                  GNU GPL and Artistic License
+
+                   (Version 4, Jan 24, 2000)
+
+              Copyright Patrick Powell, Astart Technologies
+                       <papowell@lprng.com>
+
+                      All rights reserved.
+
+You may use "LPRng" or "IFHP" under either the terms of the GNU
+GPL License or the Artistic License. These licenses are included
+below.
+
+   These Licenses apply to the computer software packages known as
+"LPRng", "IFHP", and associated files.  The "Package" or "Program"
+below refers to the programs, files,  and associated software which
+are distributed as the package.
+
+   The "LPRng" Software Package is a copyrighted work whose copyright
+is held by Patrick Powell.
+
+   The "IFHP" Software Package is a copyrighted work whose copyright
+is held by Patrick Powell.
+
+   BY MODIFYING OR DISTRIBUTING THE PROGRAM (OR ANY WORK BASED ON THE
+PROGRAM), YOU INDICATE YOUR ACCEPTANCE OF THIS LICENSE TO DO SO, AND ALL
+ITS TERMS AND CONDITIONS FOR COPYING, DISTRIBUTING OR MODIFYING THE
+PROGRAM OR WORKS BASED ON IT. NOTHING OTHER THAN THIS LICENSE GRANTS
+YOU PERMISSION TO MODIFY OR DISTRIBUTE THE PROGRAM OR ITS DERIVATIVE
+WORKS. THESE ACTIONS ARE PROHIBITED BY LAW. IF YOU DO NOT ACCEPT THESE
+TERMS AND CONDITIONS, DO NOT MODIFY OR DISTRIBUTE THE PROGRAM.
+
+On Debian GNU/Linux systems you will find the Artistic License at
+common-licenses/Artistic and the GNU GPL at
+common-licenses/GPL
+

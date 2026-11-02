@@ -1,0 +1,24 @@
+<config>
+    <server>
+        <ui enabled="no"/>
+        <name>__DEFAULT_NAME__</name>
+        <udn>uuid:<udn/>
+        <home>__DEFAULT_HOME__</home>
+        <webroot>web</webroot>
+	<mediadir>/c/media</mediadir>
+        <storage driver="sqlite3">
+            <database-file>sqlite3.db</database-file>
+        </storage>
+    </server>
+    <import>
+        <filesystem-charset>ISO-8859-1</filesystem-charset>
+        <mappings>
+            <mimetype-upnpclass>
+                <map from="audio/*" to="object.item.audioItem.musicTrack"/>
+                <map from="video/*" to="object.item.videoItem.movie"/>
+                <map from="image/*" to="object.item.imageItem"/>
+            </mimetype-upnpclass>
+        </mappings>
+    </import>
+</config>
+

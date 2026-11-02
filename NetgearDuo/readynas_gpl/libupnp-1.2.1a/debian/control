@@ -1,0 +1,46 @@
+Source: libupnp
+Section: net
+Priority: extra
+Maintainer: Steve McIntyre <93sam@debian.org>
+Build-Depends: doc++, debhelper (>= 4.0.0)
+Standards-Version: 3.6.1.0
+
+Package: libupnp0
+Priority: extra
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Intel Universal Plug And Play SDK for Linux (shared libraries)
+ The Linux SDK for UPnP Devices (libupnp) provides developers with an
+ API and open source code for building control points, devices, and
+ bridges that are compliant with Version 1.0 of the Universal Plug and
+ Play Device Architecture Specification - see http://www.upnp.org/ for
+ specifications.
+ .
+ The libupnp0 package contains the runtime libraries for uPnP.
+Section: libs
+
+Package: libupnp-dev
+Priority: extra
+Architecture: any
+Depends: libupnp0, ${shlibs:Depends}
+Description: Intel Universal Plug And Play SDK for Linux (development files)
+ The Linux SDK for UPnP Devices (libupnp) provides developers with an
+ API and open source code for building control points, devices, and
+ bridges that are compliant with Version 1.0 of the Universal Plug and
+ Play Device Architecture Specification - see http://www.upnp.org/ for
+ specifications.
+ .
+ The libupnp-dev package contains the header files, documentation and
+ debug versions of libraries needed for development of programs using
+ uPnP.
+Section: libdevel
+
+Package: nas-upnp
+Priority: extra
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Infrant uPnP NAS daemon
+ .
+ The nas-upnp package contains the uPnP daemon for Infrant NAS products.
+Section: net
+

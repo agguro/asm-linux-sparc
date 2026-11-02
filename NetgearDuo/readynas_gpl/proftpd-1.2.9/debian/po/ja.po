@@ -1,0 +1,133 @@
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#    Developers do not need to manually edit POT or PO files.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: proftpd 1.2.8-6\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-03 14:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Tomohiro KUBOTA <kubota@debian.org>\n"
+"Language-Team: Japanese <debian-doc@debian.or.jp>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=EUC-JP\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: select
+#. Choices
+#: ../proftpd.templates:3
+msgid "inetd, standalone"
+msgstr "inetd, スタンドアローン"
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+msgid "Run proftpd from inetd or standalone?"
+msgstr "proftpd の実行は inetd 経由とスタンドアローンのどちらにしますか"
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+msgid ""
+"ProFTPd can be run either as a service from inetd, or as a standalone "
+"server.  Eeach choice has its own benefits.  If you have only a few ftp "
+"connections per day, it may not be worth the resources to keep proftpd "
+"running at all times."
+msgstr ""
+"ProFTPd は、inetd 経由のサービスとして実行することもできますし、 スタンドア"
+"ローンのサーバとしても実行できます。どちらにもそれぞれ の利点があります。1日"
+"に数回のアクセスしかない場合は、proftpd を 常時実行しておくのは資源の無駄かも"
+"知れません。"
+
+#. Type: select
+#. Description
+#: ../proftpd.templates:5
+msgid ""
+"On the other hand, if your ftp site is visited frequently, inetd is not a "
+"good choice, because each time a connection is opened, a new process is "
+"spawned."
+msgstr ""
+"一方、頻繁なアクセスがある場合は、inetd は良い選択とは言えません。 なぜなら、"
+"接続ごとに新規プロセスが生成されるからです。"
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid "Warning on syntax changes in ProFTPd configuration."
+msgstr "ProFTPd 設定の文法の変化に関する警告"
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid ""
+"You are upgrading from a pre-1.2.8 version. Probably you will need to revise "
+"your previous configuration to be compliant with current directives. Please, "
+"consult documentation available in proftpd-doc and change /etc/proftpd.conf "
+"as needed."
+msgstr ""
+"今回は、1.2.8 以前のバージョンからのアップグレードとなります。恐ら く現在の文"
+"法に適合するように設定ファイルを見直す必要があります。 proftpd-doc の文書を参"
+"照して /etc/proftpd.conf を修正して下さい。"
+
+#. Type: note
+#. Description
+#: ../proftpd.templates:17
+msgid ""
+"Unfortunately, it is near impossible for me to convert your setup "
+"automatically, but for some elementary issues. You will have to do  it "
+"yourself. ProFTPd could also be unable to use the resulting  configuration, "
+"and it will not restart after upgrading."
+msgstr ""
+"不幸にも、設定ファイルを自動的に変換することは、数個の基本的な設定 以外はほと"
+"んど不可能です。ご自分で変換する必要があります。自動変換 後の設定を使うことは"
+"恐らくできませんので、アップグレード後に ProFTPd を再起動することもできませ"
+"ん。"
+
+#~ msgid "Enable anonymous access?"
+#~ msgstr "匿名 (anonymous) アクセスを許可しますか?"
+
+#~ msgid ""
+#~ "Enabling anonymous access grants access to your ftp site by any user, "
+#~ "without being a system user.  This is probably not a good idea for "
+#~ "paranoid sysadmins.  Only enable if you know what it does."
+#~ msgstr ""
+#~ "匿名 (anonymous) アクセスを許可すると、そのシステムのユーザでない 任意の"
+#~ "ユーザがあなたの ftp サイトにアクセスできるようになります。 神経質な管理者"
+#~ "にとって良い選択ではありません。ご自分で何をやって いるか理解している場合"
+#~ "のみ、許可してください。"
+
+#~ msgid "Manage ProFTPd configuration with debconf?"
+#~ msgstr "ProFTPd の設定を debconf で管理しますか?"
+
+#~ msgid ""
+#~ "If you accept here, some aspect of ProFTPd will be automatically managed "
+#~ "by debconf. ProFTPd is quite complicated and flexible, so this kind of "
+#~ "management could be useful for newbies, or very simple kinds of "
+#~ "configuration."
+#~ msgstr ""
+#~ "ここで「はい」と答えると、ProFTPd の設定の一部は debconf によって 自動的に"
+#~ "管理されます。ProFTPd は極めて複雑で柔軟なので、このよう な管理は初心者に"
+#~ "とって、またはごく単純な設定をしたい場合には、便 利かも知れません。"
+
+#~ msgid ""
+#~ "If you refuse here, all aspects of ProFTPd configuration will be under "
+#~ "your responsability. If this is your first installation, I'll create a "
+#~ "very basic default configuration in /etc/proftpd.conf, else I'll try "
+#~ "create an updated configuration on the basis of your current one and some "
+#~ "known conversion issues."
+#~ msgstr ""
+#~ "ここで「いいえ」と答えると、ProFTPd の設定はすべてご自分で行う必要 があり"
+#~ "ます。今回初めて ProFTPd をインストールするのでしたら、非常 に基本的なデ"
+#~ "フォルトの設定が /etc/proftpd.conf に行われます。そう でない場合には、現在"
+#~ "の設定がアップデートされますが、変換の際に既知 の問題がいくつかあります。"

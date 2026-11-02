@@ -1,0 +1,12 @@
+diff -ruN proftpd-1.2.8+cvs20030805-old/contrib/mod_ldap.c proftpd-1.2.8+cvs20030805/contrib/mod_ldap.c
+--- proftpd-1.2.8+cvs20030805-old/contrib/mod_ldap.c	2003-08-07 13:54:18.000000000 +0200
++++ proftpd-1.2.8+cvs20030805/contrib/mod_ldap.c	2003-08-07 13:56:15.000000000 +0200
+@@ -1956,7 +1956,7 @@
+         ldap_group_gid_filter = "(&(" GIDNUMBER_ATTR "=%v)(objectclass=posixGroup))";
+ 
+       if (c->argc > 4)
+-        ldap_group_member_filter = pstrdup(session.pool, c->argv[3]);
++        ldap_group_member_filter = pstrdup(session.pool, c->argv[4]);
+       else
+         ldap_group_member_filter = "(&(" MEMBERUID_ATTR "=%v)(objectclass=posixGroup))";
+     }

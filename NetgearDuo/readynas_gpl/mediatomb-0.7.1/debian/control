@@ -1,0 +1,10 @@
+Source: mediatomb
+Section: net
+Priority: optional
+Maintainer: Justin Maggard <jmaggard@infrant.com>
+Standards-Version: 3.0.1.0
+
+Package: mediatomb
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: UPnP-A/V Media Server

@@ -1,0 +1,16 @@
+diff -ruN proftpd-1.2.9-old/contrib/mod_quotatab_sql.c proftpd-1.2.9/contrib/mod_quotatab_sql.c
+--- proftpd-1.2.9-old/contrib/mod_quotatab_sql.c	2004-02-17 19:19:33.000000000 +0100
++++ proftpd-1.2.9/contrib/mod_quotatab_sql.c	2004-02-17 19:22:53.000000000 +0100
+@@ -395,9 +395,9 @@
+   snprintf(tally_bytes_in, 20, "%f", quotatab_deltas.bytes_in_delta);
+   snprintf(tally_bytes_out, 20, "%f", quotatab_deltas.bytes_out_delta);
+   snprintf(tally_bytes_xfer, 20, "%f", quotatab_deltas.bytes_xfer_delta);
+-  snprintf(tally_files_in, 20, "%u", quotatab_deltas.files_in_delta);
+-  snprintf(tally_files_out, 20, "%u", quotatab_deltas.files_out_delta);
+-  snprintf(tally_files_xfer, 20, "%u", quotatab_deltas.files_xfer_delta);
++  snprintf(tally_files_in, 20, "%d", quotatab_deltas.files_in_delta);
++  snprintf(tally_files_out, 20, "%d", quotatab_deltas.files_out_delta);
++  snprintf(tally_files_xfer, 20, "%d", quotatab_deltas.files_xfer_delta);
+ 
+   sql_cmd = sql_cmd_create(tmp_pool, 10, "sql_change", update_query,
+     tally_bytes_in, tally_bytes_out, tally_bytes_xfer,

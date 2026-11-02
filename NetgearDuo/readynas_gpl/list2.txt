@@ -1,0 +1,42 @@
+./linux-infrant-2.4.20/fs/freevxfs/vxfs.h:203:	VXFS_IFIAU = 0x30000000,	/* Inode allocation unit */
+./linux-infrant-2.4.20/drivers/scsi/cpqfcTSstructs.h:1101:#define FC4_LINK_DATA		0x30000000
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_defs.h:604:#define SCR_TCHMOVE_TBL     (0x30000000 | OPC_TCHMOVE)
+./linux-infrant-2.4.20/drivers/scsi/sym53c8xx_2/sym_defs.h:607:#define SCR_TMOV_TBL        (0x30000000)
+./linux-infrant-2.4.20/drivers/sound/trident.h:148:	ALI_EMOD_Still	= 0x30000000
+./linux-infrant-2.4.20/drivers/sound/maestro3.h:82:#define CLK_MULT_MODE_SELECT    0x30000000
+./linux-infrant-2.4.20/drivers/sound/maestro3.h:87:#define CLK_MULT_MODE_3         0x30000000
+./linux-infrant-2.4.20/drivers/sound/emu10k1/8010.h:91:#define INTE_VIRTUALMPU_MASK	0x30000000	/* Virtual MPU I/O port capture			*/
+./linux-infrant-2.4.20/drivers/sound/emu10k1/8010.h:95:#define INTE_VIRTUALMPU_330	0x30000000	/* Capture at I/O base address 0x330		*/
+./linux-infrant-2.4.20/drivers/sound/emu10k1/8010.h:528:#define SPCS_CLKACCYMASK	0x30000000	/* Clock accuracy				*/
+./linux-infrant-2.4.20/drivers/sound/cs461x.h:341:#define HDCR_SMS_64_DWORDS                      0x30000000
+./linux-infrant-2.4.20/drivers/sound/cs461x.h:1528:#define DMA_RQ_C1_SOURCE_MOD64                  0x30000000
+./linux-infrant-2.4.20/drivers/sound/cs461x.h:1553:#define DMA_RQ_C2_LOOP_MASK                     0x30000000
+./linux-infrant-2.4.20/drivers/sound/cs461x.h:1557:#define DMA_RQ_C2_MULTI_PAGE_LOOP               0x30000000
+./linux-infrant-2.4.20/drivers/net/tulip/pnic.c:38:		if (phy_reg & 0x30000000) {
+./linux-infrant-2.4.20/drivers/net/gmac.h:550:#define GM_MIF_FRAME_OPCODE_MASK	0x30000000
+./linux-infrant-2.4.20/drivers/net/fc/tach.h:232:#define FC4_LINK_DATA        0x30000000
+./linux-infrant-2.4.20/drivers/net/fc/tach.h:310:#define ELS_GAID            0x30000000
+./linux-infrant-2.4.20/drivers/net/sungem.h:638:#define MIF_FRAME_OP	0x30000000	/* OPcode			*/
+./linux-infrant-2.4.20/drivers/net/yellowfin.c:343:	CMD_TX_PKT=0x10000000, CMD_RX_BUF=0x20000000, CMD_TXSTATUS=0x30000000,
+./linux-infrant-2.4.20/drivers/ieee1394/ohci1394.h:374:#define DMA_CTL_INPUT_LAST               0x30000000
+./linux-infrant-2.4.20/drivers/sbus/char/jsflash.c:131:#define JSF_BASE_TOP	0x30000000
+./linux-infrant-2.4.20/drivers/isdn/avmb1/b1dma.c:60:#	define AVM_FLAG			0x30000000L
+./linux-infrant-2.4.20/drivers/video/sgivwfb.c:486:      DBE_SETREG(ctrlstat, 0x30000000);
+./linux-infrant-2.4.20/drivers/video/sti/stifb.c:320:	unsigned int value = enable ? 0x10000000 : 0x30000000;
+./linux-infrant-2.4.20/drivers/video/igafb.c:662:		info->io_base_phys = 0x30000000;	/* XXX */
+./linux-infrant-2.4.20/drivers/video/riva/riva_tbl.h:794:    {(0x00000F40/4), 0x30000000},
+./linux-infrant-2.4.20/drivers/video/riva/riva_hw.c:1496:            chip->PGRAPH[0x00000F40/4] = 0x30000000;
+./linux-infrant-2.4.20/drivers/video/tgafb.h:61:#define TGA_HORIZ_ACT_MSB		0x30000000
+./linux-infrant-2.4.20/drivers/video/tgafb.h:69:#define TGA_VERT_RESERVED		0x30000000
+./linux-infrant-2.4.20/drivers/message/fusion/lsi/mpi_cnfg.h:780:#define MPI_SCSIDEVPAGE2_DPS_BIT_14_PL_SELECT_MASK      (0x30000000)
+./linux-infrant-2.4.20/drivers/message/fusion/mptbase.h:1061:#define MPT_SGE_FLAGS_CHAIN_ELEMENT		(0x30000000)
+./linux-infrant-2.4.20/drivers/message/fusion/mptbase.h:1062:#define MPT_SGE_FLAGS_ELEMENT_MASK		(0x30000000)
+./linux-infrant-2.4.20/drivers/message/fusion/mptctl.c:909:		nib = (sgIn->FlagsLength & 0x30000000) >> 28;
+./linux-infrant-2.4.20/drivers/atm/uPD98401.h:26:#define uPD98401_TX_READY	0x30000000 /* TX ready */
+./linux-infrant-2.4.20/include/linux/mtio.h:345:#define MT_ST_SETBOOLEANS	0x30000000
+./linux-infrant-2.4.20/include/asm-sparc/padre0.h:90:#define PADRE_S3_SPACE  (0x30000000+0x40000000*PADRE_TLB_ENABLE)
+./samba-3.0.21a/source/include/ads.h:179:#define ATYPE_NORMAL_ACCOUNT			0x30000000 /* 805306368 */
+./samba-3.0.21a/source/include/ads.h:188:#define ATYPE_ACCOUNT		ATYPE_NORMAL_ACCOUNT 		/* 0x30000000 805306368 */
+./samba-3.0.21a/source/include/rpc_perfcount_defs.h:64:#define PERF_DISPLAY_SECONDS          0x30000000
+./mad-0.14.2b/resample.c:40:		MAD_F(0x30000000) /* 3.000000000 */,
+./mad-0.14.2b/resample.c:73:		MAD_F(0x30000000) /* 3.000000000 */ },

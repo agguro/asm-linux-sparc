@@ -1,0 +1,15 @@
+--- config/AppleVolumes.default.old	2002-03-24 18:45:28.000000000 +0100
++++ config/AppleVolumes.default	2003-03-29 20:25:57.000000000 +0100
+@@ -71,7 +71,8 @@
+ # nofileid            -> don't advertise createfileid, resolveid, deleteid 
+ #                        calls
+ #
+-# The "~" below indicates that Home directories are visible by default.
+-# If you do not wish to have people accessing their Home directories,
+-# please put a pound sign in front of the tilde or delete it.
+-~
++# Default Debian setup: Give access to personal folder as mount point
++# "Home Directory".
++# If no name is given, the name of the folder is used (which in this
++# case - for regular users at least - is the user's user id).
++~/                     "Home Directory"

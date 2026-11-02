@@ -1,0 +1,244 @@
+[% pagetitle = 'PLUGIN_LASTFM_MODULE_NAME' | string %]
+[% pageicon = 'RADIO' %]
+[% PROCESS pageheader.html %]
+<SCRIPT>
+<!--
+setTimeout("aReload()", [% refresh %] * 1000);
+
+function aReload() {
+  location.replace("index.html?player=[% player | uri %]");
+}
+-->
+</SCRIPT>
+<!-- start plugins output -->
+
+<tr height="44">
+	<td width="4" height="44"><img src="[% webroot %]html/images/spacer.gif" width="8" height="39" alt=""></td>
+	<td valign="top" class="medgrey" height="44">
+		<table cellspacing="0" width="100%">
+			<tr height="5">
+				<td width="8" height="5"><img src="[% webroot %]html/images/spacer.gif" width="8" height="5" alt=""></td>
+				<td height="5"><img src="[% webroot %]html/images/spacer.gif" width="305" height="5" alt=""></td>
+				<td width="4" height="5"><img src="[% webroot %]html/images/spacer.gif" width="4" height="5" alt=""></td>
+			</tr>
+			<tr>
+				<td width="8"><img src="[% webroot %]html/images/spacer.gif" width="8" height="8" alt=""></td>
+				<td valign="top" class="exlisting">
+					<a href="[% webroot %]home.html?player=[% player | uri %]">[% "HOME" | string %]</a>
+					/ <a href="index.html?player=[% player | uri %]">[% "PLUGIN_LASTFM_MODULE_NAME" | string %]</a>[% IF station %] / [% station %][% END %]
+				</td>
+				<td width="4"></td>
+			</tr>
+			<tr height="5">
+				<td width="8" height="5"><img src="[% webroot %]html/images/spacer.gif" width="8" height="5" alt=""></td>
+				<td height="5"><img src="[% webroot %]html/images/spacer.gif" width="305" height="5" alt=""></td>
+				<td width="4" height="5"></td>
+			</tr>
+		</table>
+	</td>
+	<td width="4" height="44"><img src="[% webroot %]html/images/spacer.gif" width="4" height="19" alt=""></td>
+</tr>
+
+<tr><td colspan="3" height="4" ><img src="[% webroot %]html/images/spacer.gif" height="4" alt=""></td></tr>
+
+<tr height="100%">
+	<td width="4" height="100%"></td>
+	<td valign="top" height="100%"><h4><a href="http://www.last.fm" target="_blank">[% 'PLUGIN_LASTFM_MODULE_NAME' | string %]</a>[% IF user %] / <a href="http://www.last.fm/user/[% user %]" target="_blank" >[% user %]</a>[% END %]</h4></td>	
+	<td width="4" height="19"><img src="[% webroot %]html/images/spacer.gif" width="4" height="19" alt=""></td>
+</tr>
+
+[% IF player == ''  %]
+	<tr height="100%">
+	<td width="4" height="100%"></td>
+	<td valign="top" height="100%">[% 'PLUGIN_LASTFM_CHOOSE_PLAYER' | string %]</td>	
+	<td width="4" height="19"><img src="[% webroot %]html/images/spacer.gif" width="4" height="19" alt=""></td>
+	</tr>
+[% ELSE %]
+	[% IF albumart %]
+		<tr><td colspan="3" height="4" ><img src="[% webroot %]html/images/spacer.gif" height="4" alt=""></td></tr>
+		<tr height="100%">
+			<td width="4" height="100%"></td>
+			<td valign="top" height="100%"><h4>[% 'NOW_PLAYING' | string %]</h4></td>	
+			<td width="4" height="19"><img src="[% webroot %]html/images/spacer.gif" width="4" height="19" alt=""></td>
+		</tr>
+		<tr>
+			<td width="4" height="100%"></td>
+			<td valign="top" height="100%">			
+				<table width="100%">
+					<tr>
+						<td height="1" width="30%"></td>
+						<td width="70%"></td>
+					</tr>
+					<tr>
+						<td height="100%">[% 'PLUGIN_LASTFM_STATION' | string %]: </td>
+						<td height="100%"><a href="[% station_url %]" target="_blank">[% station %]</a></td>
+						<td width="13"><a href="index.html?p0=add&p1=[% station_url | uri %]&player=[% player | uri %]"><img src="[% webroot %]html/images/b_add.gif" width=13 height=13 alt="[% 'ADD' | string %]" title="[% 'ADD' | string %]"></a></td>
+					</tr>
+					[% IF stationfeed %]
+					<tr>
+						<td height="100%">Feed:</td>
+						<td height="100%"><a href="[% stationfeed_url %]" target="_blank">[% stationfeed %]</a></td>
+						<td width="13"><a href="index.html?p0=add&p1=[% stationfeed_url | uri %]&player=[% player | uri %]"><img src="[% webroot %]html/images/b_add.gif" width=13 height=13 alt="[% 'ADD' | string %]" title="[% 'ADD' | string %]"></a></td>
+					</tr>
+					[% END %]
+					<tr>
+						<td height="100%">[% 'TRACK' | string %]:</td>
+						<td height="100%"><a href="[% track_url %]" target="_blank">[% track %]</a></td>
+					</tr>
+					<tr>
+						<td height="100%">[% 'ARTIST' | string %]:</td>
+						<td height="100%"><a href="[% artist_url %]" target="_blank">[% artist %]</a></td>
+					</tr>
+					<tr>
+						<td height="100%">[% 'ALBUM' | string %]:</td>
+						<td height="100%"> <a href="[% album_url %]" target="_blank">[% album %]</a></td>
+					</tr>
+				</table>
+			</td>
+			<td width="4" height="8"><img src="[% webroot %]html/images/spacer.gif" width="4" height="8" alt=""></td>
+		</tr>
+		[% IF albumart != 'none' %]
+			<tr><td colspan="3" height="4" ><img src="[% webroot %]html/images/spacer.gif" height="4" alt=""></td></tr>
+			<tr height="100%">
+				<td width="4" height="100%"></td>
+				<td valign="top" height="100%"><img src="[% albumart %]"></td>	
+				<td width="4" height="44"><img src="[% webroot %]html/images/spacer.gif" width="4" height="44" alt=""></td>
+			</tr>
+			<tr><td colspan="3" height="4" ><img src="[% webroot %]html/images/spacer.gif" height="4" alt=""></td></tr>
+		[% END %]
+		[% IF history %]
+			<tr><td colspan="3" height="4" ><img src="[% webroot %]html/images/spacer.gif" height="4" alt=""></td></tr>
+			<tr height="100%">
+				<td width="4" height="100%"></td>
+				<td valign="top" height="100%"><h4>Recently Played</h4></td>	
+				<td width="4" height="19"><img src="[% webroot %]html/images/spacer.gif" width="4" height="19" alt=""></td>
+			</tr>
+			[% odd = 1 %]
+			[% FOREACH title = history %]
+				<tr>
+					<td width="4" height="100%"></td>
+					<td valign="top" height="100%" [% IF odd %]class="odd" bgcolor="#d0d0d0"[% ELSE %]class="even" bgcolor="#FFFFFF"[% END %]>[% title %]</td>
+					<td width="4" height="8"><img src="[% webroot %]html/images/spacer.gif" width="4" height="8" alt=""></td>
+				</tr>		
+				[% odd = (not odd) %]
+			[% END %]
+			<tr>
+			<td colspan="3" height="4" ><img src="[% webroot %]html/images/spacer.gif" height="4" alt=""></td></tr>
+		[% END %]
+
+		<tr><td colspan="3" height="4" ><img src="[% webroot %]html/images/spacer.gif" height="4" alt=""></td></tr>
+		<tr height="100%">
+			<td width="4" height="100%"></td>
+			<td valign="top" height="100%"><h4>Commands</h4></td>	
+			<td width="4" height="19"><img src="[% webroot %]html/images/spacer.gif" width="4" height="19" alt=""></td>
+		</tr>
+		<tr><td colspan="3" height="4" ><img src="[% webroot %]html/images/spacer.gif" height="4" alt=""></td></tr>
+
+		[% odd = 1 %]
+		[% FOREACH command = commands %]
+			<tr>
+				<td width="4" [% IF odd %]class="odd" bgcolor="#d0d0d0"[% ELSE %]class="even" bgcolor="#FFFFFF"[% END %]></td>
+				<td width="100%" [% IF odd %]class="odd" bgcolor="#d0d0d0"[% ELSE %]class="even" bgcolor="#FFFFFF"[% END %]>
+					<table><tr>	
+					[% IF command == 'rtp' %]
+						<td height="100%" width="100%">[% 'PLUGIN_LASTFM_RTP' | string %]: [% IF rtp == 1 %][% 'ON' | string %][% ELSE %][% 'OFF' | string %][% END %]</td> 
+						<td width="20%"><a href="index.html?p0=command&p1=rtp&player=[% player | uri %]">[% IF rtp == 1 %][% 'OFF' | string %][% ELSE %][% 'ON' | string %]</a>[% END %]</td>
+					[% ELSIF command == 'discovery' %]
+						<td height="100%" width="100%">[% 'PLUGIN_LASTFM_DISCOVERY' | string %]: [% IF disco == 1 %][% 'ON' | string %][% ELSE %][% 'OFF' | string %][% END %]</td> 
+						<td width="20%"><a href="index.html?p0=command&p1=discovery&player=[% player | uri %]">[% IF disco == 1 %][% 'OFF' | string %][% ELSE %][% 'ON' | string %]</a>[% END %]</td>
+					[% ELSE %]
+						<td height="100%" width="100%"><a href="index.html?p0=command&p1=[% command | uri %]&player=[% player | uri %]">[% command %]</a></td>
+						<td width="13"><a href="index.html?p0=command&p1=[% command | uri %]&player=[% player | uri %]"><img src="[% webroot %]html/images/b_play.gif" width=13 height=13 alt="[% "PLAY" | string %]" title="[% "PLAY" | string %]"></a></td>
+					[% END %]
+					</tr></table>
+				</td>
+				<td width="4" height="19"><img src="[% webroot %]html/images/spacer.gif" width="4" height="19" alt=""></td>
+			</tr>	
+			[% odd = (not odd) %]			
+		[% END %]	
+		<tr><td colspan="3" height="4" ><img src="[% webroot %]html/images/spacer.gif" height="4" alt=""></td></tr>
+
+	[% ELSIF status %]
+		<tr height="100%">
+			<td width="4" height="100%"></td>
+			<td valign="top" height="100%">
+				[% IF status == 'FAILEDLOGIN' %]
+					[% 'PLUGIN_LASTFM_SESSION_ERROR' | string %]
+				[% ELSIF status == 'FAILEDCONNECT' %]
+					[% 'PLUGIN_LASTFM_CONNECTION_ERROR' | string %]
+				[% ELSIF status == 'STARTING' %]
+					[% 'PLUGIN_LASTFM_WAIT' | string %]	
+				[% ELSIF status == 'WARN' %]
+					[% 'PLUGIN_LASTFM_WARN' | string %]	
+				[% END %]
+			</td>	
+			<td width="4" height="19"><img src="[% webroot %]html/images/spacer.gif" width="4" height="19" alt=""></td>
+		</tr>
+	[% END %]
+
+	<tr><td colspan="3" height="4" ><img src="[% webroot %]html/images/spacer.gif" height="4" alt=""></td></tr>
+
+	<tr height="100%">
+		<td width="4" height="100%"></td>
+		<td valign="top" height="100%"><h4>[% IF albumart %] [% 'PLUGIN_LASTFM_CHANGE_STATION' | string %] [% ELSE %] [% 'PLAY' | string %] [% 'PLUGIN_LASTFM_MODULE_NAME' | string %] [% END %]</h4></td>	
+		<td width="4" height="19"><img src="[% webroot %]html/images/spacer.gif" width="4" height="19" alt=""></td>
+	</tr>
+	<tr><td colspan="3" height="4" ><img src="[% webroot %]html/images/spacer.gif" height="4" alt=""></td></tr>
+
+	[% odd = 1 %]
+	[% IF ! albumart %]
+		<tr>
+			<td width="4" height="100%"></td>
+			<td width="100%" [% IF odd %]class="odd" bgcolor="#d0d0d0"[% ELSE %]class="even" bgcolor="#FFFFFF"[% END %]>
+				<table ID="Table1"><tr>
+					<td height="100%" width="100%">
+						<a href="index.html?p0=playlfm&player=[% player | uri %]">[% 'PLAY' | string %] default [% 'PLUGIN_LASTFM_MODULE_NAME' | string %] station</a>
+					</td>
+					<td width="13">
+						<a href="index.html?p0=playlfm&player=[% player | uri %]"><img src="[% webroot %]html/images/b_play.gif" width=13 height=13 alt="[% "PLAY" | string %]" title="[% "PLAY" | string %]"></a>
+					</td>
+				</tr></table>
+			<td width="4" height="19"><img src="[% webroot %]html/images/spacer.gif" width="4" height="19" alt=""></td>
+		</tr>
+		[% odd = (not odd) %]
+	[% END %]
+	<tr>
+		<td width="4" height="100%"></td>
+		<td valign="top" width="100%"  [% IF odd %]class="odd" bgcolor="#d0d0d0"[% ELSE %]class="even" bgcolor="#FFFFFF"[% END %]>
+			<form name="station" method="get" action="index.html">
+			<input type="hidden" name="player" value="[% player %]">
+				<table><tr>
+				<td height="100%" width="100%">
+					[% 'PLUGIN_LASTFM_STATION' | string %]:
+					<input type="text" class="stdedit" name="p1" size="50">
+				</td>
+				<td width="13"><input type="image" src="[% webroot %]html/images/b_add.gif" style="width:13px; height:13px" value="add" name="p0"  alt="[% 'ADD' | string %]"  title="[% 'ADD' | string %]"> 
+				<td width="13"><img src="[% webroot %]html/images/spacer.gif" width=13 height=13></td>
+				<td width="13"><input type="image" src="[% webroot %]html/images/b_play.gif" style="width:13px; height:13px" value="playlfm" name="p0"  alt="[% 'PLAY' | string %]"  title="[% 'PLAY' | string %]"> 
+				</td></tr></table>
+			</form>
+		</td>	
+		<td width="4" height="19"><img src="[% webroot %]html/images/spacer.gif" width="4" height="19" alt=""></td>
+	</tr>
+	[% odd = (not odd) %]
+
+	[% FOREACH station = stationnames %]
+		<tr>
+			<td width="4" height="100%"></td>
+			<td width="100%" [% IF odd %]class="odd" bgcolor="#d0d0d0"[% ELSE %]class="even" bgcolor="#FFFFFF"[% END %]>
+				<table ID="Table1"><tr>
+						<td height="100%" width="100%"><a href="index.html?p0=playlfm&p1=[% station | uri %]&player=[% player | uri %]">[% 'PLUGIN_LASTFM_STATION' | string %]: [% station %]</a></td>
+					<td width="13"><a href="index.html?p0=delete&p1=[% station | uri %]&player=[% player | uri %]"><img src="[% webroot %]html/images/b_delete.gif" width=13 height=13 alt="[% "DELETE" | string %]" title="[% "DELETE" | string %]"></a></td>
+					<td width="13"><img src="[% webroot %]html/images/spacer.gif" width=13 height=13></td>
+					<td width="13"><a href="index.html?p0=playlfm&p1=[% station | uri %]&player=[% player | uri %]"><img src="[% webroot %]html/images/b_play.gif" width=13 height=13 alt="[% "PLAY" | string %]" title="[% "PLAY" | string %]"></a></td>
+				</tr></table>
+			</td>
+			<td width="4" height="19"><img src="[% webroot %]html/images/spacer.gif" width="4" height="19" alt=""></td>
+		</tr>		
+		[% odd = (not odd) %]
+	[% END %]
+[% END %]
+
+<tr><td colspan="3" height="4" ><img src="[% webroot %]html/images/spacer.gif" height="4" alt=""></td></tr>
+<!-- end plugins output -->
+[% PROCESS pagefooter.html %]
